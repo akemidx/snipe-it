@@ -223,6 +223,9 @@
 
 
 
+
+
+
                                     @if ($asset->assetstatus)
 
                                         <div class="row">
@@ -597,16 +600,16 @@
 
                                                 @if ($asset->serial && $asset->model->manufacturer)
                                                     @if ((strtolower($asset->model->manufacturer->name) == "apple") || (str_starts_with(str_replace(' ','',strtolower($asset->model->manufacturer->name)),"appleinc")))
-                                                    <a href="https://checkcoverage.apple.com/us/{{ \App\Models\Setting::getSettings()->locale  }}/?sn={{ $asset->serial }}" target="_blank">
+                                                    <a href="https://checkcoverage.apple.com/?locale={{ \App\Models\Setting::getSettings()->locale  }}" target="_blank">
                                                         <i class="fa-brands fa-apple" aria-hidden="true"><span class="sr-only">{{ trans('hardware/general.mfg_warranty_lookup') }}</span></i>
                                                     </a>
                                                     @elseif ((strtolower($asset->model->manufacturer->name) == "dell") || (str_starts_with(str_replace(' ','',strtolower($asset->model->manufacturer->name)),"dellinc")))
                                                     <a href="https://www.dell.com/support/home/en-us?app=warranty" target="_blank">
-                                                        <img src="/img/demo/manufacturers/dellicon.png" style="width:25px;height:25px;"><span class="sr-only">{{ trans('hardware/general.mfg_warranty_lookup') }}</span></i>
+                                                        <img src="/img/demo/manufacturers/dellicon.png" style="width:25px;height:25px;"><span class="sr-only">{{ trans('hardware/general.mfg_warranty_lookup') }}</span>
                                                     </a>
                                                     @elseif ((strtolower($asset->model->manufacturer->name) == "lenovo") || (str_starts_with(str_replace(' ','',strtolower($asset->model->manufacturer->name)),"lenovoinc")))
                                                     <a href="https://pcsupport.lenovo.com/us/en/warrantylookup#/" target="_blank">
-                                                        <img src="/img/demo/manufacturers/lenovoicon.png" style="width:25px;height:25px;"><span class="sr-only">{{ trans('hardware/general.mfg_warranty_lookup') }}</span></i>
+                                                        <img src="/img/demo/manufacturers/lenovoicon.png" style="width:25px;height:25px;"><span class="sr-only">{{ trans('hardware/general.mfg_warranty_lookup') }}</span>
                                                     </a>
                                                     @endif
                                                 @endif
@@ -873,14 +876,29 @@
                                     </div>
                                 @endif
 
-                                @if ($asset->deleted_at!='')
-                                    <div class="text-center col-md-12" style="padding-bottom: 15px;">
-                                        <form method="POST" action="{{ route('restore/hardware', ['assetId' => $asset->id]) }}">
-                                        @csrf 
-                                        <button class="btn btn-danger col-md-12">{{ trans('general.restore') }}</button>
-                                        </form>
-                                    </div>
-                                @endif
+                                    <!-- Start button column -->
+
+                                    @can('update', $asset)
+                                        <div class="col-md-12">
+                                            <a href="{{ route('hardware.edit', $asset->id) }}" style="width: 100%;" class="btn btn-sm btn-primary hidden-print">{{ trans('admin/hardware/general.edit') }}</a>
+                                        </div>
+                                    @endcan
+
+                                    @can('create', $asset)
+                                        <div class="col-md-12" style="padding-top: 5px;">
+                                            <a href="{{ route('clone/hardware', $asset->id) }}" style="width: 100%;" class="btn btn-sm btn-primary hidden-print">{{ trans('admin/hardware/general.clone') }}</a>
+                                        </div>
+                                    @endcan
+
+                                    @can('update', $asset)
+                                        @if ($asset->deleted_at=='')
+                                        <div class="col-md-12" style="padding-top: 5px;">
+                                            <a href="{{ route('clone/hardware', $asset->id) }}" style="width: 100%;" class="btn btn-sm btn-danger hidden-print">{{ trans('button.delete') }}</a>
+                                        </div>
+                                        @endif
+                                    @endcan
+
+
 
                                 @if  ($snipeSettings->qr_code=='1')
                                     <img src="{{ config('app.url') }}/hardware/{{ $asset->id }}/qr_code" class="img-thumbnail pull-right" style="height: 100px; width: 100px; margin-right: 10px;" alt="QR code for {{ $asset->getDisplayNameAttribute() }}">
