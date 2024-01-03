@@ -39,7 +39,7 @@
                     <th data-sortable="true" data-field="id" data-visible="false">{{ trans('general.id') }}</th>
                     <th data-sortable="true" data-field="asset_tag" data-formatter="assetTagLinkFormatter" data-visible="false">{{ trans('general.asset_tag') }}</th>
                     <th data-sortable="false" data-field="asset_name" data-formatter="assetNameLinkFormatter">{{ trans('admin/asset_maintenances/table.asset_name') }}</th>
-                    <th data-sortable="false" data-field="supplier" data-formatter="suppliersLinkObjFormatter">{{ trans('general.supplier') }}</th>
+                    <th data-searchable="true" data-sortable="false" data-field="supplier" data-formatter="suppliersLinkObjFormatter">{{ trans('general.supplier') }}</th>
                     <th data-searchable="true" data-sortable="true" data-field="asset_maintenance_type">{{ trans('admin/asset_maintenances/form.asset_maintenance_type') }}</th>
                     <th data-searchable="true" data-sortable="true" data-field="title">{{ trans('admin/asset_maintenances/form.title') }}</th>
                     <th data-searchable="true" data-sortable="false" data-field="start_date" data-formatter="dateDisplayFormatter">{{ trans('admin/asset_maintenances/form.start_date') }}</th>
