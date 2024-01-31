@@ -26,6 +26,7 @@ return array(
     'notes'                 => 'Notes',
     'password_confirm' 		=> 'Confirm Password',
     'password' 				=> 'Password',
+    'permissions'           => 'Permissions',
     'phone'  				=> 'Phone',
     'show_current'          => 'Show Current Users',
     'show_deleted'          => 'Show Deleted Users',
