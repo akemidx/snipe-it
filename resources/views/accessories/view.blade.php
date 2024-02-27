@@ -67,7 +67,7 @@
                         <div class="table table-responsive">
                           <div class="row">
                               <div class="col-md-12">
-                                <table
+                                  <table
                                     data-cookie-id-table="usersTable"
                                     data-pagination="true"
                                     data-id-table="usersTable"
@@ -302,18 +302,13 @@
 
       <div class="row">
           <div class="col-md-3" style="padding-bottom: 10px;">
-              <strong>{{ trans('admin/accessories/general.remaining') }}</strong>
-          </div>
-          <div class="col-md-9">
+              <strong>{{ trans('admin/accessories/general.remaining') }}</strong><br>
               {{ $accessory->numRemaining() }}
           </div>
       </div>
-
       <div class="row">
           <div class="col-md-3" style="padding-bottom: 10px;">
-              <strong>{{ trans('general.checked_out') }}</strong>
-          </div>
-          <div class="col-md-9">
+              <strong>{{ trans('general.checked_out') }}</strong><br>
               {{ $accessory->users_count }}
           </div>
       </div>
