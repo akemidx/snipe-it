@@ -59,6 +59,13 @@ class AssetPresenter extends Presenter
                 'visible' => true,
                 'formatter' => 'hardwareLinkFormatter',
             ], [
+                'field' => 'old_asset_tag',
+                'searchable' => true,
+                'sortable' => true,
+                'title' => trans('admin/hardware/table.old_asset_tag'),
+                'visible' => true,
+                'formatter' => 'hardwareLinkFormatter',
+            ], [
                 'field' => 'serial',
                 'searchable' => true,
                 'sortable' => true,

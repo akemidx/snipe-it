@@ -3,6 +3,7 @@
 return [
 
     'asset_tag'   	=> 'Asset Tag',
+    'old_asset_tag' => 'Old Asset Tag',
     'asset_model'       => 'Model',
     'assigned_to'   => 'Assigned To',
     'book_value'  	=> 'Current Value',

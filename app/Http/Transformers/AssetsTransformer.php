@@ -31,6 +31,7 @@ class AssetsTransformer
             'id' => (int) $asset->id,
             'name' => e($asset->name),
             'asset_tag' => e($asset->asset_tag),
+            'old_asset_tag' => e($asset->old_asset_tag),
             'serial' => e($asset->serial),
             'model' => ($asset->model) ? [
                 'id' => (int) $asset->model->id,
