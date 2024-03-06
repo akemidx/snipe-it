@@ -44,6 +44,12 @@
           </div>
       @endif
   </div>
+    @php
+        if($item->asset_tag != $item->old_asset_tag) {
+            $item->old_asset_tag = $item->asset_tag;
+           // dd($item->old_asset_tag);
+        }
+    @endphp
 
     @include ('partials.forms.edit.serial', ['fieldname'=> 'serials[1]', 'old_val_name' => 'serials.1', 'translated_serial' => trans('admin/hardware/form.serial')])
 

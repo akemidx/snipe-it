@@ -91,6 +91,7 @@ class AssetsController extends Controller
             'id',
             'name',
             'asset_tag',
+            'old_asset_tag',
             'serial',
             'model_number',
             'last_checkout',
@@ -251,6 +252,10 @@ class AssetsController extends Controller
             $assets->where('assets.asset_tag', '=', $request->input('asset_tag'));
         }
 
+        if ($request->filled('old_asset_tag')) {
+            $assets->where('assets.old_asset_tag', '=', $request->input('old_asset_tag'));
+        }
+
         if ($request->filled('serial')) {
             $assets->where('assets.serial', '=', $request->input('serial'));
         }
@@ -394,6 +399,7 @@ class AssetsController extends Controller
     {
         $this->authorize('index', Asset::class);
         $assets = Asset::where('asset_tag', $tag)->with('assetstatus')->with('assignedTo');
+        //for right now, this wil only search by current asset tag, and not yet the old asset tag I just added in -JV
 
         // Check if they've passed ?deleted=true
         if ($request->input('deleted', 'false') == 'true') {
