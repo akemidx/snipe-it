@@ -45,6 +45,7 @@
       @endif
   </div>
     @php
+            //dd($item->old_asset_tag);
         if($item->asset_tag != $item->old_asset_tag) {
             $item->old_asset_tag = $item->asset_tag;
            // dd($item->old_asset_tag);

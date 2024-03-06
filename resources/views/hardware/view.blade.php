@@ -230,6 +230,17 @@
                                         </div>
                                     @endif
 
+                                        @if ($asset->old_asset_tag)
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <strong>{{ trans('admin/hardware/table.old_asset_tag') }}</strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {{ $asset->old_asset_tag }}
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     @if ((isset($audit_log)) && ($audit_log->created_at))
                                         <div class="row">
                                             <div class="col-md-2">

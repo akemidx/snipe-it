@@ -661,7 +661,7 @@ class AssetsController extends Controller
 
             $asset = $request->handleImages($asset);
             $model = AssetModel::find($asset->model_id);
-            
+
             // Update custom fields
             if (($model) && (isset($model->fieldset))) {
                 foreach ($model->fieldset->fields as $field) {
@@ -696,6 +696,10 @@ class AssetsController extends Controller
 
                 if ($asset->image) {
                     $asset->image = $asset->getImageUrl();
+                }
+
+                if ($asset->asset_tag)  {
+                    $asset->old_asset_tag = $asset->asset_tag;
                 }
 
                 return response()->json(Helper::formatStandardApiResponse('success', $asset, trans('admin/hardware/message.update.success')));
