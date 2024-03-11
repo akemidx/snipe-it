@@ -79,6 +79,22 @@
 
                     @include ('partials.forms.edit.location-select', ['translated_name' => trans('general.location'), 'fieldname' => 'assigned_location', 'style' => 'display:none;', 'required'=>'true'])
 
+                    <!--
+                    This needs to read that we have selected user in the checkout selector, but before we submit.
+                    So we need to read that field
+                    search for that user/and if they have an email
+                    and then pull that email to send the signed EULA to when that box is checked.
+                    this would be grabbing the saved pdf, which hasn't been generated yet, so that is ON submit then?
+                    and then that email will probably be brand new notification with pdf file attached, so that's a whole nother thing to bring in
+                    we do this before submission since we want to grey out the box if the user doesn't have an email
+                    -->
+                    @if($asset->requireAcceptance() || $asset->getEula())
+                            <label class="form-control">
+                                {{ Form::checkbox('send signed eula', '1', '0') }}
+                                {{ 'checkbox test' }}
+                            </label>
+                    @endif
+
 
 
                     <!-- Checkout/Checkin Date -->
