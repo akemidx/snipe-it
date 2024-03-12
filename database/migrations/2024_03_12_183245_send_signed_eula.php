@@ -15,7 +15,7 @@ class SendSignedEula extends Migration
     {
         Schema::table('checkout_acceptances', function (Blueprint $table) {
             {
-                $table->string('send_signed_eula')->nullable()->default(null);
+                $table->boolean('send_signed_eula')->nullable()->default(null);
             }
         });
     }
