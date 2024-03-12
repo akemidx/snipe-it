@@ -81,10 +81,11 @@
 
                     <!--
                     This needs to read that we have selected user in the checkout selector, but before we submit.
+                    checkout acceptance table, we need a new column to hold that value
                     So we need to read that field
                     search for that user/and if they have an email
                     and then pull that email to send the signed EULA to when that box is checked.
-                    this would be grabbing the saved pdf, which hasn't been generated yet, so that is ON submit then?
+                    this would be grabbing the saved pdf, which hasn't been generated yet, so we wait for user
                     and then that email will probably be brand new notification with pdf file attached, so that's a whole nother thing to bring in
                     we do this before submission since we want to grey out the box if the user doesn't have an email
                     -->
