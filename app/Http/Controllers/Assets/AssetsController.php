@@ -354,14 +354,17 @@ class AssetsController extends Controller
         }
 
         // Update the asset data
-        $asset_tag = $request->input('asset_tags');
+        $asset_tag = $request->input('asset_tags')[1];
+        if($asset->asset_tag != $asset_tag) {
+            $asset->old_asset_tag = $asset->asset_tag;
+        }
+        $asset->asset_tag = $asset_tag;
         $serial = $request->input('serials');
         $asset->name = $request->input('name');
         $asset->serial = $serial[1];
         $asset->company_id = Company::getIdForCurrentUser($request->input('company_id'));
         $asset->model_id = $request->input('model_id');
         $asset->order_number = $request->input('order_number');
-        $asset->asset_tag = $asset_tag[1];
         $asset->notes = $request->input('notes');
 
         $asset = $request->handleImages($asset);

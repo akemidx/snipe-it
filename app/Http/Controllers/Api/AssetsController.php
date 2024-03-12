@@ -632,6 +632,11 @@ class AssetsController extends Controller
         $this->authorize('update', Asset::class);
 
         if ($asset = Asset::find($id)) {
+
+            if($asset->asset_tag != $asset_tag) {
+                $asset->old_asset_tag = $asset->asset_tag;
+            }
+
             $asset->fill($request->all());
 
             ($request->filled('model_id')) ?
