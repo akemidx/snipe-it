@@ -392,7 +392,7 @@ class AssetsController extends Controller
     {
         $this->authorize('index', Asset::class);
         $assets = Asset::where('asset_tag', $tag)->with('assetstatus')->with('assignedTo');
-        //for right now, this wil only search by current asset tag, and not yet the old asset tag I just added in -JV
+        //for right now, this wil only search by current asset tag, and not yet also the old asset tag I just added in -JV mar-12-24
 
         // Check if they've passed ?deleted=true
         if ($request->input('deleted', 'false') == 'true') {
