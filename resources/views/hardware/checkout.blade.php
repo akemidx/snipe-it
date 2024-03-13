@@ -83,6 +83,9 @@
                     This needs to read that we have selected user in the checkout selector, but before we submit.
                     So we need to read that field
                     search for that user/and if they have an email address
+                        wait a tick - if they don't have an email...how do we send them the acceptance email with link
+                        the no email would only occur if the user physically signed an acceptance, and that was uploaded
+                        to the asset BEFORE it was assigned to that user. if it gets added AFTER, then we wouldn't have that automatically send
                     and then pull that email address to send the signed pdf+EULA to when that box is checked.
                     this would be grabbing the saved pdf, which hasn't been generated yet, so we wait for user
                     and then that email will probably be brand new notification with pdf file attached, so that's a whole nother thing to bring in
@@ -90,11 +93,27 @@
                     we do this before submission since we want to grey out the box if the user doesn't have an email
                     -->
                     @if($asset->requireAcceptance() || $asset->getEula())
-                            <label class="form-control">
-                                {{ Form::checkbox('send_signed_eula', '1', '0') }}
-                                {{ 'checkbox test' }}
-                            </label>
+                        <label class="form-control">
+                            {{ Form::checkbox('send_signed_eula', '1', '0') }}
+                            {{ 'checkbox test' }}
+                        </label>
                     @endif
+
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            @if ($asset->assignedTo() != '') <!-- this needs to jump to the email of the assignedto person, eloquent relationship nonsense -->
+                                <label class="form-control">
+                                    {{ Form::checkbox('send_signed_eula', '1', null, ['wire:model' => 'useDefaultEula', 'aria-label'=>'use_default_eula']) }}
+                                    <span>{!! trans('admin/categories/general.use_default_eula') !!}</span>
+                                </label>
+                            @else
+                                <label class="form-control form-control--disabled">
+                                    {{ Form::checkbox('send_signed_eula', '0', null, ['wire:model' => 'useDefaultEula', 'class'=>'disabled','disabled' => 'disabled', 'aria-label'=>'use_default_eula']) }}
+                                    <span>{!! trans('admin/categories/general.use_default_eula_disabled') !!}</span>
+                                </label>
+                            @endif
+                        </div>
+                    </div>
 
 
 
