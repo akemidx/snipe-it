@@ -91,6 +91,9 @@
                     and then that email will probably be brand new notification with pdf file attached, so that's a whole nother thing to bring in
                         or use the asst-acceptance blade and attach the pdf at the bottom
                     we do this before submission since we want to grey out the box if the user doesn't have an email
+
+                    we'd need a js script to check if a user has been selected. the event happens when we selected that user in the field
+                    select2 needs to be selectable by livewire? unsure, but its a bit more complicated than originally thought
                     -->
                     @if($asset->requireAcceptance() || $asset->getEula())
                         <label class="form-control">
@@ -101,7 +104,7 @@
 
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
-                            @if ($asset->assignedTo() != '') <!-- this needs to jump to the email of the assignedto person, eloquent relationship nonsense -->
+                            @if ($asset->id != '') <!-- this needs to jump to the email of the assignedto person, eloquent relationship nonsense -->
                                 <label class="form-control">
                                     {{ Form::checkbox('send_signed_eula', '1', null, ['wire:model' => 'useDefaultEula', 'aria-label'=>'use_default_eula']) }}
                                     <span>{!! trans('admin/categories/general.use_default_eula') !!}</span>
