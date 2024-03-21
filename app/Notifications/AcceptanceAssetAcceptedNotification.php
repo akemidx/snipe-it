@@ -71,6 +71,14 @@ class AcceptanceAssetAcceptedNotification extends Notification
             ])
             ->subject(trans('mail.acceptance_asset_accepted'));
 
+        $message->attachFromStorage('path/to/file');
+        //this could be just attach() but we would need to see where we are storing this file.
+        //so either of these
+        $message->attach('/path/to/file', [
+                    'as' => 'name.pdf',
+                    'mime' => 'application/pdf',
+                ]);
+
         return $message;
     }
 
