@@ -71,9 +71,9 @@ class AcceptanceAssetAcceptedNotification extends Notification
             ])
             ->subject(trans('mail.acceptance_asset_accepted'));
 
-        $message->attachFromStorage('path/to/file');
-        //this could be just attach() but we would need to see where we are storing this file.
-        //so either of these
+        $message->attachFromStorage('/private_uploads/eula-pdfs/','');  //+file name. $pdf_filename from AcceptanceController = 'accepted-eula-'.date('Y-m-d-h-i-s').'.pdf';
+                            //but this means capturing the exact second the file is created, and getting it here to dynamically and correctly call the file = '';
+        $message->attachFromStorage('/private_uploads/signatures/',''); //file name. $sig_filename from AcceptanceController
         $message->attach('/path/to/file', [
                     'as' => 'name.pdf',
                     'mime' => 'application/pdf',
