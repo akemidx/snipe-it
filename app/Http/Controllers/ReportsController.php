@@ -732,8 +732,8 @@ class ReportsController extends Controller
             }
 
             \Log::debug($assets->toSql());
-            $assets->orderBy('assets.id', 'ASC')->chunk(20, function ($assets) use ($handle, $customfields, $request) {
-            
+            $assets->orderBy('assets.asset_tag', 'ASC')->chunk(20, function ($assets) use ($handle, $customfields, $request) {
+
                 $executionTime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
                 \Log::debug('Walking results: '.$executionTime);
                 $count = 0;
@@ -796,7 +796,7 @@ class ReportsController extends Controller
                     if ($request->filled('supplier')) {
                         $row[] = ($asset->supplier) ? $asset->supplier->name : '';
                     }
-                    
+
                     if ($request->filled('location')) {
                         $row[] = ($asset->location) ? $asset->location->present()->name() : '';
                     }
@@ -984,7 +984,7 @@ class ReportsController extends Controller
                         }
                     }
 
-                    
+
                     // CSV_ESCAPE_FORMULAS is set to false in the .env
                     if (config('app.escape_formulas') === false) {
                         fputcsv($handle, $row);
