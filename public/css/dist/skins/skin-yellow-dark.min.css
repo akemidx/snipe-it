@@ -421,7 +421,10 @@ input[type=search] {
   color: var(--text-main);
 }
 .skin-yellow-dark .main-header .navbar .dropdown-menu li a {
-  color: var(--header);
+  color: var(--text-main);
+}
+.skin-yellow-dark .main-header .navbar .dropdown-menu li a:hover {
+  background-color: #ffcc33;
 }
 tr th div.th-inner {
   color: var(--text-main);
