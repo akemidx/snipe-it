@@ -26,16 +26,14 @@
                   @endforeach
 
               @elseif ($field->element=='radio')
-              @foreach ($field->formatFieldValuesAsArray() as $value)
-
-              <div>
-                  <label class="form-control">
-                      <input type="radio" value="{{ $value }}" name="{{ $field->db_column_name() }}" {{ isset($item) ? ($item->{$field->db_column_name()} == $value ? ' checked="checked"' : '') : (Request::old($field->db_column_name()) != '' ? ' checked="checked"' : (in_array($value, explode(', ', $field->defaultValue($model->id))) ? ' checked="checked"' : '')) }}>
-                      {{ $value }}
-                  </label>
-              </div>
-          @endforeach
-
+                  @foreach ($field->formatFieldValuesAsArray() as $value)
+                      <div>
+                          <label class="form-control">
+                              <input type="radio" value="{{ $value }}" name="{{ $field->db_column_name() }}" {{ isset($item) ? ($item->{$field->db_column_name()} == $value ? ' checked="checked"' : '') : (Request::old($field->db_column_name()) != '' ? ' checked="checked"' : (in_array($value, explode(', ', $field->defaultValue($model->id))) ? ' checked="checked"' : '')) }}>
+                              {{ $value }}
+                          </label>
+                      </div>
+                  @endforeach
               @endif
 
 
@@ -80,7 +78,6 @@
             <i class="fas fa-lock" data-tooltip="true" data-placement="top" title="{{ trans('admin/custom_fields/general.value_encrypted') }}"></i>
         </div>
         @endif
-
 
     </div>
   @endforeach

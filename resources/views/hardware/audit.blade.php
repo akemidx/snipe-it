@@ -65,6 +65,40 @@
 
                         </div>
 
+                    <!-- Custom fields -->
+
+                        @if (isset($asset->model) && $asset->model)
+                            @include("models/custom_fields_form",["model" => $asset->model])
+                        @endif
+
+
+<!--                        <div id='custom_fields_content'>
+                            {{--@if ($item->model && $item->model->fieldset)
+                                    <?php $model = $item->model; ?>
+                            @endif
+                            @if (Request::old('model_id'))
+                                @php
+                                    $model = \App\Models\AssetModel::find(old('model_id'));
+                                @endphp
+                            @elseif (isset($selected_model))
+                                @php
+                                    $model = $selected_model;
+                                @endphp
+                            @endif
+                            @if (isset($model) && $model)
+                                @include("models/custom_fields_form",["model" => $model])
+                            @endif
+                      -->  </div>--}}
+                        {{--
+         $this->authorize('edit', CustomField::class); authorization for the user to edit, if they have edit, they will have view
+                        need the field for custom fields
+                        need to import the layout like the asset edit blade.
+                        will this work on the audit blade?
+
+
+
+--}}
+
 
                         <!-- Next Audit -->
                         <div class="form-group {{ $errors->has('next_audit_date') ? 'error' : '' }}">
