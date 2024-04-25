@@ -30,7 +30,7 @@
                     <div class="box-header with-border">
                         <h2 class="box-title"> {{ trans('admin/hardware/form.tag') }} {{ $asset->asset_tag }}</h2>
                     </div>
-                    <div class="box-body">
+                    <class="box-body">
                     {{csrf_field()}}
                     @if ($asset->model->name)
                         <!-- Asset name -->
@@ -66,10 +66,21 @@
                         </div>
 
                     <!-- Custom fields -->
-
+                        @can('assets.edit')
                         @if (isset($asset->model) && $asset->model)
-                            @include("models/custom_fields_form",["model" => $asset->model])
+                        <li class="treeview">
+                            <a href="#" class="dropdown-toggle"><i aria-hidden="true"></i>
+                                <span>Custom Fields</span>
+                                <i class="fa fa-angle-right pull-left"></i>
+                            </a>
+                            <ul class="treeview-menu" style="display: none;">
+                                <li>
+                                @include("models/custom_fields_form",["model" => $asset->model])
+                                </li>
+                            </ul>
+                        </li>
                         @endif
+                        @endcan
 
 
 <!--                        <div id='custom_fields_content'>
