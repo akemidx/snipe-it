@@ -73,11 +73,13 @@
                             <i class="fa fa-2x fa-caret-right" id="optional_info_icon"></i>
                             <strong>{{ trans('admin/custom_fields/general.custom_fields') }}</strong>
                         </a>
-                        <ul class="treeview-menu" style="display: none;" id="optional_details">
+                        <div>
+                        <ul class="treeview-menu" style="display: none; padding-top: 10px;" id="optional_details">
                             <li>
                                 @include("models/custom_fields_form",["model" => $asset->model])
                             </li>
                         </ul>
+                        </div>
                     </div>
                     @endcan
 
