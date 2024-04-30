@@ -66,50 +66,20 @@
                         </div>
 
                     <!-- Custom fields -->
-                        @can('assets.edit')
-                        @if (isset($asset->model) && $asset->model)
-                        <li class="treeview">
-                            <a href="#" class="dropdown-toggle"><i aria-hidden="true"></i>
-                                <span>Custom Fields</span>
-                                <i class="fa fa-angle-right pull-left"></i>
-                            </a>
-                            <ul class="treeview-menu" style="display: none;">
-                                <li>
+                    @can('assets.edit')
+                    <div class="form-group">
+                    <label class="col-md-3 control-label" ></label>
+                        <a id="optional_info" class="dropdown-toggle">
+                            <i class="fa fa-2x fa-caret-right" id="optional_info_icon"></i>
+                            <strong>{{ trans('admin/custom_fields/general.custom_fields') }}</strong>
+                        </a>
+                        <ul class="treeview-menu" style="display: none;" id="optional_details">
+                            <li>
                                 @include("models/custom_fields_form",["model" => $asset->model])
-                                </li>
-                            </ul>
-                        </li>
-                        @endif
-                        @endcan
-
-
-<!--                        <div id='custom_fields_content'>
-                            {{--@if ($item->model && $item->model->fieldset)
-                                    <?php $model = $item->model; ?>
-                            @endif
-                            @if (Request::old('model_id'))
-                                @php
-                                    $model = \App\Models\AssetModel::find(old('model_id'));
-                                @endphp
-                            @elseif (isset($selected_model))
-                                @php
-                                    $model = $selected_model;
-                                @endphp
-                            @endif
-                            @if (isset($model) && $model)
-                                @include("models/custom_fields_form",["model" => $model])
-                            @endif
-                      -->  </div>--}}
-                        {{--
-         $this->authorize('edit', CustomField::class); authorization for the user to edit, if they have edit, they will have view
-                        need the field for custom fields
-                        need to import the layout like the asset edit blade.
-                        will this work on the audit blade?
-
-
-
---}}
-
+                            </li>
+                        </ul>
+                    </div>
+                    @endcan
 
                         <!-- Next Audit -->
                         <div class="form-group {{ $errors->has('next_audit_date') ? 'error' : '' }}">
@@ -151,4 +121,30 @@
             </div>
         </div> <!--/.col-md-7-->
     </div>
+@stop
+
+@section('moar_scripts')
+
+    <script>
+    $(document).ready(function() {
+
+        $("#optional_info").on("click", function () {
+            $('#optional_details').fadeToggle(100);
+            $('#optional_info_icon').toggleClass('fa-caret-right fa-caret-down');
+            var optional_info_open = $('#optional_info_icon').hasClass('fa-caret-down');
+            document.cookie = "optional_info_open=" + optional_info_open + '; path=/';
+        });
+
+        var all_cookies = document.cookie.split(';')
+        for (var i in all_cookies) {
+            var trimmed_cookie = all_cookies[i].trim(' ')
+            if (trimmed_cookie.startsWith('optional_info_open=')) {
+                elems = all_cookies[i].split('=', 2)
+                if (elems[1] == 'true') {
+                    $('#optional_info').trigger('click')
+                }
+            }
+        }
+    });
+    </script>
 @stop
