@@ -67,20 +67,22 @@
 
                     <!-- Custom fields -->
                     @can('assets.edit')
-                    <div class="form-group">
-                    <label class="col-md-3 control-label" ></label>
-                        <a id="optional_info" class="dropdown-toggle">
-                            <i class="fa fa-2x fa-caret-right" id="optional_info_icon"></i>
-                            <strong>{{ trans('admin/custom_fields/general.custom_fields') }}</strong>
-                        </a>
-                        <div>
-                        <ul class="treeview-menu" style="display: none; padding-top: 10px;" id="optional_details">
-                            <li>
-                                @include("models/custom_fields_form",["model" => $asset->model])
-                            </li>
-                        </ul>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+                            <div class="col-md-9 col-sm-9 col-md-offset-3">
+                                <a id="optional_info" class="dropdown-toggle">
+                                    <i class="fa fa-2x fa-caret-right" id="optional_info_icon"></i>
+                                    <strong>{{ trans('admin/custom_fields/general.custom_fields') }}</strong>
+                                </a>
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="treeview-menu" style="display: none; padding-top: 10px;" id="optional_details">
+                                    <li>
+                                        @include("models/custom_fields_form",["model" => $asset->model])
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
                     @endcan
 
                         <!-- Next Audit -->
