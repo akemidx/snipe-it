@@ -62,6 +62,10 @@ Route::group(
             [AssetsController::class, 'auditStore']
         )->name('asset.audit.store');
 
+    /*    Route::post(,
+            [AssetsController::class, 'notesStore']
+        )->name('asset.notes.store');*/
+
         Route::get('history',
             [AssetsController::class, 'getImportHistory']
         )->name('asset.import-history');

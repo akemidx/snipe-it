@@ -13,6 +13,7 @@ return [
     'admin'					=> 'Admin',
     'administrator'			=> 'Administrator',
     'add_seats'             => 'Added seats',
+    'add_notes'             => 'Add Note',
     'age'                   => "Age",
     'all_assets'			=> 'All Assets',
     'all'       			=> 'All',

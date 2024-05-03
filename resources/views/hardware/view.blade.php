@@ -919,6 +919,14 @@
                                         </div>
                                     @endcan
 
+                                    @can('audit', \App\Models\Asset::class)
+                                        <div class="col-md-12" style="padding-top: 5px;">
+                                            <a href="#" style="width: 100%;" class="btn btn-sm btn-primary hidden-print">
+                                                {{ trans('general.add_notes') }}
+                                            </a>
+                                        </div>
+                                    @endcan
+
                                     @can('delete', $asset)
                                         <div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px;">
                                             @if ($asset->deleted_at=='')
