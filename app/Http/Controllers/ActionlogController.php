@@ -33,4 +33,15 @@ class ActionlogController extends Controller
 
         return Response::download($file);
     }
+
+    public function addNote($item){
+        $this->authorize('edit'); //this actually needs to have the ability for all top level and not just \App\Models\Asset::class
+        // $log->actiontype
+        // logaction($actiontype)
+
+        //do we wanna do this her or on the actual action log model?
+        //then how do we distribute? how do we even trigger this then? a button?
+
+    }
+
 }
