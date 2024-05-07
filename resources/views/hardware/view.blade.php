@@ -102,6 +102,17 @@
                     </li>
 
                     <li>
+                    <a href="#comments" data-toggle="tab">
+                          <span class="hidden-lg hidden-md">
+                            <i class="far fa-file fa-2x" aria-hidden="true"></i>
+                          </span>
+                        <span class="hidden-xs hidden-sm">{{ trans('general.comments') }}
+                            {!! ($asset->uploads->count() > 0 ) ? '<span class="badge badge-secondary">'.number_format($asset->uploads->count()).'</span>' : '' !!}
+                          </span>
+                    </a>
+                    </li>
+
+                    <li>
                         <a href="#files" data-toggle="tab">
                           <span class="hidden-lg hidden-md">
                             <i class="far fa-file fa-2x" aria-hidden="true"></i>
@@ -1253,6 +1264,20 @@
             </div>
           </div> <!-- /.row -->
         </div> <!-- /.tab-pane history -->
+
+         <div class="tab-pane fade" id="comments">
+             <div class="row">
+                 <div class="col-md-12">git
+                         <table
+                                class="table table-striped snipe-table"
+                                id="comments"
+                                data-pagination="true">
+
+                         </table>
+                 </div>
+             </div>
+         </div>
+
 
         <div class="tab-pane fade" id="files">
           <div class="row">

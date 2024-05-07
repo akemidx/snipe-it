@@ -40,13 +40,11 @@ class ActionlogController extends Controller
         // logaction($actiontype)
 
         //do we wanna do this her or on the actual action log model?
-        //then how do we distribute? how do we even trigger this then? a button?
+        //then how do we distribute? how do we even trigger this then? a button? <- this probably
 
         //needs a new tab, which is just a history of all notes
         //new table? AssetComments table? polymorphic relation
         //string max 255  -using it for a link to a ticket
-
-
     }
 
 }

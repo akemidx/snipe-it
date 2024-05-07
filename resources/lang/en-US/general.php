@@ -65,6 +65,7 @@ return [
     'city'  				=> 'City',
     'click_here'			=> 'Click here',
     'clear_selection'		=> 'Clear Selection',
+    'comments'              => 'Comments',
     'companies'			    => 'Companies',
     'company'				=> 'Company',
     'component'			    => 'Component',
