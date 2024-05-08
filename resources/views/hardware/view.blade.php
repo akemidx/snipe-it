@@ -1265,14 +1265,20 @@
           </div> <!-- /.row -->
         </div> <!-- /.tab-pane history -->
 
+         <!-- Comments tab -->
          <div class="tab-pane fade" id="comments">
              <div class="row">
-                 <div class="col-md-12">git
+                 <div class="col-md-12">
                          <table
                                 class="table table-striped snipe-table"
                                 id="comments"
-                                data-pagination="true">
-
+                                data-pagination="true"
+                                data-id-table="comments"
+                                data-search="false"
+                                data-side-pagination="client"
+                                data-show-columns="true"
+                                data-show-fullscreen="true"
+                                data-show-refresh="true">
                          </table>
                  </div>
              </div>
