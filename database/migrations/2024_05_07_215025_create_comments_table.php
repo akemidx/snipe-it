@@ -15,7 +15,8 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->integer('assetid');
+            $table->string('type');
+            $table->integer('itemid');
             $table->string('comments', 255);
             $table->timestamps();
         });

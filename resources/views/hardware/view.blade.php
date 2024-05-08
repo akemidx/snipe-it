@@ -930,6 +930,15 @@
                                         </div>
                                     @endcan
 
+                                    <!-- Add comments -->
+                                    @can('edit', \App\Models\Asset::class)
+                                        <div class="col-md-12" style="padding-top: 5px;">
+                                            <button style="width: 100%;" class="btn btn-sm btn-primary hidden-print" data-toggle="modal" data-title="{{ trans('general.add_comment') }}" data-content="text box goes here" data-target="#dataConfirmModal">
+                                                {{ trans('general.add_comment') }}
+                                            </button>
+                                        </div>
+                                    @endcan
+
                                     @can('delete', $asset)
                                         <div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px;">
                                             @if ($asset->deleted_at=='')
@@ -1285,8 +1294,12 @@
                         </tr>
 <!--                    need actual data
                         modal for note entry? but it goes on each or start on just hardware and copy it
+                        read modal, post the text in modal to db
+                        need route
                         need query into the db to fetch the actual notes
-                        one to many relationship -> 1 assetid can have many comments-->
+                        one to many relationship/polymorphic -> 1 assetid can have many comments-->
+
+
                     </thread>
                    <tbody>
 
