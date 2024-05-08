@@ -1254,10 +1254,10 @@
                   <th data-field="note">{{ trans('general.notes') }}</th>
                   <th data-field="signature_file" data-visible="false"  data-formatter="imageFormatter">{{ trans('general.signature') }}</th>
                   <th data-visible="false" data-field="file" data-visible="false"  data-formatter="fileUploadFormatter">{{ trans('general.download') }}</th>
-                   <th data-field="log_meta" data-visible="true" data-formatter="changeLogFormatter">{{ trans('admin/hardware/table.changed')}}</th>
-                   <th data-field="remote_ip" data-visible="false" data-sortable="true">{{ trans('admin/settings/general.login_ip') }}</th>
-                   <th data-field="user_agent" data-visible="false" data-sortable="true">{{ trans('admin/settings/general.login_user_agent') }}</th>
-                   <th data-field="action_source" data-visible="false" data-sortable="true">{{ trans('general.action_source') }}</th>
+                  <th data-field="log_meta" data-visible="true" data-formatter="changeLogFormatter">{{ trans('admin/hardware/table.changed')}}</th>
+                  <th data-field="remote_ip" data-visible="false" data-sortable="true">{{ trans('admin/settings/general.login_ip') }}</th>
+                  <th data-field="user_agent" data-visible="false" data-sortable="true">{{ trans('admin/settings/general.login_user_agent') }}</th>
+                  <th data-field="action_source" data-visible="false" data-sortable="true">{{ trans('general.action_source') }}</th>
                 </tr>
                 </thead>
               </table>
@@ -1267,24 +1267,38 @@
 
          <!-- Comments tab -->
          <div class="tab-pane fade" id="comments">
-             <div class="row">
-                 <div class="col-md-12">
-                         <table
-                                class="table table-striped snipe-table"
-                                id="comments"
-                                data-pagination="true"
-                                data-id-table="comments"
-                                data-search="false"
-                                data-side-pagination="client"
-                                data-show-columns="true"
-                                data-show-fullscreen="true"
-                                data-show-refresh="true">
-                         </table>
-                 </div>
+           <div class="row">
+             <div class="col-md-12">
+               <table
+                 class="table table-striped snipe-table"
+                 id="comments"
+                 data-pagination="true"
+                 data-id-table="comments"
+                 data-search="false"
+                 data-side-pagination="client"
+                 data-show-columns="true"
+                 data-show-fullscreen="true"
+                 data-show-refresh="true">
+                    <thread>
+                        <tr>
+                            <th></th>
+                        </tr>
+<!--                    need actual data
+                        modal for note entry? but it goes on each or start on just hardware and copy it
+                        need query into the db to fetch the actual notes
+                        one to many relationship -> 1 assetid can have many comments-->
+                    </thread>
+                   <tbody>
+
+                   </tbody>
+
+
+               </table>
              </div>
+           </div>
          </div>
 
-
+        <!--Files tab-->
         <div class="tab-pane fade" id="files">
           <div class="row">
             <div class="col-md-12">
