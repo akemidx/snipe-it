@@ -930,24 +930,14 @@
                                         </div>
                                     @endcan
 
-                                    <!-- Add comments -->
+                                    <!-- Add Note -->
                                     @can('edit', \App\Models\Asset::class)
                                         <div class="col-md-12" style="padding-top: 5px;">
-                                            <button style="width: 100%;" class="btn btn-sm btn-primary hidden-print" data-toggle="modal" data-title="{{ trans('general.add_comment') }}" data-content="text box goes here" data-target="#createModal">
-                                                {{ trans('general.add_comment') }}
-                                            </button>
+                                            <a href='{{ route('modal.show', 'add-note') }}' style="width: 100%" data-toggle="modal"  data-target="#createModal" data-select='add-note_select_id' class="btn btn-sm btn-primary">{{ trans('general.add_note') }}</a>
                                         </div>
                                     @endcan
 
-{{--                                    so we want to pop the modal and that routes to the actual commentscontroller to intake the note--}}
-{{--                                    <div class="col-md-1 col-sm-1 text-left">--}}
-{{--                                        @can('create', \App\Models\Location::class)--}}
-{{--                                            @if ((!isset($hide_new)) || ($hide_new!='true'))--}}
-{{--                                                <a href='{{ route('modal.show', 'location') }}' data-toggle="modal"  data-target="#createModal" data-select='{{ $fieldname }}_location_select' class="btn btn-sm btn-primary">{{ trans('button.new') }}</a>--}}
-{{--                                            @endif--}}
-{{--                                        @endcan--}}
-{{--                                    </div>--}}
-
+                                    <!-- Delete Asset -->
                                     @can('delete', $asset)
                                         <div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px;">
                                             @if ($asset->deleted_at=='')

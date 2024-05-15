@@ -1213,6 +1213,21 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:api']], functi
             )->name('api.activity.index');
         }); // end reports api routes
 
+
+        /**
+         * Notes API routes
+         */
+
+        Route::group(['prefix' => 'notes'], function () {
+
+            Route::post(
+                '/',
+                [Api\NotesController::class,'store']
+            )->name('api.notes.store');
+
+        }); // end notes api routes
+
+
         /**
          * Version API routes
          */

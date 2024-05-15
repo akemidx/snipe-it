@@ -66,7 +66,7 @@ return [
     'click_here'			=> 'Click here',
     'clear_selection'		=> 'Clear Selection',
     'comments'              => 'Comments',
-    'add_comment'           => 'Add Comment',
+    'add_note'              => 'Add Note',
     'companies'			    => 'Companies',
     'company'				=> 'Company',
     'component'			    => 'Component',
