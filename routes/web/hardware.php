@@ -136,6 +136,11 @@ Route::group(
         )->name('delete/assetfile');
 
         Route::post(
+            '{assetId}/addcomment',
+            [CommentsController::class,'edit']
+        )->name('hardware/addcomment');
+
+        Route::post(
             'bulkedit',
             [BulkAssetsController::class, 'edit']
         )->name('hardware/bulkedit');

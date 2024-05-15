@@ -27,3 +27,16 @@ class ItemComments extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 }
+
+class AddComment extends Model
+{
+    /**
+     * Add a comment to a first class item
+     */
+
+    public function addComment($id)
+    {
+        //this will actually take the text inputted from the modal and it will post it into the DB
+    }
+
+}
