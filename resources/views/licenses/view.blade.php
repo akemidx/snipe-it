@@ -37,6 +37,17 @@
             </a>
         </li>
 
+        <li>
+          <a href="#notes" data-toggle="tab">
+            <span class="hidden-lg hidden-md">
+              <i class="far fa-file fa-2x" aria-hidden="true"></i>
+            </span>
+            <span class="hidden-xs hidden-sm">{{ trans('general.notes') }}
+              {!! ($license->uploads->count() > 0 ) ? '<span class="badge badge-secondary">'.number_format($license->uploads->count()).'</span>' : '' !!}
+            </span>
+          </a>
+        </li>
+
         @can('licenses.files', $license)
         <li>
           <a href="#files" data-toggle="tab">
@@ -456,6 +467,32 @@
           </div> <!--/.row-->
         </div> <!-- /.tab-pane -->
 
+        <!-- Notes tab -->
+        <div class="tab-pane fade" id="Notes">
+          <div class="row">
+            <div class="col-md-12">
+              <table
+                      class="table table-striped snipe-table"
+                      id="notes"
+                      data-pagination="true"
+                      data-id-table="notes"
+                      data-search="false"
+                      data-side-pagination="client"
+                      data-show-columns="true"
+                      data-show-fullscreen="true"
+                      data-show-refresh="true">
+                <thread>
+                  <tr>
+                    <th></th>
+                  </tr>
+                </thread>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><!-- /notes-tab -->
+
         @can('licenses.files', $license)
         <div class="tab-pane" id="files">
           <div class="table-responsive">
@@ -636,21 +673,28 @@
   
       @if (($license->seats - $license->availCount()->count()) <= 0 )
         <span data-tooltip="true" title=" {{ trans('admin/licenses/general.bulk.checkin_all.disabled_tooltip') }}">
-            <a href="#" class="btn btn-block bg-purple disabled" style="margin-bottom: 25px;">
+            <a href="#" class="btn btn-block bg-purple disabled" style="margin-bottom: 10px;">
              {{ trans('admin/licenses/general.bulk.checkin_all.button') }}
             </a>
         </span>
       @elseif (! $license->reassignable)
         <span data-tooltip="true" title=" {{ trans('admin/licenses/general.bulk.checkin_all.disabled_tooltip_reassignable') }}">
-            <a href="#" class="btn btn-block bg-purple disabled" style="margin-bottom: 25px;">
+            <a href="#" class="btn btn-block bg-purple disabled" style="margin-bottom: 10px;">
              {{ trans('admin/licenses/general.bulk.checkin_all.button') }}
             </a>
         </span>
       @else
-        <a href="#" class="btn btn-block bg-purple" style="margin-bottom: 25px;" data-toggle="modal" data-tooltip="true"  data-target="#checkinFromAllModal" data-content="{{ trans('general.sure_to_delete') }} data-title="{{  trans('general.delete') }}" onClick="return false;">
+        <a href="#" class="btn btn-block bg-purple" style="margin-bottom: 10px;" data-toggle="modal" data-tooltip="true"  data-target="#checkinFromAllModal" data-content="{{ trans('general.sure_to_delete') }} data-title="{{  trans('general.delete') }}" onClick="return false;">
           {{ trans('admin/licenses/general.bulk.checkin_all.button') }}
         </a>
       @endif
+    @endcan
+
+    <!-- Add Note -->
+    @can('edit', \App\Models\Asset::class)
+      <div class="text-center" style="padding-top: 5px;">
+        <a href='{{ route('modal.show', 'add-note') }}' style="width: 100%; margin-bottom: 25px;" data-toggle="modal"  data-target="#createModal" data-select='add-note_select_id' class="btn btn-block btn-primary">{{ trans('general.add_note') }}</a>
+      </div>
     @endcan
 
     @can('delete', $license)

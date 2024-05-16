@@ -102,11 +102,11 @@
                     </li>
 
                     <li>
-                    <a href="#comments" data-toggle="tab">
+                    <a href="#notes" data-toggle="tab">
                           <span class="hidden-lg hidden-md">
                             <i class="far fa-file fa-2x" aria-hidden="true"></i>
                           </span>
-                        <span class="hidden-xs hidden-sm">{{ trans('general.comments') }}
+                        <span class="hidden-xs hidden-sm">{{ trans('general.notes') }}
                             {!! ($asset->uploads->count() > 0 ) ? '<span class="badge badge-secondary">'.number_format($asset->uploads->count()).'</span>' : '' !!}
                           </span>
                     </a>
@@ -1273,15 +1273,15 @@
           </div> <!-- /.row -->
         </div> <!-- /.tab-pane history -->
 
-         <!-- Comments tab -->
-         <div class="tab-pane fade" id="comments">
+         <!-- Notes tab -->
+         <div class="tab-pane fade" id="notes">
            <div class="row">
              <div class="col-md-12">
                <table
                  class="table table-striped snipe-table"
-                 id="comments"
+                 id="notes"
                  data-pagination="true"
-                 data-id-table="comments"
+                 data-id-table="notes"
                  data-search="false"
                  data-side-pagination="client"
                  data-show-columns="true"
@@ -1296,7 +1296,7 @@
                         read modal, post the text in modal to db
                         need route
                         need query into the db to fetch the actual notes
-                        one to many relationship/polymorphic -> 1 assetid can have many comments-->
+                        one to many relationship/polymorphic -> 1 assetid can have many notes-->
 
 
                     </thread>
@@ -1308,7 +1308,7 @@
                </table>
              </div>
            </div>
-         </div>
+         </div><!-- /notes-tab -->
 
         <!--Files tab-->
         <div class="tab-pane fade" id="files">
