@@ -1292,6 +1292,7 @@
                             <th></th>
                         </tr>
 <!--                    need actual data
+                        use notes field on assets tableƒ
                         modal for note entry? but it goes on each or start on just hardware and copy it
                         read modal, post the text in modal to db
                         need route
