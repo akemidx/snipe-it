@@ -8,7 +8,6 @@
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -20,27 +19,24 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  * jQuery UI is loaded here and then the tooltip is assigned another funtion name
  * This resolves the issue of jquery-ui & bootstrap tooltip conflict
  */
-__webpack_require__(/*! jquery-ui */ "./node_modules/jquery-ui/ui/widget.js");
-jQuery.fn.uitooltip = jQuery.fn.tooltip;
 
+__webpack_require__(/*! jquery-ui */ "./node_modules/jquery-ui/ui/widget.js");
+
+jQuery.fn.uitooltip = jQuery.fn.tooltip;
 /**
  * Load boostrap
  */
-__webpack_require__(/*! bootstrap-less */ "./node_modules/bootstrap-less/js/bootstrap.js");
 
-// require('admin-lte');
-
+__webpack_require__(/*! bootstrap-less */ "./node_modules/bootstrap-less/js/bootstrap.js"); // require('admin-lte');
 // require('chart.js');
-
 // require('jquery-form-validator'); //says something about dependency
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-
 // import Echo from "laravel-echo"
-
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
@@ -57,15 +53,14 @@ __webpack_require__(/*! bootstrap-less */ "./node_modules/bootstrap-less/js/boot
 // var jQuery = require('jquery');
 // window.jQuery = jQuery
 // window.$ = jQuery
-
 __webpack_require__(/*! ./bootstrap */ "./resources/assets/js/bootstrap.js");
-
 /**
  * Module containing core application logic.
  * @param  {jQuery} $        Insulated jQuery object
  * @param  {JSON} settings Insulated `window.snipeit.settings` object.
  * @return {IIFE}          Immediately invoked. Returns self.
  */
+
 
 lineOptions = {
   legend: {
@@ -123,18 +118,16 @@ pieOptions = {
   legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li>" + "<i class='fas fa-circle-o' style='color: <%=segments[i].fillColor%>'></i>" + "<%if(segments[i].label){%><%=segments[i].label%><%}%> foo</li><%}%></ul>",
   //String - A tooltip template
   tooltipTemplate: "<%=value %> <%=label%> "
-};
-
-//-----------------
+}; //-----------------
 //- END PIE CHART -
 //-----------------
 
 var baseUrl = $('meta[name="baseUrl"]').attr('content');
+
 (function ($, settings) {
   var Components = {};
-  Components.modals = {};
+  Components.modals = {}; // confirm restore modal
 
-  // confirm restore modal
   Components.modals.confirmRestore = function () {
     var $el = $('table');
     var events = {
@@ -153,15 +146,17 @@ var baseUrl = $('meta[name="baseUrl"]').attr('content');
         return false;
       }
     };
+
     var render = function render() {
       $el.on('click', '.restore-asset', events['click']);
     };
+
     return {
       render: render
     };
-  };
+  }; // confirm delete modal
 
-  // confirm delete modal
+
   Components.modals.confirmDelete = function () {
     var $el = $('table');
     var events = {
@@ -180,37 +175,39 @@ var baseUrl = $('meta[name="baseUrl"]').attr('content');
         return false;
       }
     };
+
     var render = function render() {
       $el.on('click', '.delete-asset', events['click']);
     };
+
     return {
       render: render
     };
   };
-
   /**
    * Application start point
    * Component definition stays out of load event, execution only happens.
    */
+
+
   $(function () {
     new Components.modals.confirmRestore().render();
     new Components.modals.confirmDelete().render();
   });
 })(jQuery, window.snipeit.settings);
+
 $(document).ready(function () {
   /*
   * Slideout help menu
   */
   $('.slideout-menu-toggle').on('click', function (event) {
-    event.preventDefault();
-    // create menu variables
+    event.preventDefault(); // create menu variables
+
     var slideoutMenu = $('.slideout-menu');
-    var slideoutMenuWidth = $('.slideout-menu').width();
+    var slideoutMenuWidth = $('.slideout-menu').width(); // toggle open class
 
-    // toggle open class
-    slideoutMenu.toggleClass("open");
+    slideoutMenu.toggleClass("open"); // slide menu
 
-    // slide menu
     if (slideoutMenu.hasClass("open")) {
       slideoutMenu.show();
       slideoutMenu.animate({
@@ -223,7 +220,6 @@ $(document).ready(function () {
       slideoutMenu.fadeOut();
     }
   });
-
   /*
   * Select2
   */
@@ -232,14 +228,12 @@ $(document).ready(function () {
     {
       $(obj).select2();
     }
-  });
-
-  // $('.datepicker').datepicker();
+  }); // $('.datepicker').datepicker();
   // var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
   // $.fn.bootstrapDP = datepicker;
   // $('.datepicker').datepicker();
-
   // Crazy select2 rich dropdowns with images!
+
   $('.js-data-ajax').each(function (i, item) {
     var link = $(item);
     var endpoint = link.data("endpoint");
@@ -268,6 +262,7 @@ $(document).ready(function () {
           };
           return data;
         },
+
         /* processResults: function (data, params) {
              params.page = params.page || 1;
              var answer =  {
@@ -281,34 +276,32 @@ $(document).ready(function () {
         cache: true
       },
       //escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-      templateResult: formatDatalistSafe
-      //templateSelection: formatDataSelection
+      templateResult: formatDatalistSafe //templateSelection: formatDataSelection
+
     });
   });
+
   function getSelect2Value(element) {
     // if the passed object is not a jquery object, assuming 'element' is a selector
     if (!(element instanceof jQuery)) element = $(element);
-    var select = element.data("select2");
+    var select = element.data("select2"); // There's two different locations where the select2-generated input element can be. 
 
-    // There's two different locations where the select2-generated input element can be. 
     searchElement = select.dropdown.$search || select.$container.find(".select2-search__field");
     var value = searchElement.val();
     return value;
   }
+
   $(".select2-hidden-accessible").on('select2:selecting', function (e) {
     var data = e.params.args.data;
     var isMouseUp = false;
     var element = $(this);
     var value = getSelect2Value(element);
-    if (e.params.args.originalEvent) isMouseUp = e.params.args.originalEvent.type == "mouseup";
+    if (e.params.args.originalEvent) isMouseUp = e.params.args.originalEvent.type == "mouseup"; // if selected item does not match typed text, do not allow it to pass - force close for ajax.
 
-    // if selected item does not match typed text, do not allow it to pass - force close for ajax.
     if (!isMouseUp) {
       if (value.toLowerCase() && data.text.toLowerCase().indexOf(value) < 0) {
         e.preventDefault();
-        element.select2('close');
-
-        // if it does match, we set a flag in the event (which gets passed to subsequent events), telling it not to worry about the ajax
+        element.select2('close'); // if it does match, we set a flag in the event (which gets passed to subsequent events), telling it not to worry about the ajax
       } else if (value.toLowerCase() && data.text.toLowerCase().indexOf(value) > -1) {
         e.params.args.noForceAjax = true;
       }
@@ -321,6 +314,7 @@ $(document).ready(function () {
     var isMouseUp = false;
     if (e.params.args.originalSelect2Event) noForceAjax = e.params.args.originalSelect2Event.noForceAjax;
     if (e.params.args.originalEvent) isMouseUp = e.params.args.originalEvent.type == "mouseup";
+
     if (value && !noForceAjax && !isMouseUp) {
       var endpoint = element.data("endpoint");
       var assetStatusType = element.data("asset-status-type");
@@ -336,15 +330,16 @@ $(document).ready(function () {
           return +x.id;
         }).filter(function (x) {
           return x !== 0;
-        });
+        }); // makes sure we're not selecting the same thing twice for multiples
 
-        // makes sure we're not selecting the same thing twice for multiples
         var filteredResponse = response.results.filter(function (item) {
           return currentlySelected.indexOf(+item.id) < 0;
         });
         var first = currentlySelected.length > 0 ? filteredResponse[0] : response.results[0];
+
         if (first && first.id) {
           first.selected = true;
+
           if ($("option[value='" + first.id + "']", element).length < 1) {
             var option = new Option(first.text, first.id, true, true);
             element.append(option);
@@ -352,6 +347,7 @@ $(document).ready(function () {
             var isMultiple = element.attr("multiple") == "multiple";
             element.val(isMultiple ? element.val().concat(first.id) : element.val(first.id));
           }
+
           element.trigger('change');
           element.trigger({
             type: 'select2:select',
@@ -363,30 +359,38 @@ $(document).ready(function () {
       });
     }
   });
+
   function formatDatalist(datalist) {
     var loading_markup = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading...';
+
     if (datalist.loading) {
       return loading_markup;
     }
+
     var markup = '<div class="clearfix">';
     markup += '<div class="pull-left" style="padding-right: 10px;">';
+
     if (datalist.image) {
       markup += "<div style='width: 30px;'><img src='" + datalist.image + "' style='max-height: 20px; max-width: 30px;' alt='" + datalist.text + "'></div>";
     } else {
       markup += '<div style="height: 20px; width: 30px;"></div>';
     }
+
     markup += "</div><div>" + datalist.text + "</div>";
     markup += "</div>";
     return markup;
   }
+
   function formatDatalistSafe(datalist) {
     // console.warn("What in the hell is going on with Select2?!?!!?!?");
     // console.warn($.select2);
     if (datalist.loading) {
       return $('<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading...');
     }
+
     var root_div = $("<div class='clearfix'>");
     var left_pull = $("<div class='pull-left' style='padding-right: 10px;'>");
+
     if (datalist.image) {
       var inner_div = $("<div style='width: 30px;'>");
       /******************************************************************
@@ -401,16 +405,18 @@ $(document).ready(function () {
        * assets or models or whatever.
        * 
        *******************************************************************/
-      var img = $("<img src='' style='max-height: 20px; max-width: 30px;' alt=''>");
-      // console.warn("Img is: ");
+
+      var img = $("<img src='' style='max-height: 20px; max-width: 30px;' alt=''>"); // console.warn("Img is: ");
       // console.dir(img);
       // console.warn("Strigularly, that's: ");
       // console.log(img);
+
       img.attr("src", datalist.image);
       inner_div.append(img);
     } else {
       var inner_div = $("<div style='height: 20px; width: 30px;'></div>");
     }
+
     left_pull.append(inner_div);
     root_div.append(left_pull);
     var name_div = $("<div>");
@@ -418,16 +424,18 @@ $(document).ready(function () {
     root_div.append(name_div);
     var safe_html = root_div.get(0).outerHTML;
     var old_html = formatDatalist(datalist);
-    if (safe_html != old_html) {
-      //console.log("HTML MISMATCH: ");
+
+    if (safe_html != old_html) {//console.log("HTML MISMATCH: ");
       //console.log("FormatDatalistSafe: ");
       // console.dir(root_div.get(0));
       //console.log(safe_html);
       //console.log("FormatDataList: ");
       //console.log(old_html);
     }
+
     return root_div;
   }
+
   function formatDataSelection(datalist) {
     // This a heinous workaround for a known bug in Select2.
     // Without this, the rich selectlists are vulnerable to XSS.
@@ -436,16 +444,16 @@ $(document).ready(function () {
     //
     // Bug was reported in 2016 :{
     // https://github.com/select2/select2/issues/4587
-
     return datalist.text.replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-  }
-
-  // This handles the radio button selectors for the checkout-to-foo options
+  } // This handles the radio button selectors for the checkout-to-foo options
   // on asset checkout and also on asset edit
+
+
   $(function () {
     $('input[name=checkout_to_type]').on("change", function () {
       var assignto_type = $('input[name=checkout_to_type]:checked').val();
       var userid = $('#assigned_user option:selected').val();
+
       if (assignto_type == 'asset') {
         $('#current_assets_box').fadeOut();
         $('#assigned_asset').show();
@@ -466,62 +474,63 @@ $(document).ready(function () {
         $('#assigned_asset').hide();
         $('#assigned_user').show();
         $('#assigned_location').hide();
+
         if (userid) {
           $('#current_assets_box').fadeIn();
         }
+
         $('.notification-callout').fadeIn();
         $('[name="assigned_asset"]').val('').trigger('change.select2');
         $('[name="assigned_location"]').val('').trigger('change.select2');
       }
     });
-  });
-
-  // ------------------------------------------------
+  }); // ------------------------------------------------
   // Deep linking for Bootstrap tabs
   // ------------------------------------------------
-  var taburl = document.location.toString();
 
-  // Allow full page URL to activate a tab's ID
+  var taburl = document.location.toString(); // Allow full page URL to activate a tab's ID
   // ------------------------------------------------
   // This allows linking to a tab on page load via the address bar.
   // So a URL such as, http://snipe-it.local/hardware/2/#my_tab will
   // cause the tab on that page with an ID of “my_tab” to be active.
+
   if (taburl.match('#')) {
     $('.nav-tabs a[href="#' + taburl.split('#')[1] + '"]').tab('show');
-  }
-
-  // Allow internal page links to activate a tab's ID.
+  } // Allow internal page links to activate a tab's ID.
   // ------------------------------------------------
   // This allows you to link to a tab from anywhere on the page
   // including from within another tab. Also note that internal page
   // links either inside or out of the tabs need to include data-toggle="tab"
   // Ex: <a href="#my_tab" data-toggle="tab">Click me</a>
+
+
   $('a[data-toggle="tab"]').click(function (e) {
     var href = $(this).attr("href");
     history.pushState(null, null, href);
     e.preventDefault();
     $('a[href="' + $(this).attr('href') + '"]').tab('show');
-  });
-
-  // ------------------------------------------------
+  }); // ------------------------------------------------
   // End Deep Linking for Bootstrap tabs
   // ------------------------------------------------
-
   // Image preview
+
   function readURL(input, $preview) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
+
       reader.onload = function (e) {
         $preview.attr('src', e.target.result);
       };
+
       reader.readAsDataURL(input.files[0]);
     }
   }
+
   function formatBytes(bytes) {
     if (bytes < 1024) return bytes + " Bytes";else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + " KB";else if (bytes < 1073741824) return (bytes / 1048576).toFixed(2) + " MB";else return (bytes / 1073741824).toFixed(2) + " GB";
-  }
+  } // File size validation
 
-  // File size validation
+
   $('.js-uploadFile').bind('change', function () {
     var $this = $(this);
     var id = '#' + $this.attr('id');
@@ -537,10 +546,12 @@ $(document).ready(function () {
     $(id + '-info').html('');
     var max_size = $this.data('maxsize');
     var total_size = 0;
+
     for (var i = 0; i < this.files.length; i++) {
       total_size += this.files[i].size;
       $(id + '-info').append('<span class="label label-default">' + htmlEntities(this.files[i].name) + ' (' + formatBytes(this.files[i].size) + ')</span> ');
     }
+
     if (total_size > max_size) {
       $status.addClass('text-danger').removeClass('help-block').prepend('<i class="badfile fas fa-times"></i> ').append('<span class="previewSize"> Upload is ' + formatBytes(total_size) + '.</span>');
     } else {
@@ -553,18 +564,21 @@ $(document).ready(function () {
     }
   });
 });
+
 function htmlEntities(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-
 /**
  * Toggle disabled
  */
+
+
 (function ($) {
   $.fn.toggleDisabled = function (callback) {
     return this.each(function () {
       var disabled,
-        $this = $(this);
+          $this = $(this);
+
       if ($this.attr('disabled')) {
         $this.removeAttr('disabled');
         disabled = false;
@@ -572,13 +586,13 @@ function htmlEntities(str) {
         $this.attr('disabled', 'disabled');
         disabled = true;
       }
+
       if (callback && typeof callback === 'function') {
         callback(this, disabled);
       }
     });
   };
 })(jQuery);
-
 /**
  * Universal Livewire Select2 integration
  *
@@ -589,15 +603,19 @@ function htmlEntities(str) {
  * 3. Add an attribute called 'data-livewire-component' that points to $_instance->id (via `{{ }}` if you're in a blade,
  *    or just $_instance->id if not).
  */
+
+
 $(function () {
   $('.livewire-select2').select2();
   $(document).on('select2:select', '.livewire-select2', function (event) {
     var target = $(event.target);
+
     if (!event.target.name || !target.data('livewire-component')) {
       console.error("You need to set both name (which should match a Livewire property) and data-livewire-component on your Livewire-ed select2 elements!");
       console.error("For data-livewire-component, you probably want to use $_instance->id or {{ $_instance->id }}, as appropriate");
       return false;
     }
+
     window.livewire.find(target.data('livewire-component')).set(event.target.name, this.options[this.selectedIndex].value);
   });
   window.livewire.hook('message.processed', function (el, component) {
@@ -634,14 +652,15 @@ class="btn btn-sm btn-primary" - makes it look button-ey, feel free to change :)
 If you want to pass additional variables to the modal (In the Category Create one, for example, you can pass category_id), you can encode them as URL variables in the href
 
 */
-
 $(function () {
-  var baseUrl = $('meta[name="baseUrl"]').attr('content');
-  //handle modal-add-interstitial calls
+  var baseUrl = $('meta[name="baseUrl"]').attr('content'); //handle modal-add-interstitial calls
+
   var model, select, refreshSelector;
+
   if ($('#createModal').length == 0) {
     $('body').append('<div class="modal fade" id="createModal"></div><!-- /.modal -->');
   }
+
   $('#createModal').on("show.bs.modal", function (event) {
     var link = $(event.relatedTarget);
     model = link.data("dependency");
@@ -649,11 +668,9 @@ $(function () {
     refreshSelector = link.data("refresh");
     $('#createModal').load(link.attr('href'), function () {
       // this sets the focus to be the name field
-      $('#modal-name').focus();
+      $('#modal-name').focus(); //do we need to re-select2 this, after load? Probably.
 
-      //do we need to re-select2 this, after load? Probably.
-      $('#createModal').find('select.select2').select2();
-      // Initialize the ajaxy select2 with images.
+      $('#createModal').find('select.select2').select2(); // Initialize the ajaxy select2 with images.
       // This is a copy/paste of the code from snipeit.js, would be great to only have this in one place.
 
       $('.js-data-ajax').each(function (i, item) {
@@ -679,6 +696,7 @@ $(function () {
               };
               return data;
             },
+
             /*processResults: function (data, params) {
                  params.page = params.page || 1;
                  var answer =  {
@@ -692,8 +710,8 @@ $(function () {
             cache: true
           },
           //escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-          templateResult: formatDatalistSafe
-          //templateSelection: formatDataSelection
+          templateResult: formatDatalistSafe //templateSelection: formatDataSelection
+
         });
       });
     });
@@ -710,35 +728,44 @@ $(function () {
       success: function success(result) {
         if (result.status == "error") {
           var error_message = "";
+
           for (var field in result.messages) {
             error_message += "<li>Problem(s) with field <i><strong>" + field + "</strong></i>: " + result.messages[field];
           }
+
           $('#modal_error_msg').html(error_message).show();
           return false;
         }
+
         var id = result.payload.id;
         var name = result.payload.name || result.payload.first_name + " " + result.payload.last_name;
+
         if (!id || !name) {
           console.error("Could not find resulting name or ID from modal-create. Name: " + name + ", id: " + id);
           return false;
         }
+
         $('#createModal').modal('hide');
         $('#createModal').html("");
         var refreshTable = $('#' + refreshSelector);
+
         if (refreshTable.length > 0) {
           refreshTable.bootstrapTable('refresh');
-        }
-
-        // "select" is the original drop-down menu that someone
+        } // "select" is the original drop-down menu that someone
         // clicked 'add' on to add a new 'thing'
         // this code adds the newly created object to that select
+
+
         var selector = document.getElementById(select);
+
         if (!selector) {
           return false;
         }
+
         selector.options[selector.length] = new Option(name, id);
         selector.selectedIndex = selector.length - 1;
         $(selector).trigger("change");
+
         if (window.fetchCustomFields) {
           fetchCustomFields();
         }
@@ -750,14 +777,17 @@ $(function () {
     });
   });
 });
+
 function formatDatalistSafe(datalist) {
   // console.warn("What in the hell is going on with Select2?!?!!?!?");
   // console.warn($.select2);
   if (datalist.loading) {
     return $('<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading...');
   }
+
   var root_div = $("<div class='clearfix'>");
   var left_pull = $("<div class='pull-left' style='padding-right: 10px;'>");
+
   if (datalist.image) {
     var inner_div = $("<div style='width: 30px;'>");
     /******************************************************************
@@ -772,16 +802,18 @@ function formatDatalistSafe(datalist) {
      * assets or models or whatever.
      * 
      *******************************************************************/
-    var img = $("<img src='' style='max-height: 20px; max-width: 30px;' alt=''>");
-    // console.warn("Img is: ");
+
+    var img = $("<img src='' style='max-height: 20px; max-width: 30px;' alt=''>"); // console.warn("Img is: ");
     // console.dir(img);
     // console.warn("Strigularly, that's: ");
     // console.log(img);
+
     img.attr("src", datalist.image);
     inner_div.append(img);
   } else {
     var inner_div = $("<div style='height: 20px; width: 30px;'></div>");
   }
+
   left_pull.append(inner_div);
   root_div.append(left_pull);
   var name_div = $("<div>");
@@ -789,32 +821,39 @@ function formatDatalistSafe(datalist) {
   root_div.append(name_div);
   var safe_html = root_div.get(0).outerHTML;
   var old_html = formatDatalist(datalist);
-  if (safe_html != old_html) {
-    // console.log("HTML MISMATCH: ");
+
+  if (safe_html != old_html) {// console.log("HTML MISMATCH: ");
     // console.log("FormatDatalistSafe: ");
     // console.dir(root_div.get(0));
     // console.log(safe_html);
     // console.log("FormatDataList: ");
     // console.log(old_html);
   }
+
   return root_div;
 }
+
 function formatDatalist(datalist) {
   var loading_markup = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading...';
+
   if (datalist.loading) {
     return loading_markup;
   }
+
   var markup = "<div class='clearfix'>";
   markup += "<div class='pull-left' style='padding-right: 10px;'>";
+
   if (datalist.image) {
     markup += "<div style='width: 30px;'><img src='" + datalist.image + "' alt='" + datalist.tex + "' style='max-height: 20px; max-width: 30px;'></div>";
   } else {
     markup += "<div style='height: 20px; width: 30px;'></div>";
   }
+
   markup += "</div><div>" + datalist.text + "</div>";
   markup += "</div>";
   return markup;
 }
+
 function formatDataSelection(datalist) {
   return datalist.text.replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
@@ -32210,6 +32249,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/admin-lte/build/less/AdminLTE.less":
+/*!*********************************************************!*\
+  !*** ./node_modules/admin-lte/build/less/AdminLTE.less ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/assets/less/app.less":
 /*!****************************************!*\
   !*** ./resources/assets/less/app.less ***!
@@ -32377,6 +32429,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			"css/dist/skins/skin-blue": 0,
 /******/ 			"css/build/overrides": 0,
 /******/ 			"css/build/app": 0,
+/******/ 			"css/build/AdminLTE": 0,
 /******/ 			"css/dist/skins/skin-orange": 0,
 /******/ 			"css/dist/skins/skin-orange-dark": 0,
 /******/ 			"css/dist/skins/skin-blue-dark": 0,
@@ -32439,25 +32492,26 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/js/snipeit.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/js/snipeit_modals.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/app.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/overrides.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-blue.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-red.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-contrast.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-green.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-green-dark.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-black.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-black-dark.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-red-dark.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-purple.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-purple-dark.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-yellow.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-yellow-dark.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-blue-dark.less")))
-/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-orange-dark.less")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-orange.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/js/snipeit.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/js/snipeit_modals.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./node_modules/admin-lte/build/less/AdminLTE.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/app.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/overrides.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-blue.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-red.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-contrast.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-green.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-green-dark.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-black.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-black-dark.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-red-dark.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-purple.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-purple-dark.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-yellow.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-yellow-dark.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-blue-dark.less")))
+/******/ 	__webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-orange-dark.less")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/dist/skins/skin-red","css/dist/skins/skin-blue","css/build/overrides","css/build/app","css/build/AdminLTE","css/dist/skins/skin-orange","css/dist/skins/skin-orange-dark","css/dist/skins/skin-blue-dark","css/dist/skins/skin-yellow-dark","css/dist/skins/skin-yellow","css/dist/skins/skin-purple-dark","css/dist/skins/skin-purple","css/dist/skins/skin-red-dark","css/dist/skins/skin-black-dark","css/dist/skins/skin-black","css/dist/skins/skin-green-dark","css/dist/skins/skin-green","css/dist/skins/skin-contrast"], () => (__webpack_require__("./resources/assets/less/skins/skin-orange.less")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
