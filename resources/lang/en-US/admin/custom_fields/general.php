@@ -58,4 +58,5 @@ return [
     'show_in_requestable_list' => 'Show value in requestable assets list. Encrypted fields will not be shown',
     'encrypted_options' => 'This field is encrypted, so some display options will not be available.',
     'show_custom_field_on_audit' => 'Show this custom field on the audit screen',
+    'show_on_audit' => 'Shown on audit',
 ];
