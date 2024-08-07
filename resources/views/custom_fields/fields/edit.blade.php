@@ -202,6 +202,13 @@
                   </label>
               </div>
 
+             <!-- Show on checkin/checkout screens  -->
+             <div class="col-md-9 col-md-offset-3" id="show_custom_field_on_checkinout">
+                 <label class="form-control">
+                     <input type="checkbox" name="show_custom_field_on_checkinout" aria-label="show_custom_field_on_checkinout" value="1" {{ (old('show_custom_field_on_checkinout') || $field->show_custom_field_on_checkinout) ? ' checked="checked"' : '' }}>
+                     {{ trans('admin/custom_fields/general.show_custom_field_on_checkinout') }}
+                 </label>
+             </div>
 
 
           </div>
