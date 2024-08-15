@@ -732,7 +732,7 @@
                     data-show-export="true"
                     data-show-footer="true"
                     data-show-refresh="true"
-                    data-sort-order="asc"
+                    data-sort-order="true"
                     data-sort-name="name"
                     class="table table-striped snipe-table table-hover"
                     data-export-options='{
