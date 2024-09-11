@@ -787,6 +787,7 @@
         <div class="tab-pane" id="accessories">
           <div class="table-responsive">
             <table
+                    data-columns="{{\App\Presenters\AccessoryPresenter::dataTableLayout()}}"
                     data-cookie-id-table="userAccessoryTable"
                     data-id-table="userAccessoryTable"
                     id="userAccessoryTable"
