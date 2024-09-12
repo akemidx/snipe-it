@@ -55,7 +55,32 @@
       </div>
     </div><!-- /.box -->
   </div>
-</div>
+    @can('checkin', \App\Models\License::class)
+        @include ('modals.confirm-action',
+              [
+                  'modal_name' => 'checkinFromAllModal',
+                  'route' => route('licenses.bulkcheckin', $license->id),
+                  'title' => trans('general.modal_confirm_generic'),
+                  'body' => trans_choice('admin/licenses/general.bulk.checkin_all.modal', 2, ['checkedout_seats_count' => $checkedout_seats_count])
+              ])
+    @endcan
+    @can('delete', $license)
+
+        @if ($license->availCount()->count() == $license->seats)
+            <button class="btn btn-block btn-danger btn-sm btn-social delete-license" data-toggle="modal" data-title="{{ trans('general.delete') }}" data-content="{{ trans('general.delete_confirm', ['item' => $license->name]) }}" data-target="#dataConfirmModal">
+                <x-icon type="delete" />
+                {{ trans('general.delete') }}
+            </button>
+        @else
+            <span data-tooltip="true" title=" {{ trans('admin/licenses/general.delete_disabled') }}">
+            <a href="#" class="btn btn-block btn-danger btn-sm btn-social delete-license disabled">
+              <x-icon type="delete" />
+              {{ trans('general.delete') }}
+            </a>
+          </span>
+        @endif
+    @endcan
+</div><!-- /.row -->
 @stop
 
 @section('moar_scripts')
