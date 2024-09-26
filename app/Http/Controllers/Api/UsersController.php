@@ -668,7 +668,8 @@ class UsersController extends Controller
         
         if ($user = User::where('id', $id)->withTrashed()->first()) {
             $this->authorize('update', $user);
-            $licenses = $user->licenses()->get();
+            $licenses = $user->licenses()->get()->orderBy('name','asc'); //trying to order by when we get
+            dd($licenses); //we never get to this? at least in user assigned licenses tab
             return (new LicensesTransformer())->transformLicenses($licenses, $licenses->count());
         }
 
