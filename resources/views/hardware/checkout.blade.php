@@ -130,6 +130,7 @@
                         @can('assets.edit')
                             <div class="form-group">
                                 <label class="col-md-3 control-label"></label>
+                                @if($asset->model->custom_field_custom_fieldset > 0)
                                 <div class="col-md-9 col-sm-9 col-md-offset-3">
                                     <a id="optional_info" class="dropdown-toggle">
                                         <i class="fa fa-2x fa-caret-right" id="optional_info_icon"></i>
@@ -143,6 +144,7 @@
                                         </li>
                                     </ul>
                                 </div>
+                                @endif
                             </div>
                         @endcan
 
