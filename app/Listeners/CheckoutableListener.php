@@ -11,6 +11,7 @@ use App\Models\Consumable;
 use App\Models\LicenseSeat;
 use App\Models\Recipients\AdminRecipient;
 use App\Models\Setting;
+use App\Models\User;
 use App\Notifications\CheckinAccessoryNotification;
 use App\Notifications\CheckinAssetNotification;
 use App\Notifications\CheckinLicenseSeatNotification;
@@ -43,37 +44,39 @@ class CheckoutableListener
          * Make a checkout acceptance and attach it in the notification
          */
         $acceptance = $this->getCheckoutAcceptance($event);
+        $notifiables = $this->getNotifiables($event);
 
+        // Send email notifications
         try {
-            if (! $event->checkedOutTo->locale) {
-                Notification::locale(Setting::getSettings()->locale)->send(
-                    $this->getNotifiables($event),
-                    $this->getCheckoutNotification($event, $acceptance)
-                );
-            } else {
-                Notification::send(
-                    $this->getNotifiables($event),
-                    $this->getCheckoutNotification($event, $acceptance)
-                );
+            foreach ($notifiables as $notifiable) {
+                if ($notifiable instanceof User && $notifiable->email != '') {
+                    if (! $event->checkedOutTo->locale){
+                        Notification::locale(Setting::getSettings()->locale)->send($notifiable, $this->getCheckoutNotification($event, $acceptance));
+                    }
+                    else {
+                        Notification::send($notifiable, $this->getCheckoutNotification($event, $acceptance));
+                    }
+                }
             }
 
+            // Send Webhook notification
             if ($this->shouldSendWebhookNotification()) {
-
-            //slack doesn't include the url in its messaging format so this is needed to hit the endpoint
-
-              if(Setting::getSettings()->webhook_selected =='slack' || Setting::getSettings()->webhook_selected =='general') {
-
-
-                  Notification::route('slack', Setting::getSettings()->webhook_endpoint)
-                      ->notify($this->getCheckoutNotification($event));
-              }
+                // Slack doesn't include the URL in its messaging format, so this is needed to hit the endpoint
+                if (Setting::getSettings()->webhook_selected === 'slack' || Setting::getSettings()->webhook_selected === 'general') {
+                    Notification::route('slack', Setting::getSettings()->webhook_endpoint)
+                        ->notify($this->getCheckoutNotification($event, $acceptance));
+                } else {
+                    Notification::route(Setting::getSettings()->webhook_selected, Setting::getSettings()->webhook_endpoint)
+                        ->notify($this->getCheckoutNotification($event, $acceptance));
+                }
             }
         } catch (ClientException $e) {
-            Log::warning("Exception caught during checkout notification: " . $e->getMessage());
+            Log::debug("Exception caught during checkout notification: " . $e->getMessage());
         } catch (Exception $e) {
-            Log::warning("Exception caught during checkout notification: " . $e->getMessage());
+            Log::debug("Exception caught during checkout notification: " . $e->getMessage());
         }
     }
+
 
     /**
      * Notify the user and post to webhook about the checked in checkoutable
@@ -101,24 +104,27 @@ class CheckoutableListener
             }
         }
 
+        $notifiables = $this->getNotifiables($event);
+        // Send email notifications
         try {
-            // Use default locale
-            if (! $event->checkedOutTo->locale) {
-                Notification::locale(Setting::getSettings()->locale)->send(
-                    $this->getNotifiables($event),
-                    $this->getCheckinNotification($event)
-                );
-            } else {
-                Notification::send(
-                    $this->getNotifiables($event),
-                    $this->getCheckinNotification($event)
-                );
+            foreach ($notifiables as $notifiable) {
+                if ($notifiable instanceof User && $notifiable->email != '') {
+                    if (! $event->checkedOutTo->locale){
+                        Notification::locale(Setting::getSettings()->locale)->send($notifiable, $this->getCheckoutNotification($event, $acceptance));
+                    }
+                    else {
+                        Notification::send($notifiable, $this->getCheckinNotification($event));
+                    }
+                }
             }
-            //slack doesn't include the url in its messaging format so this is needed to hit the endpoint
-            if(Setting::getSettings()->webhook_selected =='slack' || Setting::getSettings()->webhook_selected =='general') {
-
-                if ($this->shouldSendWebhookNotification()) {
+            // Send Webhook notification
+            if ($this->shouldSendWebhookNotification()) {
+                // Slack doesn't include the URL in its messaging format, so this is needed to hit the endpoint
+                if (Setting::getSettings()->webhook_selected === 'slack' || Setting::getSettings()->webhook_selected === 'general') {
                     Notification::route('slack', Setting::getSettings()->webhook_endpoint)
+                        ->notify($this->getCheckinNotification($event));
+                } else {
+                    Notification::route(Setting::getSettings()->webhook_selected, Setting::getSettings()->webhook_endpoint)
                         ->notify($this->getCheckinNotification($event));
                 }
             }
@@ -137,7 +143,11 @@ class CheckoutableListener
      */
     private function getCheckoutAcceptance($event)
     {
-        if (! $event->checkoutable->requireAcceptance()) {
+        $checkedOutToType = get_class($event->checkedOutTo);
+        if ($checkedOutToType != "App\Models\User") {
+            return null;
+        }
+        if (!$event->checkoutable->requireAcceptance()) {
             return null;
         }
 

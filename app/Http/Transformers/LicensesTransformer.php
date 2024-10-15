@@ -45,6 +45,10 @@ class LicensesTransformer
             'maintained' => ($license->maintained == 1) ? true : false,
             'supplier' =>  ($license->supplier) ? ['id' => (int) $license->supplier->id, 'name'=> e($license->supplier->name)] : null,
             'category' =>  ($license->category) ? ['id' => (int) $license->category->id, 'name'=> e($license->category->name)] : null,
+            'created_by' => ($license->adminuser) ? [
+                'id' => (int) $license->adminuser->id,
+                'name'=> e($license->adminuser->present()->fullName()),
+            ] : null,
             'created_at' => Helper::getFormattedDateObject($license->created_at, 'datetime'),
             'updated_at' => Helper::getFormattedDateObject($license->updated_at, 'datetime'),
             'deleted_at' => Helper::getFormattedDateObject($license->deleted_at, 'datetime'),
@@ -57,7 +61,7 @@ class LicensesTransformer
             'checkin' => Gate::allows('checkin', License::class),
             'clone' => Gate::allows('create', License::class),
             'update' => Gate::allows('update', License::class),
-            'delete' => (Gate::allows('delete', License::class) && ($license->seats == $license->availCount()->count())) ? true : false,
+            'delete' => (Gate::allows('delete', License::class) && ($license->free_seats_count > 0)) ? true : false,
         ];
 
         $array += $permissions_array;

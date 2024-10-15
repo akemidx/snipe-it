@@ -18,7 +18,7 @@
 
 
 
-    {{ Form::open(['method' => 'POST', 'files' => false, 'autocomplete' => 'off', 'class' => 'form-horizontal', 'role' => 'form' ]) }}
+    <form method="POST" autocomplete="off" class="form-horizontal" role="form" id="create-form">
     <!-- CSRF Token -->
     {{csrf_field()}}
 
@@ -29,7 +29,7 @@
             <div class="panel box box-default">
                 <div class="box-header with-border">
                     <h2 class="box-title">
-                        <i class="fas fa-wrench" aria-hidden="true"></i>
+                        <x-icon type="general-settings"/>
                         {{ trans('admin/settings/general.general_settings') }}
                     </h2>
                 </div>
@@ -144,24 +144,6 @@
                            </div>
                        </div>
 
-                       <!-- Load gravatar -->
-                       <div class="form-group {{ $errors->has('load_remote') ? 'error' : '' }}">
-                           <div class="col-md-3">
-                               <strong>{{ trans('admin/settings/general.load_remote') }}</strong>
-                           </div>
-                           <div class="col-md-9">
-                               <label class="form-control">
-                                   {{ Form::checkbox('load_remote', '1', old('load_remote', $setting->load_remote)) }}
-                                   {{ trans('general.yes') }}
-                                   {!! $errors->first('load_remote', '<span class="alert-msg" aria-hidden="true">:message</span>') !!}
-                               </label>
-
-                               <p class="help-block">
-                                   {{ trans('admin/settings/general.load_remote_help_text') }}
-                               </p>
-
-                           </div>
-                       </div>
 
                        <!-- unique serial -->
                        <div class="form-group">
@@ -178,6 +160,21 @@
                                <p class="help-block">
                                {{ trans('admin/settings/general.unique_serial_help_text') }}
                                </p>
+                           </div>
+                       </div>
+
+                       <!-- Shortcuts enable -->
+                       <div class="form-group {{ $errors->has('shortcuts_enabled') ? 'error' : '' }}">
+                           <div class="col-md-3">
+                               <strong> {{ trans('admin/settings/general.shortcuts_enabled') }}</strong>
+                           </div>
+                           <div class="col-md-9">
+                               <label class="form-control">
+                                   <input type="checkbox" name="shortcuts_enabled" value="1" {{ old('shortcuts_enabled', $setting->shortcuts_enabled) ? 'checked' : '' }}>
+                                   {{ trans('general.yes') }}
+                               </label>
+                               {!! $errors->first('shortcuts_enabled', '<span class="alert-msg" aria-hidden="true">:message</span>') !!}
+                               <p class="help-block">{!!trans('admin/settings/general.shortcuts_help_text') !!}</p>
                            </div>
                        </div>
 
@@ -398,7 +395,7 @@
                     <a class="btn btn-link text-left" href="{{ route('settings.index') }}">{{ trans('button.cancel') }}</a>
                 </div>
                 <div class="text-right col-md-6">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-check icon-white" aria-hidden="true"></i> {{ trans('general.save') }}</button>
+                    <button type="submit" class="btn btn-primary"><x-icon type="checkmark" /> {{ trans('general.save') }}</button>
                 </div>
 
             </div>

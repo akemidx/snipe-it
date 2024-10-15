@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\DeleteUserRequest;
+use Illuminate\Http\JsonResponse;
 
 class UsersController extends Controller
 {
@@ -35,19 +36,20 @@ class UsersController extends Controller
      *
      * @return array
      */
-    public function index(Request $request)
+    public function index(Request $request) : array
     {
         $this->authorize('view', User::class);
 
         $users = User::select([
             'users.activated',
-            'users.created_by',
             'users.address',
             'users.avatar',
             'users.city',
             'users.company_id',
             'users.country',
+            'users.created_by',
             'users.created_at',
+            'users.updated_at',
             'users.deleted_at',
             'users.department_id',
             'users.email',
@@ -66,7 +68,6 @@ class UsersController extends Controller
             'users.state',
             'users.two_factor_enrolled',
             'users.two_factor_optin',
-            'users.updated_at',
             'users.username',
             'users.zip',
             'users.remote',
@@ -205,6 +206,10 @@ class UsersController extends Controller
             $users->where('autoassign_licenses', '=', $request->input('autoassign_licenses'));
         }
 
+        if ($request->filled('locale')) {
+            $users = $users->where('users.locale', '=', $request->input('locale'));
+        }
+
 
         if (($request->filled('deleted')) && ($request->input('deleted') == 'true')) {
             $users = $users->onlyTrashed();
@@ -247,13 +252,10 @@ class UsersController extends Controller
                         'jobtitle',
                         'username',
                         'employee_num',
-                        'assets',
-                        'accessories',
-                        'consumables',
-                        'licenses',
                         'groups',
                         'activated',
                         'created_at',
+                        'updated_at',
                         'two_factor_enrolled',
                         'two_factor_optin',
                         'last_login',
@@ -279,6 +281,7 @@ class UsersController extends Controller
                         'end_date',
                         'autoassign_licenses',
                         'website',
+                        'locale',
                     ];
 
                 $sort = in_array($request->input('sort'), $allowed_columns) ? $request->input('sort') : 'first_name';
@@ -305,7 +308,7 @@ class UsersController extends Controller
      * @since [v4.0.16]
      * @see \App\Http\Transformers\SelectlistTransformer
      */
-    public function selectlist(Request $request)
+    public function selectlist(Request $request) : array
     {
         $users = User::select(
             [
@@ -361,21 +364,20 @@ class UsersController extends Controller
      * @author [A. Gianotto] [<snipe@snipe.net>]
      * @since [v4.0]
      * @param  \Illuminate\Http\Request  $request
-     * @return array | \Illuminate\Http\JsonResponse
      */
-    public function store(SaveUserRequest $request)
+    public function store(SaveUserRequest $request) : JsonResponse
     {
         $this->authorize('create', User::class);
 
         $user = new User;
         $user->fill($request->all());
-        $user->created_by = Auth::user()->id;
+        $user->created_by = auth()->id();
 
         if ($request->has('permissions')) {
             $permissions_array = $request->input('permissions');
 
             // Strip out the superuser permission if the API user isn't a superadmin
-            if (! Auth::user()->isSuperUser()) {
+            if (! auth()->user()->isSuperUser()) {
                 unset($permissions_array['superuser']);
             }
             $user->permissions = $permissions_array;
@@ -408,9 +410,8 @@ class UsersController extends Controller
      *
      * @author [A. Gianotto] [<snipe@snipe.net>]
      * @param  int  $id
-     * @return array | \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($id) : JsonResponse | array
     {
         $this->authorize('view', User::class);
 
@@ -431,14 +432,10 @@ class UsersController extends Controller
      * @since [v4.0]
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(SaveUserRequest $request, $id)
+    public function update(SaveUserRequest $request, User $user): JsonResponse
     {
         $this->authorize('update', User::class);
-
-        if ($user = User::find($id)) {
-
 
             $this->authorize('update', $user);
 
@@ -449,11 +446,9 @@ class UsersController extends Controller
              *
              */
 
-
-            if ((($id == 1) || ($id == 2)) && (config('app.lock_passwords'))) {
+        if ((($user->id == 1) || ($user->id == 2)) && (config('app.lock_passwords'))) {
                 return response()->json(Helper::formatStandardApiResponse('error', null, 'Permission denied. You cannot update user information via API on the demo.'));
             }
-
 
             $user->fill($request->all());
 
@@ -472,25 +467,22 @@ class UsersController extends Controller
                 $permissions_array = $request->input('permissions');
 
                 // Strip out the individual superuser permission if the API user isn't a superadmin
-                if (!Auth::user()->isSuperUser()) {
+                if (!auth()->user()->isSuperUser()) {
                     unset($permissions_array['superuser']);
                 }
 
                 $user->permissions = $permissions_array;
             }
 
-
             // Update the location of any assets checked out to this user
             Asset::where('assigned_type', User::class)
                 ->where('assigned_to', $user->id)->update(['location_id' => $request->input('location_id', null)]);
 
-
             app('App\Http\Requests\ImageUploadRequest')->handleImages($user, 600, 'image', 'avatars', 'avatar');
 
             if ($user->save()) {
-
                 // Check if the request has groups passed and has a value, AND that the user us a superuser
-                if (($request->has('groups')) && (Auth::user()->isSuperUser())) {
+                if (($request->has('groups')) && (auth()->user()->isSuperUser())) {
 
                     $validator = Validator::make($request->only('groups'), [
                         'groups.*' => 'integer|exists:permission_groups,id',
@@ -502,18 +494,10 @@ class UsersController extends Controller
 
                     // Sync the groups since the user is a superuser and the groups pass validation
                     $user->groups()->sync($request->input('groups'));
-
-
                 }
-
                 return response()->json(Helper::formatStandardApiResponse('success', (new UsersTransformer)->transformUser($user), trans('admin/users/message.success.update')));
             }
-
             return response()->json(Helper::formatStandardApiResponse('error', null, $user->getErrors()));
-        }
-
-        return response()->json(Helper::formatStandardApiResponse('error', null, trans('admin/users/message.user_not_found', compact('id'))));
-
     }
 
     /**
@@ -522,9 +506,8 @@ class UsersController extends Controller
      * @author [A. Gianotto] [<snipe@snipe.net>]
      * @since [v4.0]
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(DeleteUserRequest $request, $id)
+    public function destroy(DeleteUserRequest $request, $id) : JsonResponse
     {
         $this->authorize('delete', User::class);
 
@@ -560,9 +543,8 @@ class UsersController extends Controller
      * @author [A. Gianotto] [<snipe@snipe.net>]
      * @since [v3.0]
      * @param $userId
-     * @return array | \Illuminate\Http\JsonResponse
      */
-    public function assets(Request $request, $id)
+    public function assets(Request $request, $id) : JsonResponse | array
     {
         $this->authorize('view', User::class);
         $this->authorize('view', Asset::class);
@@ -605,9 +587,9 @@ class UsersController extends Controller
      * @since [v6.0.13]
      * @param Request $request
      * @param $id
-     * @return string JSON
      */
-    public function emailAssetList(Request $request, $id)
+    public function emailAssetList(Request $request, $id) : JsonResponse
+
     {
         $this->authorize('update', User::class);
 
@@ -633,9 +615,8 @@ class UsersController extends Controller
      * @author [A. Gianotto] [<snipe@snipe.net>]
      * @since [v3.0]
      * @param $userId
-     * @return array | \Illuminate\Http\JsonResponse
      */
-    public function consumables(Request $request, $id)
+    public function consumables(Request $request, $id) : array
     {
         $this->authorize('view', User::class);
         $this->authorize('view', Consumable::class);
@@ -651,9 +632,8 @@ class UsersController extends Controller
      * @author [A. Gianotto] [<snipe@snipe.net>]
      * @since [v4.6.14]
      * @param $userId
-     * @return array
      */
-    public function accessories($id)
+    public function accessories($id) : array
     {
         $this->authorize('view', User::class);
         $user = User::findOrFail($id);
@@ -670,9 +650,8 @@ class UsersController extends Controller
      * @author [N. Mathar] [<snipe@snipe.net>]
      * @since [v5.0]
      * @param $userId
-     * @return array | \Illuminate\Http\JsonResponse
      */
-    public function licenses($id)
+    public function licenses($id) : JsonResponse | array
     {
         $this->authorize('view', User::class);
         $this->authorize('view', License::class);
@@ -693,9 +672,8 @@ class UsersController extends Controller
      * @author [A. Gianotto] [<snipe@snipe.net>]
      * @since [v3.0]
      * @param $userId
-     * @return string JSON
      */
-    public function postTwoFactorReset(Request $request)
+    public function postTwoFactorReset(Request $request) : JsonResponse
     {
         $this->authorize('update', User::class);
 
@@ -714,7 +692,7 @@ class UsersController extends Controller
                 $logaction->item_type = User::class;
                 $logaction->item_id = $user->id;
                 $logaction->created_at = date('Y-m-d H:i:s');
-                $logaction->user_id = Auth::user()->id;
+                $logaction->created_by = auth()->id();
                 $logaction->logaction('2FA reset');
 
                 return response()->json(['message' => trans('admin/settings/general.two_factor_reset_success')], 200);
@@ -733,9 +711,8 @@ class UsersController extends Controller
      * @author [Juan Font] [<juanfontalonso@gmail.com>]
      * @since [v4.4.2]
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
-    public function getCurrentUserInfo(Request $request)
+    public function getCurrentUserInfo(Request $request) : array
     {
         return (new UsersTransformer)->transformUser($request->user());
     }
@@ -746,9 +723,8 @@ class UsersController extends Controller
      * @author [E. Taylor] [<dev@evantaylor.name>]
      * @param int $userId
      * @since [v6.0.0]
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function restore($userId)
+    public function restore($userId) : JsonResponse
     {
         $this->authorize('delete', User::class);
 
@@ -766,7 +742,7 @@ class UsersController extends Controller
                 $logaction->item_type = User::class;
                 $logaction->item_id = $user->id;
                 $logaction->created_at = date('Y-m-d H:i:s');
-                $logaction->user_id = Auth::user()->id;
+                $logaction->created_by = auth()->id();
                 $logaction->logaction('restore');
 
                 return response()->json(Helper::formatStandardApiResponse('success', null, trans('admin/users/message.success.restored')), 200);

@@ -2,12 +2,11 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Models\Ldap;
 use Tests\TestCase;
 
-/**
- * @group ldap
- */
+#[Group('ldap')]
 class LdapTest extends TestCase
 {
     use \phpmock\phpunit\PHPMock;
@@ -97,7 +96,7 @@ class LdapTest extends TestCase
                 "count" => 1,
                 0 => [
                     'sn' => 'Surname',
-                    'firstName' => 'FirstName'
+                    'firstname' => 'FirstName'
                 ]
             ]
         );

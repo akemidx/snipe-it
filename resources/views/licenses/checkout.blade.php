@@ -55,9 +55,9 @@
                         </div>
                     </div>
 
-                    @include ('partials.forms.checkout-selector', ['user_select' => 'true','asset_select' => 'true', 'location_select' => 'false'])
+                    @include ('partials.forms.checkout-selector', ['user_select' => 'true','asset_select' => 'true'])
 
-                    @include ('partials.forms.edit.user-select', ['translated_name' => trans('general.user'), 'fieldname' => 'assigned_to', 'required'=>'true'])
+                    @include ('partials.forms.edit.user-select', ['translated_name' => trans('general.user'), 'fieldname' => 'assigned_to'])
 
                     @include ('partials.forms.edit.asset-select', ['translated_name' => trans('admin/licenses/form.asset'), 'fieldname' => 'asset_id', 'style' => 'display:none;'])
 
@@ -105,10 +105,15 @@
                     </div>
                 @endif
 
-                <div class="box-footer">
-                    <a class="btn btn-link" href="{{ route('licenses.index') }}">{{ trans('button.cancel') }}</a>
-                    <button type="submit" class="btn btn-primary pull-right"><i class="fas fa-check icon-white" aria-hidden="true"></i> {{ trans('general.checkout') }}</button>
-                </div>
+                <x-redirect_submit_options
+                        index_route="licenses.index"
+                        :button_label="trans('general.checkout')"
+                        :options="[
+                                'index' => trans('admin/hardware/form.redirect_to_all', ['type' => trans('general.licenses')]),
+                                'item' => trans('admin/hardware/form.redirect_to_type', ['type' => trans('general.license')]),
+                                'target' => trans('admin/hardware/form.redirect_to_checked_out_to'),
+                               ]"
+                />
             </div> <!-- /.box-->
         </form>
     </div> <!-- /.col-md-7-->

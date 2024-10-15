@@ -29,7 +29,7 @@ class CategoryFactory extends Factory
             'eula_text' => $this->faker->paragraph(),
             'require_acceptance' => false,
             'use_default_eula' => $this->faker->boolean(),
-            'user_id' => User::factory()->superuser(),
+            'created_by' => User::factory()->superuser(),
         ];
     }
 
@@ -176,6 +176,34 @@ class CategoryFactory extends Factory
     {
         return $this->state([
             'category_type' => 'accessory',
+        ]);
+    }
+
+    public function forAssets()
+    {
+        return $this->state([
+            'category_type' => 'asset',
+        ]);
+    }
+
+    public function forLicenses()
+    {
+        return $this->state([
+            'category_type' => 'license',
+        ]);
+    }
+
+    public function forComponents()
+    {
+        return $this->state([
+            'category_type' => 'component',
+        ]);
+    }
+
+    public function forConsumables()
+    {
+        return $this->state([
+            'category_type' => 'consumable',
         ]);
     }
 }

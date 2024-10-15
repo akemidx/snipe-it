@@ -17,7 +17,7 @@
 
         <strong>
           <a href="{{ route('account.accept') }}" style="color: white;">
-            {{ trans('general.unaccepted_profile_warning', array('count' => $acceptances)) }}
+            {{ trans_choice('general.unaccepted_profile_warning', $acceptances, ['count' => $acceptances]) }}
           </a>
           </strong>
       </div>
@@ -42,7 +42,7 @@
           <li>
             <a href="#asset" data-toggle="tab">
             <span class="hidden-lg hidden-md">
-            <i class="fas fa-barcode fa-2x" aria-hidden="true"></i>
+            <x-icon type="assets" class="fa-2x" />
             </span>
               <span class="hidden-xs hidden-sm">{{ trans('general.assets') }}
                 {!! ($user->assets()->AssetsForShow()->count() > 0 ) ? '<badge class="badge badge-secondary">'.number_format($user->assets()->AssetsForShow()->count()).'</badge>' : '' !!}
@@ -64,7 +64,7 @@
           <li>
             <a href="#accessories" data-toggle="tab">
             <span class="hidden-lg hidden-md">
-            <i class="far fa-keyboard fa-2x"></i>
+            <x-icon type="accessories" class="fa-2x" />
             </span>
               <span class="hidden-xs hidden-sm">{{ trans('general.accessories') }}
                 {!! ($user->accessories->count() > 0 ) ? '<badge class="badge badge-secondary">'.number_format($user->accessories->count()).'</badge>' : '' !!}
@@ -103,20 +103,23 @@
                 </div>
                 @can('self.profile')
                   <div class="col-md-12">
-                    <a href="{{ route('profile') }}" style="width: 100%;" class="btn btn-sm btn-primary hidden-print">
+                    <a href="{{ route('profile') }}" style="width: 100%;" class="btn btn-sm btn-warning btn-social btn-block hidden-print">
+                      <x-icon type="edit" />
                       {{ trans('general.editprofile') }}
                     </a>
                   </div>
                 @endcan
                 <div class="col-md-12" style="padding-top: 5px;">
-                  <a href="{{ route('account.password.index') }}" style="width: 100%;" class="btn btn-sm btn-primary hidden-print" target="_blank" rel="noopener">
+                  <a href="{{ route('account.password.index') }}" style="width: 100%;" class="btn btn-sm btn-primary btn-social btn-block hidden-print" target="_blank" rel="noopener">
+                    <x-icon type="password" class="fa-fw" />
                     {{ trans('general.changepassword') }}
                   </a>
                 </div>
 
                 @can('self.api')
                 <div class="col-md-12" style="padding-top: 5px;">
-                  <a href="{{ route('user.api') }}" style="width: 100%;" class="btn btn-sm btn-primary hidden-print" target="_blank" rel="noopener">
+                  <a href="{{ route('user.api') }}" style="width: 100%;" class="btn btn-sm btn-primary btn-social btn-block hidden-print" target="_blank" rel="noopener">
+                    <x-icon type="api-key" class="fa-fw" />
                     {{ trans('general.manage_api_keys') }}
                   </a>
                 </div>
@@ -124,7 +127,8 @@
 
 
                   <div class="col-md-12" style="padding-top: 5px;">
-                    <a href="{{ route('profile.print') }}" style="width: 100%;" class="btn btn-sm btn-primary hidden-print" target="_blank" rel="noopener">
+                    <a href="{{ route('profile.print') }}" style="width: 100%;" class="btn btn-sm btn-primary btn-social btn-block hidden-print" target="_blank" rel="noopener">
+                      <x-icon type="print" class="fa-fw" />
                       {{ trans('admin/users/general.print_assigned') }}
                     </a>
                   </div>
@@ -134,10 +138,16 @@
                     @if (!empty($user->email))
                       <form action="{{ route('profile.email_assets') }}" method="POST">
                         {{ csrf_field() }}
-                        <button style="width: 100%;" class="btn btn-sm btn-primary hidden-print" rel="noopener">{{ trans('admin/users/general.email_assigned') }}</button>
+                        <button style="width: 100%;" class="btn btn-sm btn-primary btn-social btn-block hidden-print" rel="noopener">
+                          <x-icon type="email" class="fa-fw" />
+                          {{ trans('admin/users/general.email_assigned') }}
+                        </button>
                       </form>
                     @else
-                      <button style="width: 100%;" class="btn btn-sm btn-primary hidden-print" rel="noopener" disabled title="{{ trans('admin/users/message.user_has_no_email') }}">{{ trans('admin/users/general.email_assigned') }}</button>
+                      <button style="width: 100%;" class="btn btn-sm btn-primary btn-social btn-block hidden-print disabled" rel="noopener" disabled title="{{ trans('admin/users/message.user_has_no_email') }}">
+                        <x-icon type="email" class="fa-fw" />
+                        {{ trans('admin/users/general.email_assigned') }}
+                      </button>
                     @endif
                   </div>
 
@@ -399,17 +409,43 @@
                   }'>
                     <thead>
                     <tr>
-                      <th class="col-md-1">#</th>
-                      <th class="col-md-1">{{ trans('general.image') }}</th>
-                      <th class="col-md-2" data-switchable="true" data-visible="true">{{ trans('general.category') }}</th>
-                      <th class="col-md-2" data-switchable="true" data-visible="true">{{ trans('admin/hardware/table.asset_tag') }}</th>
-                      <th class="col-md-2" data-switchable="true" data-visible="true">{{ trans('general.name') }}</th>
-                      <th class="col-md-2" data-switchable="true" data-visible="true">{{ trans('admin/hardware/table.asset_model') }}</th>
-                      <th class="col-md-3" data-switchable="true" data-visible="true">{{ trans('admin/hardware/table.serial') }}</th>
-                      <th class="col-md-2" data-switchable="true" data-visible="false">{{ trans('admin/hardware/form.default_location') }}</th>
+                      <th class="col-md-1">
+                        #
+                      </th>
+                      <th class="col-md-1">
+                        {{ trans('general.image') }}
+                      </th>
+                      <th class="col-md-2" data-switchable="true" data-visible="true">
+                        {{ trans('general.category') }}
+                      </th>
+                      <th class="col-md-2" data-switchable="true" data-visible="true">
+                        {{ trans('admin/hardware/table.asset_tag') }}
+                      </th>
+                      <th class="col-md-2" data-switchable="true" data-visible="false">{{ trans('general.name') }}</th>
+                      <th class="col-md-2" data-switchable="true" data-visible="true">
+                        {{ trans('admin/hardware/table.asset_model') }}
+                      </th>
+                      <th class="col-md-3" data-switchable="true" data-visible="true">
+                        {{ trans('admin/hardware/table.serial') }}
+                      </th>
+                      <th class="col-md-2" data-switchable="true" data-visible="false">
+                        {{ trans('admin/hardware/form.default_location') }}
+                      </th>
+
                       @can('self.view_purchase_cost')
-                        <th class="col-md-6" data-footer-formatter="sumFormatter" data-fieldname="purchase_cost">{{ trans('general.purchase_cost') }}</th>
+                        <th class="col-md-6" data-footer-formatter="sumFormatter" data-fieldname="purchase_cost">
+                          {{ trans('general.purchase_cost') }}
+                        </th>
                       @endcan
+                      <th class="col-md-2" data-switchable="true" data-visible="true">
+                        {{ trans('admin/hardware/form.eol_date') }}
+                      </th>
+                      <th class="col-md-2" data-switchable="true" data-visible="false">
+                        {{ trans('general.last_audit') }}
+                      </th>
+                      <th class="col-md-2" data-switchable="true" data-visible="false">
+                        {{ trans('general.next_audit_date') }}
+                      </th>
                       @foreach ($field_array as $db_column => $field_name)
                         <th class="col-md-1" data-switchable="true" data-visible="true">{{ $field_name }}</th>
                       @endforeach
@@ -436,20 +472,39 @@
                           {{ $asset->model->category->name }}
                           @endif
                         </td>
-                        <td>{{ $asset->asset_tag }}</td>
-                        <td>{{ $asset->name }}</td>
+                        <td>
+                          {{ $asset->asset_tag }}
+                        </td>
+                        <td>
+                          {{ $asset->name }}
+                        </td>
                         <td>
                           @if ($asset->physical=='1')
                             {{ $asset->model->name }}
                           @endif
                         </td>
-                        <td>{{ $asset->serial }}</td>
-                        <td>{{ ($asset->defaultLoc) ? $asset->defaultLoc->name : '' }}</td>
+                        <td>
+                          {{ $asset->serial }}
+                        </td>
+                        <td>
+                          {{ ($asset->defaultLoc) ? $asset->defaultLoc->name : '' }}
+                        </td>
                         @can('self.view_purchase_cost')
                         <td>
                           {!! Helper::formatCurrencyOutput($asset->purchase_cost) !!}
                         </td>
                         @endcan
+
+                        <td>
+                          {{ ($asset->asset_eol_date != '') ? Helper::getFormattedDateObject($asset->asset_eol_date, 'date', false) : null }}
+                        </td>
+
+                        <td>
+                          {{ Helper::getFormattedDateObject($asset->last_audit_date, 'datetime', false) }}
+                        </td>
+                        <td>
+                          {{ Helper::getFormattedDateObject($asset->next_audit_date, 'date', false) }}
+                        </td>
 
                         @foreach ($field_array as $db_column => $field_value)
                           <td>

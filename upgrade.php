@@ -1,17 +1,35 @@
 <?php
 (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('Access denied.');
 
-// We define this because we can't reliable use file_get_contents because some
+// We define this because we can't reliably use file_get_contents because some
 // machines don't allow URL access via allow_url_fopen being set to off
 function url_get_contents ($Url) {
+    $results = file_get_contents($Url);
+    if ($results) {
+        return $results;
+    }
+    print("file_get_contents() failed, trying curl instead.\n");
     if (!function_exists('curl_init')){
         die("cURL is not installed!\nThis is required for Snipe-IT as well as the upgrade script, so you will need to fix this before continuing.\nAborting upgrade...\n");
     }
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $Url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // If we're on windows, make sure we can load intermediate certificates in
+    // weird corporate environments.
+    // See:  https://github.com/curl/curl/commit/2d6333101a71129a6a802eb93f84a5ac89e34479
+    // this will _probably_ only work if your libcurl has been linked to Schannel, the native Windows SSL implementation
+    if (PHP_OS == "WINNT" && defined("CURLOPT_SSL_OPTIONS") && defined("CURLSSLOPT_NATIVE_CA")) {
+        curl_setopt($ch, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+    }
     $output = curl_exec($ch);
     curl_close($ch);
+    if ($output === false) {
+        print("Error retrieving PHP requirements!\n");
+        print("Error was: " . curl_error($ch) . "\n");
+        print("Try enabling allow_url_fopen in php.ini, or fixing your curl/OpenSSL setup, or try rerunning with --skip-php-compatibility-checks");
+        return '{}';
+    }
     return $output;
 }
 
@@ -59,15 +77,23 @@ echo "- clear out old cache settings\n\n";
 
 // Fetching most current upgrade requirements from github. Read more here: https://github.com/snipe/snipe-it/pull/14127
 $remote_requirements_file = "https://raw.githubusercontent.com/snipe/snipe-it/$branch/.upgrade_requirements.json";
-$upgrade_requirements = json_decode(url_get_contents($remote_requirements_file), true);
-
+$upgrade_requirements_raw = url_get_contents($remote_requirements_file);
+$upgrade_requirements = json_decode($upgrade_requirements_raw, true);
 if (! $upgrade_requirements) {
     if(!$skip_php_checks){
         echo "\nERROR: Failed to retrieve remote requirements from $remote_requirements_file\n\n";
         if ($branch_override){
             echo "NOTE: You passed a custom branch: $branch\n";
-            echo "   If the above URL doesn't work, that may be why. Please check you branch spelling/extistance\n\n";
+            echo "   If the above URL doesn't work, that may be why. Please check you branch spelling/existence\n\n";
         }
+
+        if (json_last_error()) {
+            print "JSON DECODE ERROR DETECTED:\n";
+            print json_last_error_msg() . "\n\n";
+            print "Raw curl output:\n";
+            print $upgrade_requirements_raw . "\n\n";
+        }
+
         echo "We suggest correcting this, but if you can't,  please verify that your requirements conform to those at that url.\n\n";
         echo " -- DANGER -- DO AT YOUR OWN RISK --\n";
         echo "      IF YOU ARE SURE, re-run this script with --skip-php-compatibility-checks to skip this check.\n";
@@ -135,7 +161,11 @@ foreach ($env as $line_num => $line) {
 
     if ((strlen($line) > 1) && (strpos($line, "#") !== 0)) {
 
-        list ($env_key, $env_value) = $env_line = explode('=', $line);
+        $env_line = explode('=', $line, 2);
+        if (count($env_line) != 2) {
+            continue;
+        }
+        list ($env_key, $env_value) = $env_line;
 
         // The array starts at 0
         $show_line_num = $line_num+1;

@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Consumable;
 use App\Models\Manufacturer;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Supplier;
 
@@ -29,7 +30,7 @@ class ConsumableFactory extends Factory
         return [
             'name' => $this->faker->words(3, true),
             'category_id' => Category::factory(),
-            'user_id' => User::factory()->superuser(),
+            'created_by' => User::factory()->superuser(),
             'item_no' => $this->faker->numberBetween(1000000, 50000000),
             'order_number' => $this->faker->numberBetween(1000000, 50000000),
             'purchase_date' => $this->faker->dateTimeBetween('-1 years', 'now', date_default_timezone_get())->format('Y-m-d'),
@@ -103,7 +104,7 @@ class ConsumableFactory extends Factory
 
             $consumable->users()->attach($consumable->id, [
                 'consumable_id' => $consumable->id,
-                'user_id' => $user->id,
+                'created_by' => $user->id,
                 'assigned_to' => $user->id,
                 'note' => '',
             ]);
@@ -114,6 +115,18 @@ class ConsumableFactory extends Factory
     {
         return $this->afterCreating(function (Consumable $consumable) {
             $consumable->category->update(['require_acceptance' => 1]);
+        });
+    }
+
+    public function checkedOutToUser(User $user = null)
+    {
+        return $this->afterCreating(function (Consumable $consumable) use ($user) {
+            $consumable->users()->attach($consumable->id, [
+                'consumable_id' => $consumable->id,
+                'created_at' => Carbon::now(),
+                'created_by' => User::factory()->create()->id,
+                'assigned_to' => $user->id ?? User::factory()->create()->id,
+            ]);
         });
     }
 }

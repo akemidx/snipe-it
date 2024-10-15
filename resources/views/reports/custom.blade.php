@@ -88,7 +88,7 @@
 
               <label class="form-control">
                 {{ Form::checkbox('eol', '1', '1') }}
-                {{ trans('admin/hardware/table.eol') }}
+                {{ trans('admin/hardware/form.eol_date') }}
               </label>
 
               <label class="form-control">
@@ -106,9 +106,9 @@
                 {{ trans('general.location') }}
               </label>
 
-              <label class="form-control">
+              <label class="form-control" style="margin-left: 25px;">
                 {{ Form::checkbox('location_address', '1', '1') }}
-                - {{ trans('general.address') }}
+                  {{ trans('general.address') }}
               </label>
 
               <label class="form-control">
@@ -116,9 +116,9 @@
                 {{ trans('admin/hardware/form.default_location') }}
               </label>
 
-              <label class="form-control">
+              <label class="form-control" style="margin-left: 25px;">
                 {{ Form::checkbox('rtd_location_address', '1', '1') }}
-                - {{ trans('general.address') }}
+                {{ trans('general.address') }}
               </label>
 
               <label class="form-control">
@@ -181,9 +181,9 @@
                 {{ trans('general.notes') }}
               </label>
 
-              <label class="form-control">
+              <label class="form-control" style="margin-left: 25px;">
                 {{ Form::checkbox('url', '1', '1') }}
-                - {{ trans('general.url') }}
+                {{ trans('general.url') }}
               </label>
 
 
@@ -278,15 +278,60 @@
 
               <br>
 
-            @include ('partials.forms.edit.company-select', ['translated_name' => trans('general.company'),'multiple' => 'true', 'fieldname' => 'by_company_id[]', 'hide_new' => 'true'])
-            @include ('partials.forms.edit.location-select', ['translated_name' => trans('general.location'), 'multiple' => 'true', 'fieldname' => 'by_location_id[]', 'hide_new' => 'true'])
-            @include ('partials.forms.edit.location-select', ['translated_name' => trans('admin/hardware/form.default_location'), 'multiple' => 'true', 'fieldname' => 'by_rtd_location_id[]', 'hide_new' => 'true'])
-            @include ('partials.forms.edit.department-select', ['translated_name' => trans('general.department'), 'fieldname' => 'by_dept_id', 'hide_new' => 'true'])
-            @include ('partials.forms.edit.supplier-select', ['translated_name' => trans('general.supplier'), 'fieldname' => 'by_supplier_id[]', 'multiple' => 'true', 'hide_new' => 'true'])
-            @include ('partials.forms.edit.model-select', ['translated_name' => trans('general.asset_model'), 'fieldname' => 'by_model_id[]', 'multiple' => 'true', 'hide_new' => 'true'])
-            @include ('partials.forms.edit.manufacturer-select', ['translated_name' => trans('general.manufacturer'), 'fieldname' => 'by_manufacturer_id', 'hide_new' => 'true'])
-            @include ('partials.forms.edit.category-select', ['translated_name' => trans('general.category'), 'fieldname' => 'by_category_id', 'hide_new' => 'true', 'category_type' => 'asset'])
-              @include ('partials.forms.edit.status-select', ['translated_name' => trans('admin/hardware/form.status'), 'fieldname' => 'by_status_id[]', 'multiple' => 'true', 'hide_new' => 'true'])
+            @include ('partials.forms.edit.company-select', [
+                    'translated_name' => trans('general.company'),
+                    'fieldname' =>
+                    'by_company_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'
+                    ])
+            @include ('partials.forms.edit.location-select', [
+                    'translated_name' => trans('general.location'),
+                    'fieldname' => 'by_location_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'
+                    ])
+            @include ('partials.forms.edit.location-select', [
+                    'translated_name' => trans('admin/hardware/form.default_location'),
+                    'fieldname' => 'by_rtd_location_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'
+                    ])
+            @include ('partials.forms.edit.department-select',[
+                    'translated_name' => trans('general.department'),
+                    'fieldname' => 'by_dept_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'
+                    ])
+            @include ('partials.forms.edit.supplier-select', [
+                    'translated_name' => trans('general.supplier'),
+                    'fieldname' => 'by_supplier_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'
+                    ])
+            @include ('partials.forms.edit.model-select', [
+                    'translated_name' => trans('general.asset_model'),
+                    'fieldname' => 'by_model_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'
+                    ])
+            @include ('partials.forms.edit.manufacturer-select', [
+                    'translated_name' => trans('general.manufacturer'),
+                    'fieldname' => 'by_manufacturer_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'
+                    ])
+            @include ('partials.forms.edit.category-select', [
+                    'translated_name' => trans('general.category'),
+                    'fieldname' => 'by_category_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true', 'category_type' => 'asset'
+                    ])
+              @include ('partials.forms.edit.status-select', [
+                    'translated_name' => trans('admin/hardware/form.status'),
+                    'fieldname' => 'by_status_id[]',
+                    'multiple' => 'true',
+                    'hide_new' => 'true'])
 
             <!-- Order Number -->
             <div class="form-group">
@@ -298,10 +343,10 @@
 
           <!-- Purchase Date -->
             <div class="form-group purchase-range{{ ($errors->has('purchase_start') || $errors->has('purchase_end')) ? ' has-error' : '' }}">
-              <label for="purchase_start" class="col-md-3 control-label">{{ trans('general.purchase_date') }} {{  trans('general.range') }}</label>
+              <label for="purchase_start" class="col-md-3 control-label">{{ trans('general.purchase_date') }}</label>
               <div class="input-daterange input-group col-md-7" id="datepicker">
                 <input type="text" class="form-control" name="purchase_start" aria-label="purchase_start" value="{{ old('purchase_start') }}">
-                <span class="input-group-addon">to</span>
+                <span class="input-group-addon">{{ strtolower(trans('general.to')) }}</span>
                 <input type="text" class="form-control" name="purchase_end" aria-label="purchase_end" value="{{ old('purchase_end') }}">
               </div>
 
@@ -316,10 +361,10 @@
 
             <!-- Created Date -->
             <div class="form-group purchase-range{{ ($errors->has('created_start') || $errors->has('created_end')) ? ' has-error' : '' }}">
-              <label for="created_start" class="col-md-3 control-label">{{ trans('general.created_at') }} {{  trans('general.range') }}</label>
+              <label for="created_start" class="col-md-3 control-label">{{ trans('general.created_at') }} </label>
               <div class="input-daterange input-group col-md-7" id="datepicker">
                 <input type="text" class="form-control" name="created_start" aria-label="created_start" value="{{ old('created_start') }}">
-                <span class="input-group-addon">to</span>
+                <span class="input-group-addon">{{ strtolower(trans('general.to')) }}</span>
                 <input type="text" class="form-control" name="created_end" aria-label="created_end" value="{{ old('created_end') }}">
               </div>
 
@@ -333,10 +378,10 @@
 
           <!-- Checkout Date -->
           <div class="form-group checkout-range{{ ($errors->has('checkout_date_start') || $errors->has('checkout_date_end')) ? ' has-error' : '' }}">
-              <label for="checkout_date" class="col-md-3 control-label">{{ trans('general.checkout') }} {{  trans('general.range') }}</label>
+              <label for="checkout_date" class="col-md-3 control-label">{{ trans('general.checkout') }} </label>
               <div class="input-daterange input-group col-md-7" id="datepicker">
                   <input type="text" class="form-control" name="checkout_date_start" aria-label="checkout_date_start" value="{{ old('checkout_date_start') }}">
-                  <span class="input-group-addon">to</span>
+                  <span class="input-group-addon">{{ strtolower(trans('general.to')) }}</span>
                   <input type="text" class="form-control" name="checkout_date_end" aria-label="checkout_date_end" value="{{ old('checkout_date_end') }}">
               </div>
 
@@ -371,7 +416,7 @@
               <label for="expected_checkin_start" class="col-md-3 control-label">{{ trans('admin/hardware/form.expected_checkin') }}</label>
               <div class="input-daterange input-group col-md-7" id="datepicker">
                 <input type="text" class="form-control" name="expected_checkin_start" aria-label="expected_checkin_start" value="{{ old('expected_checkin_start') }}">
-                <span class="input-group-addon">to</span>
+                <span class="input-group-addon">{{ strtolower(trans('general.to')) }}</span>
                 <input type="text" class="form-control" name="expected_checkin_end" aria-label="expected_checkin_end" value="{{ old('expected_checkin_end') }}">
               </div>
 
@@ -384,12 +429,22 @@
 
             </div>
 
+              <!-- EoL Date -->
+              <div class="form-group asset_eol_date-range">
+                  <label for="asset_eol_date" class="col-md-3 control-label">{{ trans('admin/hardware/form.eol_date') }}</label>
+                  <div class="input-daterange input-group col-md-6" id="datepicker">
+                      <input type="text" class="form-control" name="asset_eol_date_start" aria-label="asset_eol_date_start">
+                      <span class="input-group-addon">to</span>
+                      <input type="text" class="form-control" name="asset_eol_date_end" aria-label="asset_eol_date_end">
+                  </div>
+              </div>
+
               <!-- Last Audit Date -->
               <div class="form-group last_audit-range{{ ($errors->has('last_audit_start') || $errors->has('last_audit_end')) ? ' has-error' : '' }}">
                   <label for="last_audit_start" class="col-md-3 control-label">{{ trans('general.last_audit') }}</label>
                   <div class="input-daterange input-group col-md-7" id="datepicker">
                       <input type="text" class="form-control" name="last_audit_start" aria-label="last_audit_start" value="{{ old('last_audit_start') }}">
-                      <span class="input-group-addon">to</span>
+                      <span class="input-group-addon">{{ strtolower(trans('general.to')) }}</span>
                       <input type="text" class="form-control" name="last_audit_end" aria-label="last_audit_end" value="{{ old('last_audit_end') }}">
                   </div>
 
@@ -406,7 +461,7 @@
                   <label for="next_audit_start" class="col-md-3 control-label">{{ trans('general.next_audit_date') }}</label>
                   <div class="input-daterange input-group col-md-7" id="datepicker">
                       <input type="text" class="form-control" name="next_audit_start" aria-label="next_audit_start" value="{{ old('next_audit_start') }}">
-                      <span class="input-group-addon">to</span>
+                      <span class="input-group-addon">{{ strtolower(trans('general.to')) }}</span>
                       <input type="text" class="form-control" name="next_audit_end" aria-label="next_audit_end" value="{{ old('next_audit_end') }}">
                   </div>
 
@@ -488,6 +543,12 @@
       });
 
       $('.expected_checkin-range .input-daterange').datepicker({
+          clearBtn: true,
+          todayHighlight: true,
+          format: 'yyyy-mm-dd'
+      });
+
+      $('.asset_eol_date-range .input-daterange').datepicker({
           clearBtn: true,
           todayHighlight: true,
           format: 'yyyy-mm-dd'

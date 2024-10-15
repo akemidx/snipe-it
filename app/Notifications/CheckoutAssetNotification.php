@@ -192,10 +192,9 @@ public function toGoogleChat()
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail()
-    {
+    {   $this->item->load('assetstatus');
         $eula = method_exists($this->item, 'getEula') ? $this->item->getEula() : '';
         $req_accept = method_exists($this->item, 'requireAcceptance') ? $this->item->requireAcceptance() : 0;
-
         $fields = [];
 
         // Check if the item has custom fields associated with it
@@ -209,6 +208,7 @@ public function toGoogleChat()
             [
                 'item'          => $this->item,
                 'admin'         => $this->admin,
+                'status'        => $this->item->assetstatus?->name,
                 'note'          => $this->note,
                 'target'        => $this->target,
                 'fields'        => $fields,

@@ -14,6 +14,7 @@ return array(
     'info'  					=> 'Informazioni Licenza',
     'license_seats'  			=> 'Licenza Sede',
     'seat'  					=> 'Sede',
+    'seat_count'  				=> 'Slot :count',
     'seats'  					=> 'Sedi',
     'software_licenses'  		=> 'Licenze Software',
     'user'  					=> 'Utente',
@@ -23,12 +24,12 @@ return array(
         [
             'checkin_all'           => [
                 'button'            => 'Check-in di tutte le postazioni',
-                'modal'             => 'Ciò effettuerà il check-in di una postazione. | Ciò effettuerà il check-in di :checkedout_seats_count postazioni per questa licenza.',
+                'modal'             => 'Questa azione restituirà uno slot. | Questa azione restituirà tutti i :checkedout_seats_count slot di questa licenza.',
                 'enabled_tooltip'   => 'Check-in di TUTTE le postazioni di questa licenza, sia di utenti che di beni',
                 'disabled_tooltip'  => 'Disattivato perché non ci sono postazioni assegnate',
                 'disabled_tooltip_reassignable'  => 'Disattivato a causa della licenza non reassegnabile',
                 'success'           => 'Check-in della licenza effettuato! | Check-in di tutte le licenze effettuato!',
-                'log_msg'           => 'Check-in effettuato tramite GUI di assegnazione massiva di licenze',
+                'log_msg'           => 'Restituzione effettuata tramite la restituzione massiva nell\'interfaccia delle Licenze',
             ],
 
             'checkout_all'              => [

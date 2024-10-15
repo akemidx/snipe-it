@@ -9,9 +9,8 @@ use App\Models\Asset;
 use App\Models\AssetMaintenance;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\JsonResponse;
 
 /**
  * This controller handles all actions related to Asset Maintenance for
@@ -22,7 +21,6 @@ use Illuminate\Support\Facades\Input;
 class AssetMaintenancesController extends Controller
 {
 
-
     /**
      *  Generates the JSON response for asset maintenances listing view.
      *
@@ -30,14 +28,13 @@ class AssetMaintenancesController extends Controller
      * @author  Vincent Sposato <vincent.sposato@gmail.com>
      * @version v1.0
      * @since [v1.8]
-     * @return string JSON
      */
-    public function index(Request $request)
+    public function index(Request $request) : JsonResponse | array
     {
         $this->authorize('view', Asset::class);
 
         $maintenances = AssetMaintenance::select('asset_maintenances.*')
-            ->with('asset', 'asset.model', 'asset.location', 'asset.defaultLoc', 'supplier', 'asset.company',  'asset.assetstatus', 'admin');
+            ->with('asset', 'asset.model', 'asset.location', 'asset.defaultLoc', 'supplier', 'asset.company',  'asset.assetstatus', 'adminuser');
 
         if ($request->filled('search')) {
             $maintenances = $maintenances->TextSearch($request->input('search'));
@@ -49,6 +46,10 @@ class AssetMaintenancesController extends Controller
 
         if ($request->filled('supplier_id')) {
             $maintenances->where('asset_maintenances.supplier_id', '=', $request->input('supplier_id'));
+        }
+
+        if ($request->filled('created_by')) {
+            $maintenances->where('asset_maintenances.created_by', '=', $request->input('created_by'));
         }
 
         if ($request->filled('asset_maintenance_type')) {
@@ -72,7 +73,7 @@ class AssetMaintenancesController extends Controller
                                 'asset_tag',
                                 'asset_name',
                                 'serial',
-                                'user_id',
+                                'created_by',
                                 'supplier',
                                 'is_warranty',
                                 'status_label',
@@ -82,8 +83,8 @@ class AssetMaintenancesController extends Controller
         $sort = in_array($request->input('sort'), $allowed_columns) ? e($request->input('sort')) : 'created_at';
 
         switch ($sort) {
-            case 'user_id':
-                $maintenances = $maintenances->OrderAdmin($order);
+            case 'created_by':
+                $maintenances = $maintenances->OrderByCreatedBy($order);
                 break;
             case 'supplier':
                 $maintenances = $maintenances->OrderBySupplier($order);
@@ -120,15 +121,14 @@ class AssetMaintenancesController extends Controller
      * @author  Vincent Sposato <vincent.sposato@gmail.com>
      * @version v1.0
      * @since [v1.8]
-     * @return string JSON
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
         $this->authorize('update', Asset::class);
         // create a new model instance
         $maintenance = new AssetMaintenance();
         $maintenance->fill($request->all());
-        $maintenance->user_id = Auth::id();
+        $maintenance->created_by = auth()->id();
 
         // Was the asset maintenance created?
         if ($maintenance->save()) {
@@ -148,9 +148,8 @@ class AssetMaintenancesController extends Controller
      * @param int $request
      * @version v1.0
      * @since [v4.0]
-     * @return string JSON
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) : JsonResponse
     {
         $this->authorize('update', Asset::class);
 
@@ -186,17 +185,13 @@ class AssetMaintenancesController extends Controller
      * @param int $assetMaintenanceId
      * @version v1.0
      * @since [v4.0]
-     * @return string JSON
      */
-    public function destroy($assetMaintenanceId)
+    public function destroy($assetMaintenanceId) : JsonResponse
     {
         $this->authorize('update', Asset::class);
         // Check if the asset maintenance exists
-        $assetMaintenance = AssetMaintenance::findOrFail($assetMaintenanceId);
 
-        if (! Company::isCurrentUserHasAccess($assetMaintenance->asset)) {
-            return response()->json(Helper::formatStandardApiResponse('error', null, 'You cannot delete a maintenance for that asset'));
-        }
+        $assetMaintenance = AssetMaintenance::findOrFail($assetMaintenanceId);
 
         $assetMaintenance->delete();
 
@@ -212,9 +207,8 @@ class AssetMaintenancesController extends Controller
      * @param int $assetMaintenanceId
      * @version v1.0
      * @since [v4.0]
-     * @return string JSON
      */
-    public function show($assetMaintenanceId)
+    public function show($assetMaintenanceId) : JsonResponse
     {
         $this->authorize('view', Asset::class);
         $assetMaintenance = AssetMaintenance::findOrFail($assetMaintenanceId);

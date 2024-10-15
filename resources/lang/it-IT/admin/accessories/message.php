@@ -26,7 +26,11 @@ return array(
         'error'   		=> 'L\'accessorio non è stato assegnato, si prega di riprovare',
         'success' 		=> 'Accessorio assegnato correttamente.',
         'unavailable'   => 'Accessorio non disponibile per l\'assegnazione. Controlla la quantità disponibile',
-        'user_does_not_exist' => 'Questo utente non è valido. Riprova.'
+        'user_does_not_exist' => 'Questo utente non è valido. Riprova.',
+         'checkout_qty' => array(
+            'lte'  => 'Al momento c\'è solo un accessorio disponibile di questo tipo, ma si sta cercando di assegnarne :checkout_qty. Si prega di modificare la quantità da assegnare oppure la quantità totale in magazzino di questo accessorio e poi riprovare.|Ci sono :number_currently_remaining accessori disponibili in magazzino, ma si sta cercando di assegnarne :checkout_qty. Si prega di regolare la quantità da assegnare oppure la quantità totale in magazzino di questo accessorio e poi riprovare.',
+            ),
+           
     ),
 
     'checkin' => array(

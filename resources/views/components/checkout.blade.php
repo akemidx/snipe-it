@@ -33,7 +33,7 @@
                 {{ trans('general.qty') }}
               </label>
               <div class="col-md-2 col-sm-5 col-xs-5">
-                <input class="form-control required col-md-12" type="text" name="assigned_qty" id="assigned_qty" value="{{ old('assigned_qty') ?? 1 }}" />
+                <input class="form-control required col-md-12" type="text" name="assigned_qty" id="assigned_qty" value="{{ old('assigned_qty') ?? 1 }}" maxlength="999999" />
               </div>
               @if ($errors->first('assigned_qty'))
                 <div class="col-md-9 col-md-offset-3">
@@ -54,10 +54,16 @@
 
 
         </div> <!-- .BOX-BODY-->
-        <div class="box-footer">
-          <a class="btn btn-link" href="{{ URL::previous() }}">{{ trans('button.cancel') }}</a>
-          <button type="submit" id="submit_button" class="btn btn-primary pull-right"><i class="fas fa-check icon-white" aria-hidden="true"></i> {{ trans('general.checkout') }}</button>
-       </div>
+          <x-redirect_submit_options
+                  index_route="components.index"
+                  :button_label="trans('general.checkout')"
+                  :options="[
+                                'index' => trans('admin/hardware/form.redirect_to_all', ['type' => trans('general.components')]),
+                                'item' => trans('admin/hardware/form.redirect_to_type', ['type' => trans('general.component')]),
+                                'target' => trans('admin/hardware/form.redirect_to_checked_out_to'),
+
+                               ]"
+          />
       </div> <!-- .box-default-->
     </form>
   </div> <!-- .col-md-9-->

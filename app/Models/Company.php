@@ -67,6 +67,7 @@ final class Company extends SnipeModel
         'phone',
         'fax',
         'email',
+        'created_by'
     ];
 
     private static function isFullMultipleCompanySupportEnabled()
@@ -106,7 +107,7 @@ final class Company extends SnipeModel
         if (! static::isFullMultipleCompanySupportEnabled()) {
             return static::getIdFromInput($unescaped_input);
         } else {
-            $current_user = Auth::user();
+            $current_user = auth()->user();
 
             // Super users should be able to set a company to whatever they need
             if ($current_user->isSuperUser()) {
@@ -157,24 +158,24 @@ final class Company extends SnipeModel
         }
 
 
-        if (Auth::user()) {
+        if (auth()->user()) {
             Log::warning('Companyable is '.$companyable);
-            $current_user_company_id = Auth::user()->company_id;
+            $current_user_company_id = auth()->user()->company_id;
             $companyable_company_id = $companyable->company_id;
-            return $current_user_company_id == null || $current_user_company_id == $companyable_company_id || Auth::user()->isSuperUser();
+            return $current_user_company_id == null || $current_user_company_id == $companyable_company_id || auth()->user()->isSuperUser();
         }
 
     }
 
     public static function isCurrentUserAuthorized()
     {
-        return (! static::isFullMultipleCompanySupportEnabled()) || (Auth::user()->isSuperUser());
+        return (! static::isFullMultipleCompanySupportEnabled()) || (auth()->user()->isSuperUser());
     }
 
     public static function canManageUsersCompanies()
     {
-        return ! static::isFullMultipleCompanySupportEnabled() || Auth::user()->isSuperUser() ||
-                Auth::user()->company_id == null;
+        return ! static::isFullMultipleCompanySupportEnabled() || auth()->user()->isSuperUser() ||
+                auth()->user()->company_id == null;
     }
 
     /**
@@ -186,12 +187,15 @@ final class Company extends SnipeModel
      */
     public function isDeletable()
     {
+
         return Gate::allows('delete', $this)
-                && ($this->assets()->count() === 0)
-                && ($this->accessories()->count() === 0)
-                && ($this->consumables()->count() === 0)
-                && ($this->components()->count() === 0)
-                && ($this->users()->count() === 0);
+            && (($this->assets_count ?? $this->assets()->count()) === 0)
+            && (($this->accessories_count ?? $this->accessories()->count()) === 0)
+            && (($this->licenses_count ?? $this->licenses()->count()) === 0)
+            && (($this->components_count ?? $this->components()->count()) === 0)
+            && (($this->consumables_count ?? $this->consumables()->count()) === 0)
+            && (($this->accessories_count ?? $this->accessories()->count()) === 0)
+            && (($this->users_count ?? $this->users()->count()) === 0);
     }
 
     /**
@@ -200,7 +204,7 @@ final class Company extends SnipeModel
      */
     public static function getIdForUser($unescaped_input)
     {
-        if (! static::isFullMultipleCompanySupportEnabled() || Auth::user()->isSuperUser()) {
+        if (! static::isFullMultipleCompanySupportEnabled() || auth()->user()->isSuperUser()) {
             return static::getIdFromInput($unescaped_input);
         } else {
             return static::getIdForCurrentUser($unescaped_input);
@@ -259,7 +263,7 @@ final class Company extends SnipeModel
     public static function scopeCompanyables($query, $column = 'company_id', $table_name = null)
     {
         // If not logged in and hitting this, assume we are on the command line and don't scope?'
-        if (! static::isFullMultipleCompanySupportEnabled() || (Auth::hasUser() && Auth::user()->isSuperUser()) || (! Auth::hasUser())) {
+        if (! static::isFullMultipleCompanySupportEnabled() || (Auth::hasUser() && auth()->user()->isSuperUser()) || (! Auth::hasUser())) {
             return $query;
         } else {
             return static::scopeCompanyablesDirectly($query, $column, $table_name);
@@ -277,7 +281,7 @@ final class Company extends SnipeModel
 
         // Get the company ID of the logged-in user, or set it to null if there is no company associated with the user
         if (Auth::hasUser()) {
-            $company_id = Auth::user()->company_id;
+            $company_id = auth()->user()->company_id;
         } else {
             $company_id = null;
         }
@@ -294,6 +298,12 @@ final class Company extends SnipeModel
 
     }
 
+    public function adminuser()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'created_by');
+    }
+
+
     /**
      * I legit do not know what this method does, but we can't remove it (yet).
      *
@@ -309,7 +319,7 @@ final class Company extends SnipeModel
 
         if (count($companyable_names) == 0) {
             throw new Exception('No Companyable Children to scope');
-        } elseif (! static::isFullMultipleCompanySupportEnabled() || (Auth::hasUser() && Auth::user()->isSuperUser())) {
+        } elseif (! static::isFullMultipleCompanySupportEnabled() || (Auth::hasUser() && auth()->user()->isSuperUser())) {
             return $query;
         } else {
             $f = function ($q) {
@@ -327,6 +337,15 @@ final class Company extends SnipeModel
 
             return $q;
         }
+    }
+
+
+    /**
+     * Query builder scope to order on the user that created it
+     */
+    public function scopeOrderByCreatedBy($query, $order)
+    {
+        return $query->leftJoin('users as admin_sort', 'companies.created_by', '=', 'admin_sort.id')->select('companies.*')->orderBy('admin_sort.first_name', $order)->orderBy('admin_sort.last_name', $order);
     }
 
 }

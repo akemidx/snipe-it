@@ -80,13 +80,17 @@ class AssetsTransformer
             'assigned_to' => $this->transformAssignedTo($asset),
             'warranty_months' =>  ($asset->warranty_months > 0) ? e($asset->warranty_months.' '.trans('admin/hardware/form.months')) : null,
             'warranty_expires' => ($asset->warranty_months > 0) ? Helper::getFormattedDateObject($asset->warranty_expires, 'date') : null,
+            'created_by' => ($asset->adminuser) ? [
+                'id' => (int) $asset->adminuser->id,
+                'name'=> e($asset->adminuser->present()->fullName()),
+            ] : null,
             'created_at' => Helper::getFormattedDateObject($asset->created_at, 'datetime'),
             'updated_at' => Helper::getFormattedDateObject($asset->updated_at, 'datetime'),
             'last_audit_date' => Helper::getFormattedDateObject($asset->last_audit_date, 'datetime'),
             'next_audit_date' => Helper::getFormattedDateObject($asset->next_audit_date, 'date'),
             'deleted_at' => Helper::getFormattedDateObject($asset->deleted_at, 'datetime'),
             'purchase_date' => Helper::getFormattedDateObject($asset->purchase_date, 'date'),
-            'age' => $asset->purchase_date ? $asset->purchase_date->diffForHumans() : '',
+            'age' => $asset->purchase_date ? $asset->purchase_date->locale(app()->getLocale())->diffForHumans() : '',
             'last_checkout' => Helper::getFormattedDateObject($asset->last_checkout, 'datetime'),
             'last_checkin' => Helper::getFormattedDateObject($asset->last_checkin, 'datetime'),
             'expected_checkin' => Helper::getFormattedDateObject($asset->expected_checkin, 'date'),
@@ -231,7 +235,7 @@ class AssetsTransformer
             'expected_checkin' => Helper::getFormattedDateObject($asset->expected_checkin, 'date'),
             'location' => ($asset->location) ? e($asset->location->name) : null,
             'status'=> ($asset->assetstatus) ? $asset->present()->statusMeta : null,
-            'assigned_to_self' => ($asset->assigned_to == \Auth::user()->id),
+            'assigned_to_self' => ($asset->assigned_to == auth()->id()),
         ];
 
         if (($asset->model) && ($asset->model->fieldset) && ($asset->model->fieldset->fields->count() > 0)) {
@@ -258,8 +262,8 @@ class AssetsTransformer
 
 
         $permissions_array['available_actions'] = [
-            'cancel' => ($asset->isRequestedBy(\Auth::user())) ? true : false,
-            'request' => ($asset->isRequestedBy(\Auth::user())) ? false : true,
+            'cancel' => ($asset->isRequestedBy(auth()->user())) ? true : false,
+            'request' => ($asset->isRequestedBy(auth()->user())) ? false : true,
         ];
 
         $array += $permissions_array;

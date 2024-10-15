@@ -50,7 +50,7 @@ class License extends Depreciable
         'category_id' => 'required|exists:categories,id',
         'company_id' => 'integer|nullable',
         'purchase_cost'=> 'numeric|nullable|gte:0',
-        'purchase_date'   => 'date_format:Y-m-d|nullable|max:10',
+        'purchase_date'   => 'date_format:Y-m-d|nullable|max:10|required_with:depreciation_id',
         'expiration_date'   => 'date_format:Y-m-d|nullable|max:10',
         'termination_date'   => 'date_format:Y-m-d|nullable|max:10',
         'min_amt'   => 'numeric|nullable|gte:0',
@@ -81,8 +81,7 @@ class License extends Depreciable
         'serial',
         'supplier_id',
         'termination_date',
-        'free_seat_count',
-        'user_id',
+        'created_by',
         'min_amt',
     ];
 
@@ -184,7 +183,7 @@ class License extends Depreciable
             $logAction = new Actionlog;
             $logAction->item_type = self::class;
             $logAction->item_id = $license->id;
-            $logAction->user_id = Auth::id() ?: 1; // We don't have an id while running the importer from CLI.
+            $logAction->created_by = auth()->id() ?: 1; // We don't have an id while running the importer from CLI.
             $logAction->note = "deleted ${change} seats";
             $logAction->target_id = null;
             $logAction->logaction('delete seats');
@@ -196,7 +195,7 @@ class License extends Depreciable
         $licenseInsert = [];
         for ($i = $oldSeats; $i < $newSeats; $i++) {
             $licenseInsert[] = [
-                'user_id' => Auth::id(),
+                'created_by' => auth()->id(),
                 'license_id' => $license->id,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -216,7 +215,7 @@ class License extends Depreciable
             $logAction = new Actionlog();
             $logAction->item_type = self::class;
             $logAction->item_id = $license->id;
-            $logAction->user_id = Auth::id() ?: 1; // Importer.
+            $logAction->created_by = auth()->id() ?: 1; // Importer.
             $logAction->note = "added ${change} seats";
             $logAction->target_id = null;
             $logAction->logaction('add seats');
@@ -434,7 +433,7 @@ class License extends Depreciable
      */
     public function adminuser()
     {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
+        return $this->belongsTo(\App\Models\User::class, 'created_by');
     }
 
     /**
@@ -735,5 +734,13 @@ class License extends Depreciable
     {
         return $query->leftJoin('companies as companies', 'licenses.company_id', '=', 'companies.id')->select('licenses.*')
             ->orderBy('companies.name', $order);
+    }
+
+    /**
+     * Query builder scope to order on the user that created it
+     */
+    public function scopeOrderByCreatedBy($query, $order)
+    {
+        return $query->leftJoin('users as admin_sort', 'licenses.created_by', '=', 'admin_sort.id')->select('licenses.*')->orderBy('admin_sort.first_name', $order)->orderBy('admin_sort.last_name', $order);
     }
 }
