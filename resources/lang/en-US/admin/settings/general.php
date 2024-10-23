@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'accent_color'              => 'Accent Color',
     'ad'				        => 'Active Directory',
     'ad_domain'				    => 'Active Directory domain',
     'ad_domain_help'			=> 'This is sometimes the same as your email domain, but not always.',

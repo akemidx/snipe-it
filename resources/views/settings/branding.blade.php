@@ -201,6 +201,22 @@
                             </div>
                         </div>
 
+                        <!-- Accent color -->
+                        <div class="form-group {{ $errors->has('accent_color') ? 'error' : '' }}">
+                            <div class="col-md-3">
+                                {{ Form::label('accent_color', trans('admin/settings/general.accent_color')) }}
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group accent-color">
+                                    {{ Form::text('accent_color', old('accent_color', $setting->header_color), array('class' => 'form-control', 'style' => 'width: 100px;','placeholder' => '#FF0000', 'aria-label'=>'accent_color')) }}
+                                    <div class="input-group-addon">
+                                        <i></i>
+                                    </div>
+                                </div><!-- /.input group -->
+                                {!! $errors->first('accent_color', '<span class="alert-msg" aria-hidden="true">:message</span>') !!}
+                            </div>
+                        </div>
+
                         <!-- Skin -->
                         <div class="form-group {{ $errors->has('skin') ? 'error' : '' }}">
                             <div class="col-md-3">
@@ -328,6 +344,7 @@
     <script nonce="{{ csrf_token() }}">
         //color picker with addon
         $(".header-color").colorpicker();
+        $(".accent-color").colorpicker();
         // toggle the disabled state of asset id prefix
         $('#auto_increment_assets').on('ifChecked', function(){
             $('#auto_increment_prefix').prop('disabled', false).focus();
