@@ -259,6 +259,12 @@ class Setting extends Model
      */
     public function routeNotificationForMail(): string
     {
+        //update 10-31-24 -this is returning a null as i'm logged in as an admin
+        //upon requesting an item OR requesting a QTY of a model, it looks like the request does go through, but it 500s
+        //strangely, requesting a model doesn't seem to have any working bits. it just says which model and a cancel
+        //so, instead of having say 8 lines after requesting 8 of a model, its just one line.
+        //my test mail-to address is blank
+
         // At this point the endpoint is the same for everything.
         //  In the future this may want to be adapted for individual notifications.
         return config('mail.reply_to.address');
