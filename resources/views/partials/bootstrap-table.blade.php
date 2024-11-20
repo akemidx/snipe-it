@@ -818,7 +818,20 @@
     //these will show soft deleted items. Value needs to ignore those soft deletes. (if we want that behavior)
 
     function linkNumberToUserAssetsFormatter(value, row) {
-        return linkToUserSectionBasedOnCount(value, row.id, 'asset');
+        var realvalue = value;
+        var i = 0;
+
+        while(i < value)
+        for(var index in value){
+            if(column.startsWith('deleted_at') && (row.id != null)){
+                realvalue = realvalue - 1;
+            }
+            else {
+                realvalue = value;
+            }
+            i++;
+        }
+        return linkToUserSectionBasedOnCount(realvalue, row.id, 'asset');
     }
 
     function linkNumberToUserLicensesFormatter(value, row) {
@@ -936,8 +949,6 @@
 
         });
     });
-
-
 
     $(function() {
 
