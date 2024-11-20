@@ -815,6 +815,8 @@
         return count;
     }
 
+    //these will show soft deleted items. Value needs to ignore those soft deletes. (if we want that behavior)
+
     function linkNumberToUserAssetsFormatter(value, row) {
         return linkToUserSectionBasedOnCount(value, row.id, 'asset');
     }
