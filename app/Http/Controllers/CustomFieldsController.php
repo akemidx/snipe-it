@@ -256,6 +256,8 @@ class CustomFieldsController extends Controller
         $field->auto_add_to_fieldsets = $request->get("auto_add_to_fieldsets", 0);
         $field->show_in_listview = $request->get("show_in_listview", 0);
         $field->show_in_requestable_list = $request->get("show_in_requestable_list", 0);
+        $field->show_custom_field_on_checkinout = $request->get("show_custom_field_on_checkinout", 0);
+
 
         if ($request->get('format') == 'CUSTOM REGEX') {
             $field->format = e($request->get('custom_format'));
