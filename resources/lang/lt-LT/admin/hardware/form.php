@@ -13,7 +13,7 @@ return [
     'bulk_update_with_custom_field' => 'Atminkite, kad turtas yra :asset_model_count skirtingų modelių tipų.',
     'bulk_update_model_prefix' => 'Modeliams', 
     'bulk_update_custom_field_unique' => 'Tai unikalus laukas, todėl jo negalima redaguoti masinio redagavimo būdu.',
-    'checkedout_to'		=> 'Išduota',
+    'checkedout_to'		=> 'Kam išduota',
     'checkout_date'		=> 'Išdavimo data',
     'checkin_date'		=> 'Paėmimo data',
     'checkout_to'		=> 'Išduoti',
@@ -55,8 +55,10 @@ return [
     'asset_location_update_default' => 'Atnaujinti tik numatytąją vietą',
     'asset_location_update_actual' => 'Atnaujinti tik faktinę vietą',
     'asset_not_deployable' => 'Turto būsena netinkama išdavimui, todėl šis turtas negali būti išduotas.',
+    'asset_not_deployable_checkin' => 'Turto su šia būsenos žyma išduoti negalima. Nustačius šią būsenos žymą, turtas bus paimtas.',
     'asset_deployable' => 'Turto būsena tinkama išdavimui, todėl šis turtas gali būti išduotas.',
     'processing_spinner' => 'Apdorojama... (Dideliems failams gali šiek tiek užtrukti)',
     'optional_infos'  => 'Papildoma informacija',
-    'order_details'   => 'Su užsakymu susijusi informacija'
+    'order_details'   => 'Su užsakymu susijusi informacija',
+    'calc_eol'    => 'If nulling the EOL date, use automatic EOL calculation based on the purchase date and EOL rate.',
 ];

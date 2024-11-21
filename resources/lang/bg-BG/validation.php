@@ -125,6 +125,8 @@ return [
         'symbols' => 'The :attribute field must contain at least one symbol.',
         'uncompromised' => 'The given :attribute has appeared in a data leak. Please choose a different :attribute.',
     ],
+    'percent'       => 'The depreciation minimum must be between 0 and 100 when depreciation type is percentage.',
+
     'present' => 'Полето на атрибута трябва да е налице.',
     'present_if' => 'The :attribute field must be present when :other is :value.',
     'present_unless' => 'The :attribute field must be present unless :other is :value.',
@@ -171,6 +173,7 @@ return [
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
 
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -188,9 +191,11 @@ return [
         'hashed_pass'      => 'Текущата ви парола е неправилна',
         'dumbpwd'          => 'Тази парола е твърде често срещана.',
         'statuslabel_type' => 'Трябва да изберете валиден тип етикет на състоянието',
+        'custom_field_not_found'          => 'This field does not seem to exist, please double check your custom field names.',
+        'custom_field_not_found_on_model' => 'This field seems to exist, but is not available on this Asset Model\'s fieldset.',
 
         // date_format validation with slightly less stupid messages. It duplicates a lot, but it gets the job done :(
-        // We use this because the default error message for date_format is reflects php Y-m-d, which non-PHP
+        // We use this because the default error message for date_format reflects php Y-m-d, which non-PHP
         // people won't know how to format.
         'purchase_date.date_format'     => ':values трябва да бъде валидна дата в YYYY-MM-DD формат',
         'last_audit_date.date_format'   =>  ':attribute трябва да бъде валидна дата в YYYY-MM-DD hh:mm:ss формат',
@@ -202,6 +207,13 @@ return [
         'checkboxes'           => ':attribute съдържа невалидни опции.',
         'radio_buttons'        => ':attribute е невалиден.',
         'invalid_value_in_field' => 'В това поле е включена невалидна стойност',
+
+        'ldap_username_field' => [
+            'not_in' =>         '<code>sAMAccountName</code> (mixed case) will likely not work. You should use <code>samaccountname</code> (lowercase) instead.'
+        ],
+        'ldap_auth_filter_query' => ['not_in' => '<code>uid=samaccountname</code> is probably not a valid auth filter. You probably want <code>uid=</code> '],
+        'ldap_filter' => ['regex' => 'This value should probably not be wrapped in parentheses.'],
+
         ],
     /*
     |--------------------------------------------------------------------------

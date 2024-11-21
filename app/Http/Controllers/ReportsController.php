@@ -259,7 +259,7 @@ class ReportsController extends Controller
             $executionTime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
             Log::debug('Added headers: '.$executionTime);
 
-            $actionlogs = Actionlog::with('item', 'user', 'target', 'location')
+            $actionlogs = Actionlog::with('item', 'user', 'target', 'location', 'adminuser')
                 ->orderBy('created_at', 'DESC')
                 ->chunk(20, function ($actionlogs) use ($handle) {
                     $executionTime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
@@ -286,7 +286,7 @@ class ReportsController extends Controller
 
                     $row = [
                         $actionlog->created_at,
-                        ($actionlog->admin) ? e($actionlog->admin->getFullNameAttribute()) : '',
+                        ($actionlog->adminuser) ? e($actionlog->adminuser->getFullNameAttribute()) : '',
                         $actionlog->present()->actionType(),
                         e($actionlog->itemType()),
                         ($actionlog->itemType() == 'user') ? $actionlog->filename : $item_name,
@@ -703,6 +703,10 @@ class ReportsController extends Controller
                     $assets->whereBetween('assets.expected_checkin', [$request->input('expected_checkin_start'), $request->input('expected_checkin_end')]);
             }
 
+            if (($request->filled('asset_eol_date_start')) && ($request->filled('asset_eol_date_end'))) {
+                $assets->whereBetween('assets.asset_eol_date', [$request->input('asset_eol_date_start'), $request->input('asset_eol_date_end')]);
+            }
+
             if (($request->filled('last_audit_start')) && ($request->filled('last_audit_end'))) {
                     $last_audit_start = Carbon::parse($request->input('last_audit_start'))->startOfDay();
                     $last_audit_end = Carbon::parse($request->input('last_audit_end'))->endOfDay();
@@ -778,7 +782,7 @@ class ReportsController extends Controller
                     }
 
                     if ($request->filled('eol')) {
-                            $row[] = ($asset->asset_eol_date) ? $asset->asset_eol_date : '';
+                        $row[] = ($asset->purchase_date != '') ? $asset->asset_eol_date : '';
                     }
 
                     if ($request->filled('order')) {

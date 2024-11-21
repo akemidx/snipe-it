@@ -6,10 +6,7 @@ use App\Models\CustomField;
 use App\Models\Department;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -34,6 +31,7 @@ class ValidationServiceProvider extends ServiceProvider
         Validator::extend('email_array', function ($attribute, $value, $parameters, $validator) {
             $value = str_replace(' ', '', $value);
             $array = explode(',', $value);
+            $email_to_validate = [];
 
             foreach ($array as $email) { //loop over values
                 $email_to_validate['alert_email'][] = $email;
@@ -41,7 +39,7 @@ class ValidationServiceProvider extends ServiceProvider
 
             $rules = ['alert_email.*'=>'email'];
             $messages = [
-                'alert_email.*'=>trans('validation.email_array'),
+                'alert_email.*' => trans('validation.custom.email_array'),
             ];
 
             $validator = Validator::make($email_to_validate, $rules, $messages);
@@ -91,18 +89,26 @@ class ValidationServiceProvider extends ServiceProvider
          *
          * $parameters[0] - the name of the first table we're looking at
          * $parameters[1] - the ID (this will be 0 on new creations)
-         * $parameters[2] - the name of the second table we're looking at
+         * $parameters[2] - the name of the second field we're looking at
          * $parameters[3] - the value that the request is passing for the second table we're
          *                  checking for uniqueness across
          *
          */
         Validator::extend('two_column_unique_undeleted', function ($attribute, $value, $parameters, $validator) {
+
             if (count($parameters)) {
+                
                 $count = DB::table($parameters[0])
-                         ->select('id')->where($attribute, '=', $value)
-                         ->whereNull('deleted_at')
-                         ->where('id', '!=', $parameters[1])
-                         ->where($parameters[2], $parameters[3])->count();
+                    ->select('id')
+                    ->where($attribute, '=', $value)
+                    ->where('id', '!=', $parameters[1]);
+
+                if ($parameters[3]!='') {
+                    $count = $count->where($parameters[2], $parameters[3]);
+                }
+
+                $count = $count->whereNull('deleted_at')
+                    ->count();
 
                 return $count < 1;
             }

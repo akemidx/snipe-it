@@ -4,7 +4,7 @@ return array(
 
     'does_not_exist' => 'La licencia no existe o no tiene permiso para verla.',
     'user_does_not_exist' => 'El usuario no existe o no tiene permiso para verlos.',
-    'asset_does_not_exist' 	=> 'El activo que está intentando asociar con esta licencia no existe.',
+    'asset_does_not_exist' 	=> 'El activo que intenta asociar con esta licencia no existe.',
     'owner_doesnt_match_asset' => 'El activo que está intentando asignar con esta licencia está asignado a un usuario diferente al de la persona seleccionada de la lista.',
     'assoc_users'	 => 'Esta licencia está actualmente asignada a un usuario y no puede ser eliminada. Por favor, reciba primero la licencia y vuelva a intentarlo. ',
     'select_asset_or_person' => 'Debe seleccionar un activo o un usuario, pero no ambos.',
@@ -14,16 +14,16 @@ return array(
 
     'create' => array(
         'error'   => 'La licencia no fue creada, por favor inténtelo de nuevo.',
-        'success' => 'Licencia creada con éxito.'
+        'success' => 'Categoría creada correctamente.'
     ),
 
     'deletefile' => array(
-        'error'   => 'Archivo no eliminado. Vuelve a intentarlo.',
+        'error'   => 'Archivo no eliminado. Por favor, vuelva a intentarlo.',
         'success' => 'Archivo eliminado correctamente.',
     ),
 
     'upload' => array(
-        'error'   => 'Archivo(s) no cargados. Por favor, inténtelo de nuevo.',
+        'error'   => 'Archivo(s) no cargado(s). Por favor, inténtelo de nuevo.',
         'success' => 'Archivo(s) cargados correctamente.',
         'nofiles' => 'No seleccionó ningún archivo para ser cargado, o el archivo que seleccionó es demasiado grande',
         'invalidfiles' => 'Uno o más de sus archivos es demasiado grande o es un tipo de archivo que no está permitido. Los tipos de archivo permitidos son png, gif, jpg, jpeg, doc, docx, pdf, txt, zip, rar, rtf, xml y lic.',

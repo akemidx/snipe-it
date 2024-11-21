@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Notifications\Email;
 
+use App\Mail\CheckinAssetMail;
+use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\Group;
 use App\Events\CheckoutableCheckedIn;
 use App\Models\Asset;
 use App\Models\User;
@@ -9,20 +12,20 @@ use App\Notifications\CheckinAssetNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-/**
- * @group notifications
- */
+#[Group('notifications')]
 class EmailNotificationsUponCheckinTest extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
 
-        Notification::fake();
+        Mail::fake();
     }
 
     public function testCheckInEmailSentToUserIfSettingEnabled()
     {
+        Mail::fake();
+
         $user = User::factory()->create();
         $asset = Asset::factory()->assignedToUser($user)->create();
 
@@ -30,27 +33,29 @@ class EmailNotificationsUponCheckinTest extends TestCase
 
         $this->fireCheckInEvent($asset, $user);
 
-        Notification::assertSentTo(
-            $user,
-            function (CheckinAssetNotification $notification, $channels) {
-                return in_array('mail', $channels);
-            },
-        );
+        Mail::assertSent(CheckinAssetMail::class, function($mail) use ($user) {
+                return $mail->hasTo($user->email);
+        });
+
     }
 
     public function testCheckInEmailNotSentToUserIfSettingDisabled()
     {
+        Mail::fake();
+
         $user = User::factory()->create();
         $asset = Asset::factory()->assignedToUser($user)->create();
 
-        $asset->model->category->update(['checkin_email' => false]);
+        $asset->model->category->update([
+            'checkin_email' => false,
+            'eula_text' => null,
+            'require_acceptance' => false,
+        ]);
 
         $this->fireCheckInEvent($asset, $user);
 
-        Notification::assertNotSentTo(
-            $user,
-            function (CheckinAssetNotification $notification, $channels) {
-                return in_array('mail', $channels);
+        Mail::assertNotSent(CheckinAssetMail::class, function($mail) use ($user) {
+                return $mail->hasTo($user->email);
             }
         );
     }

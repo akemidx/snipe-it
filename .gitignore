@@ -47,6 +47,7 @@ storage/private_uploads/users/*
 tests/_data/scenarios
 tests/_output/*
 tests/_support/_generated/*
+tests/coverage/*
 /npm-debug.log
 /storage/oauth-private.key
 /storage/oauth-public.key
@@ -68,3 +69,5 @@ _ide_helper_models.php
 storage/ldap_client_tls.cert
 storage/ldap_client_tls.key
 /storage/framework/testing
+
+/.phpunit.cache

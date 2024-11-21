@@ -48,26 +48,29 @@ class AssetModelsController extends Controller
                 'assets_count',
                 'category',
                 'fieldset',
+                'deleted_at',
+                'updated_at',
             ];
 
         $assetmodels = AssetModel::select([
             'models.id',
             'models.image',
             'models.name',
-            'model_number',
-            'min_amt',
-            'eol',
-            'requestable',
+            'models.model_number',
+            'models.min_amt',
+            'models.eol',
+            'models.created_by',
+            'models.requestable',
             'models.notes',
             'models.created_at',
-            'category_id',
-            'manufacturer_id',
-            'depreciation_id',
-            'fieldset_id',
+            'models.category_id',
+            'models.manufacturer_id',
+            'models.depreciation_id',
+            'models.fieldset_id',
             'models.deleted_at',
             'models.updated_at',
          ])
-            ->with('category', 'depreciation', 'manufacturer', 'fieldset.fields.defaultValues')
+            ->with('category', 'depreciation', 'manufacturer', 'fieldset.fields.defaultValues', 'adminuser')
             ->withCount('assets as assets_count');
 
         if ($request->input('status')=='deleted') {
@@ -76,6 +79,10 @@ class AssetModelsController extends Controller
 
         if ($request->filled('category_id')) {
             $assetmodels = $assetmodels->where('models.category_id', '=', $request->input('category_id'));
+        }
+
+        if ($request->filled('depreciation_id')) {
+            $assetmodels = $assetmodels->where('models.depreciation_id', '=', $request->input('depreciation_id'));
         }
 
         if ($request->filled('search')) {
@@ -89,7 +96,7 @@ class AssetModelsController extends Controller
         $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
         $sort = in_array($request->input('sort'), $allowed_columns) ? $request->input('sort') : 'models.created_at';
 
-        switch ($sort) {
+        switch ($request->input('sort')) {
             case 'manufacturer':
                 $assetmodels->OrderManufacturer($order);
                 break;
@@ -98,6 +105,9 @@ class AssetModelsController extends Controller
                 break;
             case 'fieldset':
                 $assetmodels->OrderFieldset($order);
+                break;
+            case 'created_by':
+                $assetmodels->OrderByCreatedByName($order);
                 break;
             default:
                 $assetmodels->orderBy($sort, $order);
