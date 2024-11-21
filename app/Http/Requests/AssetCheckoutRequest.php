@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Asset;
+use App\Models\AssetModel;
+
 class AssetCheckoutRequest extends Request
 {
     /**
@@ -36,6 +39,32 @@ class AssetCheckoutRequest extends Request
                 'date'
             ],
         ];
+
+        $asset = Asset::findOrFail($this->route('assetId'));
+        $model = AssetModel::findOrFail($asset->model_id);
+
+
+        if (($model) && ($model->fieldset)) {
+
+            // todo: setting on the asset should happen in the controller and then $asset->save() should be called...
+//            foreach ($model->fieldset->fields as $field){
+//                if($field->format == 'BOOLEAN'){
+//                    $asset->{$field->db_column} = filter_var($asset->{$field->db_column}, FILTER_VALIDATE_BOOLEAN);
+//                }
+//            }
+
+            $rules += $model->fieldset->validation_rules();
+
+//            if ($asset->model->fieldset){
+//                foreach ($asset->model->fieldset->fields as $field){
+//                    if($field->format == 'BOOLEAN'){
+//                        $asset->{$field->db_column} = filter_var($asset->{$field->db_column}, FILTER_VALIDATE_BOOLEAN);
+//                    }
+//                }
+//            }
+        }
+
+       // dd($rules);
 
         return $rules;
     }

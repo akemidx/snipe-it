@@ -8,6 +8,7 @@ use App\Http\Controllers\CheckInOutRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssetCheckoutRequest;
 use App\Models\Asset;
+use App\Models\AssetModel;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Session;
 use \Illuminate\Contracts\View\View;
@@ -110,6 +111,15 @@ class AssetCheckoutController extends Controller
             }
 
                 session()->put(['redirect_option' => $request->get('redirect_option'), 'checkout_to_type' => $request->get('checkout_to_type')]);
+
+            $model = $asset->model;
+            foreach ($model->fieldset->fields as $field){
+                if($field->format == 'BOOLEAN'){
+                    $asset->{$field->db_column} = filter_var($asset->{$field->db_column}, FILTER_VALIDATE_BOOLEAN);
+                }
+            }
+
+            $asset->save();
 
             if ($asset->checkOut($target, $admin, $checkout_at, $expected_checkin, $request->get('note'), $request->get('name'))) {
                 return redirect()->to(Helper::getRedirectOption($request, $asset->id, 'Assets'))
