@@ -919,6 +919,15 @@ class AssetsController extends Controller
 
         $asset = Asset::findOrFail($id);
 
+        $model = $asset->model; //borked atm
+        foreach ($model->fieldsets->field as $field) {
+            if($field->format == 'BOOLEAN'){
+                $asset->{$field->db_column} = filter_var($request->{$field->db_column}, FILTER_VALIDATE_BOOLEAN);
+            }
+        }
+
+        //a $asset->save(); here to save the custom fields won't work for reasons as described below.
+
         /**
          * Even though we do a save() further down, we don't want to log this as a "normal" asset update,
          * which would trigger the Asset Observer and would log an asset *update* log entry (because the
