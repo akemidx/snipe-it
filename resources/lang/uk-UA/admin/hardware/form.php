@@ -55,8 +55,10 @@ return [
     'asset_location_update_default' => 'Оновити тільки типове розташування',
     'asset_location_update_actual' => 'Оновити тільки фактичне місцезнаходження',
     'asset_not_deployable' => 'Стан активу не є розгортаним. Цей актив не може бути відмічений.',
+    'asset_not_deployable_checkin' => 'That asset status is not deployable. Using this status label will checkin the asset.',
     'asset_deployable' => 'Цей статус розміщено на ньому. Цей медіафайл може бути перевірений.',
     'processing_spinner' => 'Обробка... (Це може зайняти деякий час для великих файлів)',
     'optional_infos'  => 'Додаткова інформація',
-    'order_details'   => 'Пов\'язані відомості про замовлення'
+    'order_details'   => 'Пов\'язані відомості про замовлення',
+    'calc_eol'    => 'If nulling the EOL date, use automatic EOL calculation based on the purchase date and EOL rate.',
 ];

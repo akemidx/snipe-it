@@ -14,6 +14,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\NoSessionStore::class,
         \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Session\Middleware\StartSession::class,
@@ -21,6 +22,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\CheckForSetup::class,
         \App\Http\Middleware\CheckForDebug::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\TrimStrings::class,
         \App\Http\Middleware\SecurityHeaders::class,
         \App\Http\Middleware\PreventBackHistory::class,
         \Illuminate\Http\Middleware\HandleCors::class,
@@ -48,7 +50,12 @@ class Kernel extends HttpKernel
 
         'api' => [
             'auth:api',
+            \App\Http\Middleware\CheckLocale::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+
+        'health' => [
+
         ],
     ];
 
@@ -66,5 +73,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'health' => null,
     ];
 }

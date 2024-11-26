@@ -218,6 +218,7 @@ class AcceptanceController extends Controller
                 'item_tag' => $item->asset_tag,
                 'item_model' => $display_model,
                 'item_serial' => $item->serial,
+                'item_status' => $item->assetstatus?->name,
                 'eula' => $item->getEula(),
                 'note' => $request->input('note'),
                 'check_out_date' => Carbon::parse($acceptance->created_at)->format('Y-m-d'),
@@ -236,7 +237,11 @@ class AcceptanceController extends Controller
             }
 
             $acceptance->accept($sig_filename, $item->getEula(), $pdf_filename, $request->input('note'));
-            $acceptance->notify(new AcceptanceAssetAcceptedNotification($data));
+            try {
+                $acceptance->notify(new AcceptanceAssetAcceptedNotification($data));
+            } catch (\Exception $e) {
+                Log::warning($e);
+            }
             event(new CheckoutAccepted($acceptance));
 
             $return_msg = trans('admin/users/message.accepted');
@@ -308,6 +313,7 @@ class AcceptanceController extends Controller
                 'item_tag' => $item->asset_tag,
                 'item_model' => $display_model,
                 'item_serial' => $item->serial,
+                'item_status' => $item->assetstatus?->name,
                 'note' => $request->input('note'),
                 'declined_date' => Carbon::parse($acceptance->declined_at)->format('Y-m-d'),
                 'signature' => ($sig_filename) ? storage_path() . '/private_uploads/signatures/' . $sig_filename : null,
@@ -332,4 +338,5 @@ class AcceptanceController extends Controller
         return redirect()->to('account/accept')->with('success', $return_msg);
 
     }
+
 }

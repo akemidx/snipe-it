@@ -109,7 +109,7 @@
 
                   <tr>
                     <td colspan="8">
-                      {{ Form::select('status_id', $statuslabel_list , old('status_id'), array('class'=>'select2', 'style'=>'width:250px')) }}
+                      {{ Form::select('status_id', $statuslabel_list , old('status_id'), array('class'=>'select2', 'style'=>'width:250px', 'required' => true)) }}
                       <label>{{ trans('admin/users/general.update_user_assets_status') }}</label>
                     </td>
                   </tr>
@@ -129,7 +129,7 @@
         <div class="box-footer text-right">
           <a class="btn btn-link pull-left" href="{{ URL::previous() }}">{{ trans('button.cancel') }}</a>
 
-          <button type="submit" class="btn btn-success"{{ (config('app.lock_passwords') ? ' disabled' : '') }} disabled="disabled"><i class="fas fa-check icon-white" aria-hidden="true"></i> {{ trans('button.submit') }}</button>
+          <button type="submit" class="btn btn-success"{{ (config('app.lock_passwords') ? ' disabled' : '') }} disabled="disabled"><x-icon type="checkmark" /> {{ trans('button.submit') }}</button>
 
         </div><!-- /.box-footer -->
       </form>

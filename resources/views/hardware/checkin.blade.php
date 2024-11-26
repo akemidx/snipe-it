@@ -53,7 +53,7 @@
                                                         {{ $asset->model->name }}
                                                     @else
                                                         <span class="text-danger text-bold">
-                              <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                              <x-icon type="warning" />
                               {{ trans('admin/hardware/general.model_invalid')}}
                             </span>
                                                         {{ trans('admin/hardware/general.model_invalid_fix')}}
@@ -113,17 +113,17 @@
                                             </div>
                                         </div>
 
-                                        <!-- Note -->
-                                        <div class="form-group {{ $errors->has('note') ? 'error' : '' }}">
-                                            <label for="note" class="col-sm-3 control-label">
-                                                {{ trans('general.notes') }}
-                                            </label>
-                                            <div class="col-md-8">
-                                                <textarea class="col-md-6 form-control" id="note"
-                                                          name="note">{{ old('note', $asset->note) }}</textarea>
-                                                {!! $errors->first('note', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
-                                            </div>
-                                        </div>
+                        <!-- Note -->
+                        <div class="form-group {{ $errors->has('note') ? 'error' : '' }}">
+                            <label for="note" class="col-md-3 control-label">
+                                {{ trans('general.notes') }}
+                            </label>
+                            <div class="col-md-8">
+                                <textarea class="col-md-6 form-control" id="note" @required($snipeSettings->require_checkinout_notes)
+                                        name="note">{{ old('note', $asset->note) }}</textarea>
+                                {!! $errors->first('note', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                            </div>
+                        </div>
                     </div> <!--/.box-body-->
                 </div> <!--/.box-body-->
 
@@ -132,7 +132,7 @@
                         :button_label="trans('general.checkin')"
                         :disabled_select="!$asset->model"
                         :options="[
-                                'index' => trans('admin/hardware/form.redirect_to_all', ['type' => 'assets']),
+                                'index' => trans('admin/hardware/form.redirect_to_all', ['type' => trans('general.assets')]),
                                 'item' => trans('admin/hardware/form.redirect_to_type', ['type' => trans('general.asset')]),
                                ]"
                 />
