@@ -137,8 +137,8 @@
                         </div>
 
                         <!-- Custom fields -->
-                        <!-- this is here as a WIP see custom fields on audit PR-->
-                        <!-- needs validation -->
+                        <!-- if a field is required but not filled out, custom field dropdown should open. this might be tricky -->
+                        <!-- the dropdown is a toggle, so we need to work off the |document.cookie = "optional_info_open="|-->
                         @can('assets.edit')
                             <div class="form-group">
                                 <label class="col-md-3 control-label"></label>
@@ -200,16 +200,17 @@
 
                     </div> <!--/.box-body-->
 
+                    <!-- how are we capturing errors -->
                     <x-redirect_submit_options
-                            index_route="hardware.index"
-                            :button_label="trans('general.checkout')"
-                            :disabled_select="!$asset->model"
-                            :options="[
-                                'index' => trans('admin/hardware/form.redirect_to_all', ['type' => trans('general.assets')]),
-                                'item' => trans('admin/hardware/form.redirect_to_type', ['type' => trans('general.asset')]),
-                                'target' => trans('admin/hardware/form.redirect_to_checked_out_to'),
+                        index_route="hardware.index"
+                        :button_label="trans('general.checkout')"
+                        :disabled_select="!$asset->model"
+                        :options="[
+                            'index' => trans('admin/hardware/form.redirect_to_all', ['type' => trans('general.assets')]),
+                            'item' => trans('admin/hardware/form.redirect_to_type', ['type' => trans('general.asset')]),
+                            'target' => trans('admin/hardware/form.redirect_to_checked_out_to'),
 
-                               ]"
+                           ]"
                     />
 
                 </form>
