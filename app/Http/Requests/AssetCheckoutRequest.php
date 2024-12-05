@@ -43,7 +43,6 @@ class AssetCheckoutRequest extends Request
         $asset = Asset::findOrFail($this->route('assetId'));
         $model = AssetModel::findOrFail($asset->model_id);
 
-
         if (($model) && ($model->fieldset)) {
 
             // todo: setting on the asset should happen in the controller and then $asset->save() should be called...
@@ -64,7 +63,7 @@ class AssetCheckoutRequest extends Request
 //            }
         }
 
-       // dd($rules);
+        //dd($rules);
 
         return $rules;
     }
