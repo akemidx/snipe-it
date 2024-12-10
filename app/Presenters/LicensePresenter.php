@@ -15,6 +15,9 @@ class LicensePresenter extends Presenter
     {
         $layout = [
             [
+                'field' => 'checkbox',
+                'checkbox' => true,
+            ],[
                 'field' => 'id',
                 'searchable' => false,
                 'sortable' => true,

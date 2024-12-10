@@ -44,6 +44,12 @@ Route::group(['prefix' => 'licenses', 'middleware' => ['auth']], function () {
     '{licenseId}/deletefile/{fileId}',
         [Licenses\LicenseFilesController::class, 'destroy']
     )->name('delete/licensefile');
+
+    Route::post(
+        'bulkdelete',
+        [BulkLicensesController::class, 'destroy']
+    )->name('license/bulkdelete');
+
     Route::get(
     '{licenseId}/showfile/{fileId}/{download?}',
         [Licenses\LicenseFilesController::class, 'show']

@@ -27,6 +27,11 @@
     <div class="box">
       <div class="box-body">
 
+{{--          this should be license-bulk-edit-actions.blade--}}
+          @can('delete', \App\Models\License::class)
+              <button class="btn btn-primary" id="{{ (isset($id_button)) ? $id_button : 'bulkAssetEditButton' }}" >{{ trans('button.delete') }}</button>
+          @endcan
+
           <table
               data-columns="{{ \App\Presenters\LicensePresenter::dataTableLayout() }}"
               data-cookie-id-table="licensesTable"
