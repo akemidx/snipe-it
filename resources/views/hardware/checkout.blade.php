@@ -185,6 +185,7 @@
                                 'index' => trans('admin/hardware/form.redirect_to_all', ['type' => trans('general.assets')]),
                                 'item' => trans('admin/hardware/form.redirect_to_type', ['type' => trans('general.asset')]),
                                 'target' => trans('admin/hardware/form.redirect_to_checked_out_to'),
+                                'audit' => trans('admin/hardware/form.redirect_to_audit'),
 
                                ]"
                     />

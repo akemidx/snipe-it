@@ -42,6 +42,7 @@ return [
     'redirect_to_all'   => 'Return to all :type',
     'redirect_to_type'   => 'Go to :type',
     'redirect_to_checked_out_to'   => 'Go to Checked Out to',
+    'redirect_to_audit' => 'Go to Audit',
     'select_statustype'	=> 'Select Status Type',
     'serial'			=> 'Serial',
     'status'			=> 'Status',
