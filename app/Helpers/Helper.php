@@ -1530,11 +1530,9 @@ class Helper
 
         //go to audit
         if (($redirect_option == 'target') && ($request->item=="Assets")) {
-            switch ($table) {
-                case "Assets":
-                    return route('assets.audit.store', $id ?? $item_id);
-            }
+            return route('assets.audit.store', $id ?? $item_id);
         }
+
         return redirect()->back()->with('error', trans('admin/hardware/message.checkout.error'));
     }
 }
