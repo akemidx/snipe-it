@@ -72,19 +72,13 @@ class ValidationServiceProvider extends ServiceProvider
                 if (($parameters[0]=='assets') && ($attribute == 'serial') && (Setting::getSettings()->unique_serial != '1')) {
                     return true;
                 }
-
                 $count = DB::table($parameters[0])
                     ->select('id')
                     ->where($attribute, '=', $value)
                     ->whereNull('deleted_at')
                     ->where('id', '!=', $parameters[1])->count();
 
-               // dd($attribute, $value, $parameters, $validator);
-
                 return $count < 1;
-
-
-            }
         });
         
         /**
