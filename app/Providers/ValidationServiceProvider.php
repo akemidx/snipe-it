@@ -64,7 +64,8 @@ class ValidationServiceProvider extends ServiceProvider
          * `unique_undeleted:table,fieldname` in your rules out of the box
          */
         Validator::extend('unique_undeleted', function ($attribute, $value, $parameters, $validator) {
-            dd($attribute, $value, $parameters, $validator);
+            //dd($attribute, $value, $parameters, $validator);
+
             if (count($parameters)) {
 
                 // This is a bit of a shim, but serial doesn't have any other rules around it other than that it's nullable
@@ -78,7 +79,11 @@ class ValidationServiceProvider extends ServiceProvider
                     ->whereNull('deleted_at')
                     ->where('id', '!=', $parameters[1])->count();
 
+               // dd($attribute, $value, $parameters, $validator);
+
                 return $count < 1;
+
+
             }
         });
         

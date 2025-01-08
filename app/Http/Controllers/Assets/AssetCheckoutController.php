@@ -117,6 +117,7 @@ class AssetCheckoutController extends Controller
                 if($field->format == 'BOOLEAN'){
                     $asset->{$field->db_column} = filter_var($asset->{$field->db_column}, FILTER_VALIDATE_BOOLEAN);
                 }
+                $asset->{$field->db_column} = $request->get($field->db_column);
             }
 
             $asset->save();

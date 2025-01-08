@@ -52,7 +52,7 @@ class AssetCheckoutRequest extends Request
 //                }
 //            }
 
-            $rules += $model->fieldset->validation_rules();
+           // $rules += $model->fieldset->validation_rules();
 
 //            if ($asset->model->fieldset){
 //                foreach ($asset->model->fieldset->fields as $field){
