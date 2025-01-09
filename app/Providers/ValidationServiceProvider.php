@@ -69,7 +69,7 @@ class ValidationServiceProvider extends ServiceProvider
             if (count($parameters)) {
 
                 // This is a bit of a shim, but serial doesn't have any other rules around it other than that it's nullable
-                if (($parameters[0]=='assets') && ($attribute == 'serial') && (Setting::getSettings()->unique_serial != '1')) {
+                if (($parameters[0] == 'assets') && ($attribute == 'serial') && (Setting::getSettings()->unique_serial != '1')) {
                     return true;
                 }
                 $count = DB::table($parameters[0])
@@ -79,6 +79,7 @@ class ValidationServiceProvider extends ServiceProvider
                     ->where('id', '!=', $parameters[1])->count();
 
                 return $count < 1;
+            }
         });
         
         /**
