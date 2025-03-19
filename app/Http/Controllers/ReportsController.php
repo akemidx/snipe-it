@@ -493,6 +493,10 @@ class ReportsController extends Controller
                 $header[] = trans('admin/hardware/table.eol');
             }
 
+            if ($request->filled('book_value')) {
+                $header[] = trans('admin/hardware/table.book_value');
+            }
+
             if ($request->filled('order')) {
                 $header[] = trans('admin/hardware/form.order');
             }
@@ -805,6 +809,19 @@ class ReportsController extends Controller
                         $row[] = ($asset->purchase_date != '') ? $asset->asset_eol_date : '';
                     }
 
+                    if ($request->filled('warranty')) {
+                        $row[] = ($asset->warranty_months) ? $asset->warranty_months : '';
+                        $row[] = $asset->present()->warranty_expires();
+                    }
+
+                    if ($request->filled('depreciation')) {
+                        $depreciation = $asset->getDepreciatedValue();
+                        $diff = ($asset->purchase_cost - $depreciation);
+                        $row[] = Helper::formatCurrencyOutput($depreciation);
+                        $row[] = Helper::formatCurrencyOutput($diff);
+                        $row[] = (($asset->depreciation) && ($asset->depreciated_date())) ? $asset->depreciated_date()->format('Y-m-d') : '';
+                    }
+
                     if ($request->filled('order')) {
                         $row[] = ($asset->order_number) ? $asset->order_number : '';
                     }
@@ -936,19 +953,6 @@ class ReportsController extends Controller
 
                     if ($request->filled('status')) {
                         $row[] = ($asset->assetstatus) ? $asset->assetstatus->name.' ('.$asset->present()->statusMeta.')' : '';
-                    }
-
-                    if ($request->filled('warranty')) {
-                        $row[] = ($asset->warranty_months) ? $asset->warranty_months : '';
-                        $row[] = $asset->present()->warranty_expires();
-                    }
-
-                    if ($request->filled('depreciation')) {
-                            $depreciation = $asset->getDepreciatedValue();
-                            $diff = ($asset->purchase_cost - $depreciation);
-                        $row[] = Helper::formatCurrencyOutput($depreciation);
-                        $row[] = Helper::formatCurrencyOutput($diff);
-                        $row[] = (($asset->depreciation) && ($asset->depreciated_date())) ? $asset->depreciated_date()->format('Y-m-d') : '';
                     }
 
                     if ($request->filled('checkout_date')) {
