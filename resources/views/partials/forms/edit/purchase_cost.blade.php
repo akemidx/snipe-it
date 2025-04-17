@@ -4,7 +4,7 @@
     <div class="col-md-9">
         <div class="input-group col-md-4" style="padding-left: 0px;">
             <input class="form-control" type="text" name="purchase_cost" aria-label="purchase_cost" id="purchase_cost" value="{{ old('purchase_cost', Helper::formatCurrencyOutput($item->purchase_cost)) }}" maxlength="24" />
-            <span class="input-group-addon">
+            <span class="input-group-addon" style="width: 30%">
                 @if (isset($currency_type))
                     {{ $currency_type }}
                 @else

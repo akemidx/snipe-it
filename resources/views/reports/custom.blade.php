@@ -513,6 +513,23 @@
                   @endif
               </div>
 
+              <!-- Warranty Date -->
+              <div class="form-group asset_warranty_date-range {{ ($errors->has('asset_warranty_date_start') || $errors->has('asset_warranty_date_end')) ? ' has-error' : '' }}">
+                  <label for="asset_warranty_date" class="col-md-3 control-label">{{ trans('admin/hardware/form.warranty_date') }}</label>
+                  <div class="input-daterange input-group col-md-7" id="datepicker">
+                      <input type="text" class="form-control" name="asset_warranty_date_start" aria-label="asset_warranty_date_start" value="{{ $template->textValue('asset_warranty_date_start', old('asset_warranty_date_start')) }}">
+                      <span class="input-group-addon">to</span>
+                      <input type="text" class="form-control" name="asset_warranty_date_end" aria-label="asset_warranty_date_end" value="{{ $template->textValue('asset_warranty_date_end', old('asset_warranty_date_end')) }}">
+                  </div>
+
+                  @if ($errors->has('asset_warranty_date_start') || $errors->has('asset_warranty_date_end'))
+                      <div class="col-md-9 col-lg-offset-3">
+                          {!! $errors->first('asset_warranty_date_start', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                          {!! $errors->first('asset_warranty_date_end', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                      </div>
+                  @endif
+              </div>
+
               <!-- Last Audit Date -->
               <div class="form-group last_audit-range{{ ($errors->has('last_audit_start') || $errors->has('last_audit_end')) ? ' has-error' : '' }}">
                   <label for="last_audit_start" class="col-md-3 control-label">{{ trans('general.last_audit') }}</label>

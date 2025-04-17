@@ -111,7 +111,6 @@
         <div id="optional_details" class="col-md-12" style="display:none">
         <br>
             @include ('partials.forms.edit.name', ['translated_name' => trans('admin/hardware/form.name')])
-            @include ('partials.forms.edit.warranty')
 
             <!-- Datepicker -->
             <div class="form-group{{ $errors->has('next_audit_date') ? ' has-error' : '' }}">
@@ -160,17 +159,19 @@
 
         <div id='order_details' class="col-md-12" style="display:none">
             <br>
+            @include ('partials.forms.edit.supplier-select', ['translated_name' => trans('general.supplier'), 'fieldname' => 'supplier_id'])
             @include ('partials.forms.edit.order_number')
             @include ('partials.forms.edit.purchase_date')
             @include ('partials.forms.edit.eol_date')
-            @include ('partials.forms.edit.supplier-select', ['translated_name' => trans('general.supplier'), 'fieldname' => 'supplier_id'])
+            @include ('partials.forms.edit.warranty')
+            @include ('partials.forms.edit.warranty_expires')
 
-                @php
+            @php
                 $currency_type = null;
                 if ($item->id && $item->location) {
                     $currency_type = $item->location->currency;
                 }
-                @endphp
+            @endphp
 
             @include ('partials.forms.edit.purchase_cost', ['currency_type' => $currency_type])
 
