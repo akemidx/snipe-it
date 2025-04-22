@@ -12,7 +12,7 @@ return new class extends Migration
             $table->dateTime('warranty_expires_at')->nullable();
         });
         Schema::table('models', function (Blueprint $table) {
-            $table->int('warranty_months')->nullable();
+            $table->integer('warranty_months')->nullable();
         });
 
         $assetsToUpdate = DB::table('assets')->where('warranty_months', '>', 0)
