@@ -515,7 +515,7 @@
 
               <!-- Warranty Date -->
               <div class="form-group asset_warranty_date-range {{ ($errors->has('asset_warranty_date_start') || $errors->has('asset_warranty_date_end')) ? ' has-error' : '' }}">
-                  <label for="asset_warranty_date" class="col-md-3 control-label">{{ trans('admin/hardware/form.warranty_date') }}</label>
+                  <label for="asset_warranty_date" class="col-md-3 control-label">{{ trans('admin/hardware/form.warranty') }}</label>
                   <div class="input-daterange input-group col-md-7" id="datepicker">
                       <input type="text" class="form-control" name="asset_warranty_date_start" aria-label="asset_warranty_date_start" value="{{ $template->textValue('asset_warranty_date_start', old('asset_warranty_date_start')) }}">
                       <span class="input-group-addon">to</span>
