@@ -897,6 +897,7 @@
 
 
                                     @if ($asset->warranty_months)
+{{--                                         here is where we need to show if warranty_expires_at is used --}}
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <strong>
