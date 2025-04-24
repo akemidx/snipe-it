@@ -163,8 +163,6 @@
             @include ('partials.forms.edit.order_number')
             @include ('partials.forms.edit.purchase_date')
             @include ('partials.forms.edit.eol_date')
-            @include ('partials.forms.edit.warranty')
-            @include ('partials.forms.edit.warranty_expires')
 
             @php
                 $currency_type = null;
@@ -174,6 +172,8 @@
             @endphp
 
             @include ('partials.forms.edit.purchase_cost', ['currency_type' => $currency_type])
+            @include ('partials.forms.edit.warranty')
+            @include ('partials.forms.edit.warranty_expires')
 
         </div>
     </div>
