@@ -161,8 +161,6 @@
             <br>
             @include ('partials.forms.edit.supplier-select', ['translated_name' => trans('general.supplier'), 'fieldname' => 'supplier_id'])
             @include ('partials.forms.edit.order_number')
-            @include ('partials.forms.edit.purchase_date')
-            @include ('partials.forms.edit.eol_date')
 
             @php
                 $currency_type = null;
@@ -172,8 +170,13 @@
             @endphp
 
             @include ('partials.forms.edit.purchase_cost', ['currency_type' => $currency_type])
-            @include ('partials.forms.edit.warranty')
+            @include ('partials.forms.edit.purchase_date')
+
+            @include ('partials.forms.edit.eol_date')
             @include ('partials.forms.edit.warranty_expires')
+            @include ('partials.forms.edit.warranty')
+
+            {{--            will need to choose one or the other, or have the warranty to form the expires with livewire?--}}
 
         </div>
     </div>

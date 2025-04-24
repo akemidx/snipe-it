@@ -194,13 +194,12 @@ class AssetTest extends TestCase
 
     public function testCurrencyChosenIsSet()
     {
-        $locale = Location::factory()->create()->currency = 'AOA';
+        $this->settings->setDefaultCurrency('USD');
 
-        $asset = Asset::factory()->make(['rtd_location_id' => $locale]);
+        $locale = Location::factory()->create(['currency' => 'AOA']);
 
-        $default_currency = $this->settings->default_currency = 'USD';
+        $asset = Asset::factory()->create(['rtd_location_id' => $locale->id]);
 
-        $this->assertNotEquals($default_currency, $asset->location->currency);
-
+        $this->assertNotEquals('USD', $asset->defaultLoc->currency);
     }
 }

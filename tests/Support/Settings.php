@@ -150,6 +150,11 @@ class Settings
         return $this->update(['default_eula_text' => $text]);
     }
 
+    public function setDefaultCurrency($currency)
+    {
+        return $this->update(['default_currency' => $currency]);
+    }
+
     /**
      * @param array $attributes Attributes to modify in the application's settings.
      */

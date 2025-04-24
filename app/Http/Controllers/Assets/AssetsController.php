@@ -309,7 +309,14 @@ class AssetsController extends Controller
         $this->authorize($asset);
 
         $asset->status_id = $request->input('status_id', null);
-        $asset->warranty_months = $request->input('warranty_months', null);
+
+        if($request->input('warranty_expires_at')) {
+            $asset->warranty_expires_at = $request->input('warranty_expires_at', null);
+        }
+        else{
+            $asset->warranty_months = $request->input('warranty_months', null);
+        }
+
         $asset->purchase_cost = $request->input('purchase_cost', null);
         $asset->purchase_date = $request->input('purchase_date', null);
         $asset->next_audit_date = $request->input('next_audit_date', null);
