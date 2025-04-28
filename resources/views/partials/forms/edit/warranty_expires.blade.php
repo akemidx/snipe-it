@@ -9,6 +9,8 @@
                 <span class="input-group-addon"><x-icon type="calendar" /></span>
             </div>
         </div>
+{{--        if the user selects warranty months instead, this should be clear on the next edit page load, or at _Least_ have the updated expiratin date--}}
+
         <div class="col-md-9" style="padding-left: 0px;">
             {!! $errors->first('warranty_expires_at', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
         </div>

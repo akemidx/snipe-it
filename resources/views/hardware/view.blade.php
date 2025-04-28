@@ -940,8 +940,40 @@
 
                                     @endif
 
+                                    @if (($asset->model) && ($asset->warranty_expires_at))
+                                            <div class="col-md-3">
+                                                <strong>
+                                                    {{ trans('admin/hardware/form.warranty_expires') }}
+                                                </strong>
+                                            </div>
+                                            <div class="col-md-9">
+                                                {{ $asset->depreciation->name }}
+                                                ({{ $asset->depreciation->months }}
+                                                {{ trans('admin/hardware/form.months') }})
+                                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <strong>
+                                            {{ trans('admin/hardware/form.fully_depreciated') }}
+                                        </strong>
+                                    </div>
+                                    <div class="col-md-9">
+                                        @if ($asset->purchase_date)
+                                            {{ Helper::getFormattedDateObject($asset->depreciated_date()->format('Y-m-d'), 'date', false) }}
+                                            -
+                                            {{ Carbon::parse($asset->depreciated_date())->diffForHumans(['parts' => 2]) }}
+                                        @else
+                                            {{ trans('general.na_no_purchase_date') }}
+                                        @endif
+
+                                    </div>
+                                </div>
+                                @endif
+
+                                @endif
+
                                     @if (($asset->model) && ($asset->depreciation))
-                                        <div class="row">
                                             <div class="col-md-3">
                                                 <strong>
                                                     {{ trans('general.depreciation') }}
