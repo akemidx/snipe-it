@@ -316,6 +316,7 @@ class AssetsController extends Controller
         else{
             $asset->warranty_months = $request->input('warranty_months', null);
         }
+//        this may also go with the livewire bit on the hardware edit.blade
 
         $asset->purchase_cost = $request->input('purchase_cost', null);
         $asset->purchase_date = $request->input('purchase_date', null);

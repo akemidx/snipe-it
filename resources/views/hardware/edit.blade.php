@@ -177,6 +177,9 @@
             @include ('partials.forms.edit.warranty')
 
             {{--            will need to choose one or the other, or have the warranty to form the expires with livewire?--}}
+            {{--            do we even show the warranty partial? would we just calculate this off of the warranty months,
+            that now lives on the model and populate the date picker. and the user can then change that date picker.
+            I'm kinda thinking the $item->warranty_months won't really exist anymore?--}}
 
         </div>
     </div>

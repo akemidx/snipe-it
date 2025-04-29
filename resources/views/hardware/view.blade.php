@@ -938,42 +938,30 @@
                                             </div>
                                         </div>
 
-                                    @endif
+{{--                                    @endif--}}
 
-                                    @if (($asset->model) && ($asset->warranty_expires_at))
-                                            <div class="col-md-3">
-                                                <strong>
-                                                    {{ trans('admin/hardware/form.warranty_expires') }}
-                                                </strong>
+                                    @elseif (($asset->model) && ($asset->warranty_expires_at))
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <strong>
+                                                        {{ trans('admin/hardware/form.warranty_expires') }}
+                                                    </strong>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    {{ $asset->warranty_expires_at }}
+
+                                                    @if (($asset->model) && ($asset->model->manufacturer) && ($asset->model->manufacturer->warranty_lookup_url!=''))
+                                                        <a href="{{ $asset->present()->dynamicUrl($asset->model->manufacturer->warranty_lookup_url) }}" target="_blank">
+                                                            <x-icon type="external-link" />
+                                                            <span class="sr-only">{{ trans('admin/hardware/general.mfg_warranty_lookup', ['manufacturer' => $asset->model->manufacturer->name]) }}</span></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
                                             </div>
-                                            <div class="col-md-9">
-                                                {{ $asset->depreciation->name }}
-                                                ({{ $asset->depreciation->months }}
-                                                {{ trans('admin/hardware/form.months') }})
-                                            </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <strong>
-                                            {{ trans('admin/hardware/form.fully_depreciated') }}
-                                        </strong>
-                                    </div>
-                                    <div class="col-md-9">
-                                        @if ($asset->purchase_date)
-                                            {{ Helper::getFormattedDateObject($asset->depreciated_date()->format('Y-m-d'), 'date', false) }}
-                                            -
-                                            {{ Carbon::parse($asset->depreciated_date())->diffForHumans(['parts' => 2]) }}
-                                        @else
-                                            {{ trans('general.na_no_purchase_date') }}
                                         @endif
 
-                                    </div>
-                                </div>
-                                @endif
-
-                                @endif
-
                                     @if (($asset->model) && ($asset->depreciation))
+                                            <div class="row">
                                             <div class="col-md-3">
                                                 <strong>
                                                     {{ trans('general.depreciation') }}

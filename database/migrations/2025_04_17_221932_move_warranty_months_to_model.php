@@ -34,7 +34,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('assets', function (Blueprint $table) {
-            $table->int('warranty_months')->nullable();
+            $table->integer('warranty_months')->nullable();
         });
 
         //stuff to do here. need to extract the warranty months and then add those months to each asset of that model
