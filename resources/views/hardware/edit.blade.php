@@ -173,8 +173,11 @@
             @include ('partials.forms.edit.purchase_date')
 
             @include ('partials.forms.edit.eol_date')
-            @include ('partials.forms.edit.warranty_expires')
-            @include ('partials.forms.edit.warranty')
+
+            <livewire:warranty-expiration-picker/>
+
+{{--            @include ('partials.forms.edit.warranty_expires')--}}
+{{--            @include ('partials.forms.edit.warranty')--}}
 
             {{--            will need to choose one or the other, or have the warranty to form the expires with livewire?--}}
             {{--            do we even show the warranty partial? would we just calculate this off of the warranty months,
