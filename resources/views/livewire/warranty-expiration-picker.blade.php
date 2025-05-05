@@ -3,6 +3,11 @@
     we need the warranty expiration date
     when a model is picked, we grab that expiration date by:
         expiration months on model, calculate from purchase date = wan exp date
+        purchase date on asset -> asset id, purchase date
+        expiration on model -> model id, warranty months
+        purchase date + expiration months = wan exp date
+
+        we do have warranty_expires() as a function on the Asset Presenter
 
 
     @if ($asset->purchase_date)
@@ -16,7 +21,20 @@
 
         id 8 = 36 months
         id 1 = 24 months --}}
-    <input placeholder="date picker" name="setDate">
+<div class="form-group {{ $errors->has('warranty') ? ' has-error' : '' }}">
+    <label for="warranty_expires_at" class="col-md-3 control-label">{{ trans('admin/hardware/form.warranty_expires') }}</label>
+        <div class="col-md-9">
+            <div class="input-group col-md-4" style="padding-left: 0px;">
+                <div class="input-group date" data-provide="datepicker" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
+                    <input class="form-control" type="text" name="warranty_expires_at" id="warranty_expires_at"
+                         value="{{ old('warranty_expires_at', '') }}"/>
+                    <span class="input-group-addon"><x-icon type="calendar" /></span>
+                </div>
+                <div class="col-md-9" style="padding-left: 0px;">
+                    {!! $errors->first('warranty_expires_at', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                </div>
+            </div>
+        </div>
 
     <p>warranty_months: {{ $warranty_months }}</p>
     <p>purchase_date: {{ $purchase_date }}</p>

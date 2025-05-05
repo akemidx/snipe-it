@@ -19,12 +19,24 @@ class WarrantyExpirationPicker extends Component
     {
         $this->warranty_months = AssetModel::find($id)->warranty_months;
     }
-    public function setPurchaseDateFromAsset($id)
+    public function setPurchaseDateFromAsset($id,$flag)
     {
-        $this->purchase_date = Asset::find($id)->purchase_date;
-
         //if new then choose now
+        if($flag="new") {
+            $this->purchase_date = now();
+        }
         //if edit then grab it from asset id
+
+        elseif($flag="edit") {
+            $this->purchase_date = Asset::find($id)->purchase_date;
+        }
+    }
+
+    public function setWarrantyExpirationOnAsset($id,$date)
+    {
+        $this->id = $id;
+        $this->id->warranty_expires_at = $date;
+
     }
 
 }
