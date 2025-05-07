@@ -25,7 +25,7 @@
     <label for="warranty_expires_at" class="col-md-3 control-label">{{ trans('admin/hardware/form.warranty_expires') }}</label>
         <div class="col-md-9">
             <div class="input-group col-md-4" style="padding-left: 0px;">
-                <div class="input-group date" data-provide="datepicker" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
+                <div class="input-group date" id="warranty_expires_at" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
                     <input class="form-control" type="text" name="warranty_expires_at" id="warranty_expires_at"
                          value="{{ old('warranty_expires_at', '') }}"/>
                     <span class="input-group-addon"><x-icon type="calendar" /></span>
@@ -36,12 +36,18 @@
             </div>
         </div>
 
+    {{--        if the user selects warranty months instead, we should clear on the next edit page load, or at _Least_ have the updated expiratin date--}}
+
+
     <p>warranty_months: {{ $warranty_months }}</p>
     <p>purchase_date: {{ $purchase_date }}</p>
+    <p>warranty_date: {{ $warranty_expires_at }}</p>
 </div>
 
 @script
     <script>
+        $(document).ready(function(){
+
         $('#model_select_id')
             .on('select2:select', function (event) {
 
@@ -62,7 +68,41 @@
                 {{--        {{ trans('general.na_no_purchase_date') }}--}}
                 {{--    @endif--}}
                 {{--}--}}
-                    $wire.$call('setPurchaseDateFromAsset', event.params.data.id)
+                //     $wire.$call('setPurchaseDateFromAsset', event.params.data.id)
             });
+
+            $('#purchase_date_wrapper').datepicker({
+                clearBtn: true,
+                todayHighlight: true,
+                endDate: '0d',
+                format: 'yyyy-mm-dd',
+            }).on('changeDate', function (event) {
+                console.log(event)
+                console.log(event.date)
+                console.log(event.format(0))
+                $wire.$set('purchase_date', event.format(0))
+
+                $(this).datepicker('hide');
+            });
+
+            $('#warranty_expiration_wrapper').datepicker({
+                clearBtn: true,
+                todayHighlight: true,
+                endDate: '0d',
+                format: 'yyyy-mm-dd',
+            }).on('changeDate', function (event) {
+                console.log(event)
+                console.log(event.date)
+                console.log(event.format(0))
+                $wire.$set('warranty_expires_at', event.format(0))
+
+                $(this).datepicker('hide');
+            });
+
+            // $('#purchase_date_wrapper').datepicker('setDate', new Date(2024, 8, 02));
+            // ❓ update?
+            // $('#purchase_date_wrapper').datepicker('update', new Date(2024, 8, 02));
+
+        });
     </script>
 @endscript
