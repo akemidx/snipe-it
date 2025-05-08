@@ -26,6 +26,7 @@
         <div class="col-md-9">
             <div class="input-group col-md-4" style="padding-left: 0px;">
                 <div class="input-group date" id="warranty_expires_at" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
+{{--                     value="{{ old('$warranty_expires_at', $item->warranty_expires_at) }}">--}}
                     <input class="form-control" type="text" name="warranty_expires_at" id="warranty_expires_at"
                          value="{{ old('warranty_expires_at', '') }}"/>
                     <span class="input-group-addon"><x-icon type="calendar" /></span>
@@ -95,6 +96,8 @@
                 console.log(event.date)
                 console.log(event.format(0))
                 $wire.$set('warranty_expires_at', event.format(0))
+
+                {{--We're not updating the warranty_expires_at yet--}}
 
                 $(this).datepicker('hide');
             });
