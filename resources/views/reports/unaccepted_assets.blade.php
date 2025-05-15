@@ -53,7 +53,8 @@
                     }'>
             <thead>
               <tr role="row">
-                <th class="col-sm-1" data-searchable="false" data-field="created_at"  data-sortable="true">{{ trans('general.date') }}</th>
+                <th class="col-sm-1" data-searchable="false" data-field="created_at" data-sortable="true" data-sorter="dateSorter">{{ trans('general.date') }}</th>
+{{--                  data-sorter="dateSorter"--}}
                 <th class="col-sm-1" data-sortable="true" >{{ trans('admin/companies/table.title') }}</th>
                 <th class="col-sm-1" data-sortable="true" >{{ trans('general.category') }}</th>
                 <th class="col-sm-1" data-sortable="true" >{{ trans('admin/hardware/form.model') }}</th>
@@ -69,6 +70,10 @@
                   @if ($item['assetItem'])
                   <tr @if($item['acceptance']->trashed()) style="text-decoration: line-through" @endif>
                     <td>{{ Helper::getFormattedDateObject($item['acceptance']->created_at, 'datetime', false) }}</td>
+                      {{--interestingly, the current sort is how tablePlus is sorting this.
+                      adding the data-sorter js like in the docs makes it so it doesn't sort?
+                      confused a bit on that atm--}}
+{{--                      @dd($item['acceptance']->created_at)--}}
                     <td>{{ ($item['assetItem']->company) ? $item['assetItem']->company->name : '' }}</td>
                     <td>{!! $item['assetItem']->model->category->present()->nameUrl() !!}</td>
                     <td>{!! $item['assetItem']->present()->modelUrl() !!}</td>
@@ -117,4 +122,12 @@
 
 @section('moar_scripts')
     @include ('partials.bootstrap-table')
+    <script>
+        window.dateSorter = (a, b) => {
+            const aa = a
+            const bb = b
+            return aa - bb
+        }
+    </script>
+
 @stop
