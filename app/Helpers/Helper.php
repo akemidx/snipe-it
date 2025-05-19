@@ -1070,7 +1070,6 @@ class Helper
             if ($array == 'true') {
                 return $dt;
             }
-            //dd($dt);
             return $dt['formatted'];
 
         } catch (\Exception $e) {
