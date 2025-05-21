@@ -1,3 +1,4 @@
+<div>
 {{--
     we need the warranty expiration date
     when a model is picked, we grab that expiration date by:
@@ -29,9 +30,13 @@
                          value="{{ old('warranty_expires_at', '') }}"/>
                     <span class="input-group-addon"><x-icon type="calendar" /></span>
                 </div>
+            </div>
+                <div class="col-md-8 col-md-offset-3">
                 <p class="help-block">**changing model or purchase date will reset the warranty expiration date**</p>
                     {!! $errors->first('warranty_expires_at', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                </div>
             </div>
+
 
 
     {{--        if the user selects warranty months instead, we should clear on the next edit page load, or at _Least_ have the updated expiratin date--}}
