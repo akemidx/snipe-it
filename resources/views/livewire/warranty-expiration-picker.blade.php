@@ -31,6 +31,7 @@
                          value="{{ old('warranty_expires_at', '') }}"/>
                     <span class="input-group-addon"><x-icon type="calendar" /></span>
                 </div>
+                <p class="help-block">**changing model or purchase date will reset the warranty expiration date**</p>
                 <div class="col-md-9" style="padding-left: 0px;">
                     {!! $errors->first('warranty_expires_at', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
                 </div>
@@ -51,23 +52,8 @@
 
         $('#model_select_id')
             .on('select2:select', function (event) {
-
-                //$wire.$set('warranty_months', event.params.data.id)
                 $wire.$call('setWarrantyMonthsFromModel', event.params.data.id)
                 console.log(event.params.data.id)
-
-
-                {{--input.addEventListener("change", setWarrantyDate);--}}
-
-                {{--function setWarrantyDate(e) {--}}
-                {{--    @if ($asset->purchase_date)--}}
-                {{--        {{ Helper::getFormattedDateObject($asset->present()->warranty_expires(), 'date', false) }}--}}
-                {{--        {{ Carbon::parse($asset->present()->warranty_expires())->diffForHumans(['parts' => 2]) }}--}}
-                {{--    @else--}}
-                {{--        {{ trans('general.na_no_purchase_date') }}--}}
-                {{--    @endif--}}
-                {{--}--}}
-                //     $wire.$call('setPurchaseDateFromAsset', event.params.data.id)
             });
 
             $('#purchase_date_wrapper').datepicker({

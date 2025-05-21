@@ -20,42 +20,13 @@ class WarrantyExpirationPicker extends Component
     public function setWarrantyMonthsFromModel($id)
     {
         $this->warranty_months = AssetModel::find($id)->warranty_months;
-        //$this->purchase_date = now()->format('Y-m-d');
         $this->setExpiresAt();
-        //$('#purchase_date_wrapper').datepicker('update', new Date(2024, 8, 02));
-        //using the value, we can populate the datepicker on update
-    }
-
-    public function updated($property)
-    {
-        // $property: The name of the current property that was updated
-        //dump($property);
-    }
-
-    public function setPurchaseDateFromAsset($id = null) //id will be null for an asset that has not yet been created, so easy to use this as a flag.
-    {
-        //if new then choose now
-        if($id=='') {
-            $this->purchase_date = now();
-        }
-
-        //if edit then grab it from asset id
-        else {
-            $this->purchase_date = Asset::find($id)->purchase_date;
-        }
     }
 
     public function setPurchaseDate($date = null)
     {
         $this->purchase_date = $date;
         $this->setExpiresAt();
-    }
-
-    public function setWarrantyExpirationOnAsset($id,$date)
-    {
-        $this->id = $id;
-        $this->id->warranty_expires_at = $date;
-
     }
 
     private function setExpiresAt()
