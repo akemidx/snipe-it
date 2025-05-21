@@ -1,5 +1,4 @@
-<div>
-    {{--
+{{--
     we need the warranty expiration date
     when a model is picked, we grab that expiration date by:
         expiration months on model, calculate from purchase date = wan exp date
@@ -23,28 +22,26 @@
         id 1 = 24 months --}}
 <div class="form-group {{ $errors->has('warranty') ? ' has-error' : '' }}">
     <label for="warranty_expires_at" class="col-md-3 control-label">{{ trans('admin/hardware/form.warranty_expires') }}</label>
-        <div class="col-md-9">
-            <div class="input-group col-md-4" style="padding-left: 0px;">
-                <div class="input-group date" id="warranty_expires_at" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
+            <div class="input-group col-md-4">
+                <div class="input-group date" id="warranty_expires_at" data-provide="datepicker" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
 {{--                     value="{{ old('$warranty_expires_at', $item->warranty_expires_at) }}">--}}
-                    <input class="form-control" type="text" name="warranty_expires_at" id="warranty_expires_at"
+                    <input class="form-control" type="text" name="warranty_expires_at" id="warranty_expires_at" style="background-color:inherit"  maxlength="20"
                          value="{{ old('warranty_expires_at', '') }}"/>
                     <span class="input-group-addon"><x-icon type="calendar" /></span>
                 </div>
                 <p class="help-block">**changing model or purchase date will reset the warranty expiration date**</p>
-                <div class="col-md-9" style="padding-left: 0px;">
                     {!! $errors->first('warranty_expires_at', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
-                </div>
             </div>
-        </div>
+
 
     {{--        if the user selects warranty months instead, we should clear on the next edit page load, or at _Least_ have the updated expiratin date--}}
-
 
     <p>warranty_months: {{ $warranty_months }}</p>
     <p>purchase_date: {{ $purchase_date }}</p>
     <p>warranty_date: {{ $warranty_expires_at }}</p>
+
 </div>
+
 
 @script
     <script>
