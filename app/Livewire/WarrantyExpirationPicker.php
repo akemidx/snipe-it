@@ -20,13 +20,16 @@ class WarrantyExpirationPicker extends Component
     public function setWarrantyMonthsFromModel($id)
     {
         $this->warranty_months = AssetModel::find($id)->warranty_months;
-        $this->purchase_date = now()->format('Y-m-d');
-        $this->warranty_expires_at = Carbon::parse($this->purchase_date)->addMonths($this->warranty_months)->format('Y-m-d');
-        $this->js("$('#warranty_expires_at').datepicker('update','warranty_expires_at')");
+        //$this->purchase_date = now()->format('Y-m-d');
+        $this->setExpiresAt();
+        //$('#purchase_date_wrapper').datepicker('update', new Date(2024, 8, 02));
         //using the value, we can populate the datepicker on update
+    }
 
-
-
+    public function updated($property)
+    {
+        // $property: The name of the current property that was updated
+        //dump($property);
     }
 
     public function setPurchaseDateFromAsset($id = null) //id will be null for an asset that has not yet been created, so easy to use this as a flag.
@@ -42,11 +45,25 @@ class WarrantyExpirationPicker extends Component
         }
     }
 
+    public function setPurchaseDate($date = null)
+    {
+        $this->purchase_date = $date;
+        $this->setExpiresAt();
+    }
+
     public function setWarrantyExpirationOnAsset($id,$date)
     {
         $this->id = $id;
         $this->id->warranty_expires_at = $date;
 
+    }
+
+    private function setExpiresAt()
+    {
+        if($this->warranty_months && $this->purchase_date) {
+            $this->warranty_expires_at = Carbon::parse($this->purchase_date)->addMonths($this->warranty_months)->format('Y-m-d');
+            $this->js("$('#warranty_expires_at').datepicker('update','$this->warranty_expires_at')");
+        }
     }
 
 }

@@ -56,8 +56,6 @@
                 $wire.$call('setWarrantyMonthsFromModel', event.params.data.id)
                 console.log(event.params.data.id)
 
-                const input = document.querySelector("input");
-                const log = document.getElementById("log");
 
                 {{--input.addEventListener("change", setWarrantyDate);--}}
 
@@ -81,7 +79,7 @@
                 console.log(event)
                 console.log(event.date)
                 console.log(event.format(0))
-                $wire.$set('purchase_date', event.format(0))
+                $wire.$call('setPurchaseDate',event.format(0))
 
                 $(this).datepicker('hide');
             });
@@ -97,7 +95,7 @@
                 console.log(event.format(0))
                 $wire.$set('warranty_expires_at', event.format(0))
 
-                {{--We're not updating the warranty_expires_at yet--}}
+                {{--We're updating the warranty_expires_at, but changing the purchase date will change the warranty expire again--}}
 
                 $(this).datepicker('hide');
             });
