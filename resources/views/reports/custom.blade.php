@@ -763,6 +763,12 @@
           format: 'yyyy-mm-dd'
       });
 
+      $('.asset_warranty_date-range .input-daterange').datepicker({
+          clearBtn: true,
+          todayHighlight: true,
+          format: 'yyyy-mm-dd'
+      });
+
       $('.last_audit-range .input-daterange').datepicker({
           clearBtn: true,
           todayHighlight: true,
