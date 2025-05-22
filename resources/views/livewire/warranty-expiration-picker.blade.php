@@ -26,13 +26,13 @@
             <div class="input-group col-md-4">
                 <div class="input-group date" id="warranty_expires_at" data-provide="datepicker" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
 {{--                     value="{{ old('$warranty_expires_at', $item->warranty_expires_at) }}">--}}
-                    <input class="form-control" type="text" name="warranty_expires_at" id="warranty_expires_at" style="background-color:inherit"  maxlength="20"
+                    <input class="form-control" type="text" placeholder="{{ trans('general.select_date') }}" name="warranty_expires_at" id="warranty_expires_at" style="background-color:inherit"  maxlength="20"
                          value="{{ old('warranty_expires_at', '') }}"/>
                     <span class="input-group-addon"><x-icon type="calendar" /></span>
                 </div>
             </div>
                 <div class="col-md-8 col-md-offset-3">
-                <p class="help-block">**changing model or purchase date will reset the warranty expiration date**</p>
+                <p class="help-block">{{ trans('admin/hardware/general.warranty_expiration_notice') }}</p>
                     {!! $errors->first('warranty_expires_at', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
                 </div>
             </div>

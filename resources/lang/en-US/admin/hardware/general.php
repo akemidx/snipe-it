@@ -39,4 +39,5 @@ return [
     'custom_export' => 'Custom Export',
     'mfg_warranty_lookup' => ':manufacturer Warranty Status Lookup',
     'user_department' => 'User Department',
+    'warranty_expiration_notice' => 'Changing the model or purchase date will reset the warranty expiration date to the default for the model that is selected!',
 ];
