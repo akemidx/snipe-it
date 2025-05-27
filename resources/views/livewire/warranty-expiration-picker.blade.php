@@ -25,7 +25,8 @@
     <label for="warranty_expires_at" class="col-md-3 control-label">{{ trans('admin/hardware/form.warranty_expires') }}</label>
             <div class="input-group col-md-4">
                 <div class="input-group date" id="warranty_expires_at" data-provide="datepicker" data-date-clear-btn="true" data-date-format="yyyy-mm-dd"  data-autoclose="true">
-{{--                     value="{{ old('$warranty_expires_at', $item->warranty_expires_at) }}">--}}
+{{--                     value="{{ old('$warranty_expires_at', $item->warranty_expires_at) }}">
+                        so using this...it says $item doesn't exist, but we use this exact syntax on other partials that are doing the same here.--}}
                     <input class="form-control" type="text" placeholder="{{ trans('general.select_date') }}" name="warranty_expires_at" id="warranty_expires_at" style="background-color:inherit"  maxlength="20"
                          value="{{ old('warranty_expires_at', '') }}"/>
                     <span class="input-group-addon"><x-icon type="calendar" /></span>
