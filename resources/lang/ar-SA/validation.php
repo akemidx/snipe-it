@@ -172,6 +172,7 @@ return [
     'url' => 'The :attribute field must be a valid URL.',
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
+    'fmcs_location' => 'Full multiple company support and location scoping is enabled in the Admin Settings, and the selected location and selected company are not compatible.',
 
 
     /*
@@ -185,9 +186,13 @@ return [
     |
     */
 
+    'email_array'      => 'عنوان بريد إلكتروني واحد أو أكثر غير صالح.',
+    'checkboxes'           => ':attribute يحتوي على خيارات غير صالحة.',
+    'radio_buttons'        => ':attribute غير صالح.',
+    
     'custom' => [
         'alpha_space' => 'يحتوي الحقل :attribute على حرف غير مسموح به.',
-        'email_array'      => 'عنوان بريد إلكتروني واحد أو أكثر غير صالح.',
+
         'hashed_pass'      => 'كلمة المرور الحالية غير صحيحة',
         'dumbpwd'          => 'كلمة المرور هذه شائعة جدا.',
         'statuslabel_type' => 'يجب تحديد نوع تسمية حالة صالح',
@@ -204,8 +209,6 @@ return [
         'expected_checkin.date_format'  =>  'يجب أن يكون :attribute تاريخ صالح بتنسيق YYY-MM-DD',
         'start_date.date_format'        =>  'يجب أن يكون :attribute تاريخ صالح بتنسيق YYY-MM-DD',
         'end_date.date_format'          =>  'يجب أن يكون :attribute تاريخ صالح بتنسيق YYY-MM-DD',
-        'checkboxes'           => ':attribute يحتوي على خيارات غير صالحة.',
-        'radio_buttons'        => ':attribute غير صالح.',
         'invalid_value_in_field' => 'القيمة غير صالحة المدرجة في هذا الحقل',
 
         'ldap_username_field' => [

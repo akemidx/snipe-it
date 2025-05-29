@@ -24,10 +24,10 @@ return [
     'update' => [
         'error'   			=> 'Demirbaş güncellenemedi, lütfen tekrar deneyin',
         'success' 			=> 'Demirbaş güncellendi.',
-        'encrypted_warning' => 'Asset updated successfully, but encrypted custom fields were not due to permissions',
+        'encrypted_warning' => 'Varlık başarıyla güncellendi, ancak şifreli özel alanlar izin nedeniyle güncellenemedi',
         'nothing_updated'	=>  'Hiçbir alan seçilmedi, dolayısıyla hiç bir alan güncellenmedi.',
         'no_assets_selected'  =>  'Hiçbir varlık seçilmedi, bu nedenle hiçbir şey güncellenmedi.',
-        'assets_do_not_exist_or_are_invalid' => 'Selected assets cannot be updated.',
+        'assets_do_not_exist_or_are_invalid' => '',
     ],
 
     'restore' => [
@@ -66,6 +66,7 @@ return [
         'file_already_deleted' => 'The file selected was already deleted',
         'header_row_has_malformed_characters' => 'Başlık bilgisindeki bir veya daha fazla öznitelik, hatalı UTF-8 karakterleri içeriyor',
         'content_row_has_malformed_characters' => 'Başlıktaki ilk satırda bir veya daha fazla öznitelik, hatalı biçimlendirilmiş UTF-8 karakterleri içeriyor',
+        'transliterate_failure' => 'Transliteration from :encoding to UTF-8 failed due to invalid characters in input'
     ],
 
 
@@ -99,9 +100,10 @@ return [
     ],
 
     'requests' => [
-        'error'   		=> 'Varlık talep edilmemiş, lütfen tekrar deneyin',
-        'success' 		=> 'Varlık talep edildi.',
-        'canceled'      => 'Varlık talebi reddedildi',
+        'error'   		=> 'Request was not successful, please try again.',
+        'success' 		=> 'Request successfully submitted.',
+        'canceled'      => 'Request successfully canceled.',
+        'cancel'        => 'İsteği iptal et',
     ],
 
 ];

@@ -4,6 +4,7 @@ namespace Tests\Unit;
 use App\Models\Asset;
 use App\Models\AssetModel;
 use App\Models\Category;
+use App\Models\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Setting;
@@ -188,5 +189,53 @@ class AssetTest extends TestCase
         $this->assertEquals(Carbon::createFromDate(2017, 1, 1)->format('Y-m-d'), $asset->purchase_date->format('Y-m-d'));
         $this->assertEquals(Carbon::createFromDate(2019, 1, 1)->format('Y-m-d'), $asset->warranty_expires->format('Y-m-d'));
 
+    }
+
+    public function testAssignedTypeWithoutAssignTo()
+    {
+        $user = User::factory()->create();
+        $asset = Asset::factory()->create([
+            'assigned_to' => $user->id
+        ]);
+        $this->assertModelMissing($asset);
+    }
+
+    public function testGetImageUrlMethod()
+    {
+        $urlBase = config('filesystems.disks.public.url');
+
+        $category = Category::factory()->create(['image' => 'category-image.jpg']);
+        $model = AssetModel::factory()->for($category)->create(['image' => 'asset-model-image.jpg']);
+        $asset = Asset::factory()->for($model, 'model')->create(['image' => 'asset-image.jpg']);
+
+        $this->assertEquals(
+            "{$urlBase}/assets/asset-image.jpg",
+            $asset->getImageUrl()
+        );
+
+        $asset->update(['image' => null]);
+
+        $this->assertEquals(
+            "{$urlBase}/models/asset-model-image.jpg",
+            $asset->refresh()->getImageUrl()
+        );
+
+        $model->update(['image' => null]);
+
+        $this->assertEquals(
+            "{$urlBase}/categories/category-image.jpg",
+            $asset->refresh()->getImageUrl()
+        );
+
+        $category->image = null;
+        $category->save();
+
+        $this->assertFalse($asset->refresh()->getImageUrl());
+
+        // handles case where model does not exist
+        $asset->model_id = 9999999;
+        $asset->forceSave();
+
+        $this->assertFalse($asset->refresh()->getImageUrl());
     }
 }

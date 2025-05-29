@@ -66,6 +66,8 @@ return [
     'min_QTY' => 'Min QTY',
     'name' => 'Name',
     'new_item_checked' => 'A new item has been checked out under your name, details are below.',
+    'new_item_checked_with_acceptance' => 'A new item has been checked out under your name that requires acceptance, details are below.',
+    'recent_item_checked' => 'An item was recently checked out under your name that requires acceptance, details are below.',
     'notes' => 'Notes',
     'password' => 'Password',
     'password_reset' => 'Password Reset',

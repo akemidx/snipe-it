@@ -172,6 +172,7 @@ return [
     'url' => ':attribute-fältet måste vara en giltig URL.',
     'ulid' => ':attribute-fältet måste vara ett giltigt ULID.',
     'uuid' => ':attribute-fältet måste vara ett giltigt UUID.',
+    'fmcs_location' => 'Full multiple company support and location scoping is enabled in the Admin Settings, and the selected location and selected company are not compatible.',
 
 
     /*
@@ -185,9 +186,13 @@ return [
     |
     */
 
+    'email_array'      => 'En eller flera e-postadresser är ogiltiga.',
+    'checkboxes'           => ':attribute innehåller ogiltiga alternativ.',
+    'radio_buttons'        => ':attribute är ogiltigt.',
+    
     'custom' => [
         'alpha_space' => 'Fältet :attribute innehåller ett tecken som inte är tillåtet.',
-        'email_array'      => 'En eller flera e-postadresser är ogiltiga.',
+
         'hashed_pass'      => 'Ditt nuvarande lösenord är felaktigt',
         'dumbpwd'          => 'Det angivna lösenordet är för vanligt.',
         'statuslabel_type' => 'Du måste ange en giltig statusetikett',
@@ -204,8 +209,6 @@ return [
         'expected_checkin.date_format'  =>  ':attribute måste vara ett giltigt datum i YYYY-MM-DD format',
         'start_date.date_format'        =>  ':attribute måste vara ett giltigt datum i YYYY-MM-DD format',
         'end_date.date_format'          =>  ':attribute måste vara ett giltigt datum i YYYY-MM-DD format',
-        'checkboxes'           => ':attribute innehåller ogiltiga alternativ.',
-        'radio_buttons'        => ':attribute är ogiltigt.',
         'invalid_value_in_field' => 'Ogiltigt värde i detta fält',
 
         'ldap_username_field' => [

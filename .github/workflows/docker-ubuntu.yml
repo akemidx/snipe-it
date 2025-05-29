@@ -1,5 +1,5 @@
 # Snipe-IT Docker image build for hub.docker.com
-name: Docker images
+name: Docker images (Ubuntu)
 
 # Run this Build for all pushes to 'master' or develop branch, or tagged releases.
 # Also run for PRs to ensure PR doesn't break Docker build process
@@ -20,8 +20,8 @@ permissions:
 
 jobs:
   docker:
-    # Ensure this job never runs on forked repos. It's only executed for 'snipe/snipe-it'
-    if: github.repository == 'snipe/snipe-it'
+    # Ensure this job never runs on forked repos. It's only executed for 'grokability/snipe-it'
+    if: github.repository == 'grokability/snipe-it'
     runs-on: ubuntu-latest
     env:
       # Define tags to use for Docker images based on Git tags/branches (for docker/metadata-action)
@@ -32,7 +32,7 @@ jobs:
         type=raw,value=latest,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
         type=ref,event=branch,enable=${{ !endsWith(github.ref, github.event.repository.default_branch) }}
         type=ref,event=tag
-        type=semver,pattern=v{{major}}-latest 
+        type=semver,pattern=v{{major}}-latest
       # Define default tag "flavor" for docker/metadata-action per
       # https://github.com/docker/metadata-action#flavor-input
       # We turn off 'latest' tag by default.

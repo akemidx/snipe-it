@@ -172,6 +172,7 @@ return [
     'url' => 'Поле :attribute має бути коректним URL.',
     'ulid' => 'Поле :attribute має бути дійсним ULID.',
     'uuid' => 'Поле :attribute має бути коректним UUID.',
+    'fmcs_location' => 'Full multiple company support and location scoping is enabled in the Admin Settings, and the selected location and selected company are not compatible.',
 
 
     /*
@@ -185,9 +186,13 @@ return [
     |
     */
 
+    'email_array'      => 'Одна або кілька адрес електронної пошти не правильні.',
+    'checkboxes'           => ':attribute містить неприпустимі параметри.',
+    'radio_buttons'        => ':attribute є неприпустимим.',
+    
     'custom' => [
         'alpha_space' => 'Поле :attribute містить символ, який не допускається.',
-        'email_array'      => 'Одна або кілька адрес електронної пошти не правильні.',
+
         'hashed_pass'      => 'Поточний пароль неправильний',
         'dumbpwd'          => 'Цей пароль занадто вживаний.',
         'statuslabel_type' => 'Ви повинні вибрати правильний тип статуса',
@@ -204,8 +209,6 @@ return [
         'expected_checkin.date_format'  =>  'Поле :attribute має містити коректну дату в форматі YYYY-MM-DD',
         'start_date.date_format'        =>  'Поле :attribute має містити коректну дату в форматі YYYY-MM-DD',
         'end_date.date_format'          =>  'Поле :attribute має містити коректну дату в форматі YYYY-MM-DD',
-        'checkboxes'           => ':attribute містить неприпустимі параметри.',
-        'radio_buttons'        => ':attribute є неприпустимим.',
         'invalid_value_in_field' => 'Невірне значення включене в це поле',
 
         'ldap_username_field' => [

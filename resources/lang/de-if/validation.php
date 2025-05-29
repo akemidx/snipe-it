@@ -172,6 +172,7 @@ return [
     'url' => 'Das Feld :attribute muss eine gültige URL sein.',
     'ulid' => 'Das Feld :attribute muss eine gültige ULID sein.',
     'uuid' => 'Das Feld :attribute muss eine gültige UUID sein.',
+    'fmcs_location' => 'In den Admin-Einstellungen ist eine vollständige Mehrfachunterstützung für Unternehmen und Standortbereicherung aktiviert und der ausgewählte Standort und die ausgewählte Firma sind nicht kompatibel.',
 
 
     /*
@@ -185,9 +186,13 @@ return [
     |
     */
 
+    'email_array'      => 'Eine oder mehrere Email Adressen sind ungültig.',
+    'checkboxes'           => ':attribute enthält ungültige Optionen.',
+    'radio_buttons'        => ':attribute ist ungültig.',
+    
     'custom' => [
         'alpha_space' => 'Das :attribute Feld enthält ein nicht erlaubtes Zeichen.',
-        'email_array'      => 'Eine oder mehrere Email Adressen sind ungültig.',
+
         'hashed_pass'      => 'Ihr derzeitiges Passwort ist nicht korrekt',
         'dumbpwd'          => 'Das Passwort ist zu gebräuchlich.',
         'statuslabel_type' => 'Du musst einen gültigen Statuslabel-Typ auswählen',
@@ -204,8 +209,6 @@ return [
         'expected_checkin.date_format'  =>  ':attribute muss ein gültiges Datum im Format JJJJ-MM-TT sein',
         'start_date.date_format'        =>  ':attribute muss ein gültiges Datum im Format JJJJ-MM-TT sein',
         'end_date.date_format'          =>  ':attribute muss ein gültiges Datum im Format JJJJ-MM-TT sein',
-        'checkboxes'           => ':attribute enthält ungültige Optionen.',
-        'radio_buttons'        => ':attribute ist ungültig.',
         'invalid_value_in_field' => 'Ungültiger Wert in diesem Feld enthalten',
 
         'ldap_username_field' => [

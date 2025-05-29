@@ -172,6 +172,7 @@ return [
     'url' => 'The :attribute field must be a valid URL.',
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
+    'fmcs_location' => 'Full multiple company support and location scoping is enabled in the Admin Settings, and the selected location and selected company are not compatible.',
 
 
     /*
@@ -185,9 +186,13 @@ return [
     |
     */
 
+    'email_array'      => 'Mae un neu fwy o gyfeiriadau e-bost yn annilys.',
+    'checkboxes'           => ':attribute contains invalid options.',
+    'radio_buttons'        => ':attribute is invalid.',
+    
     'custom' => [
         'alpha_space' => 'Mae\'r maes :attribute yn cynnwys cymeriad na chaniateir.',
-        'email_array'      => 'Mae un neu fwy o gyfeiriadau e-bost yn annilys.',
+
         'hashed_pass'      => 'Mae eich cyfrinair cyfredol yn anghywir',
         'dumbpwd'          => 'Mae\'r cyfrinair hwnnw\'n rhy gyffredin.',
         'statuslabel_type' => 'Rhaid i chi ddewis math label statws dilys',
@@ -204,8 +209,6 @@ return [
         'expected_checkin.date_format'  =>  'The :attribute must be a valid date in YYYY-MM-DD format',
         'start_date.date_format'        =>  'The :attribute must be a valid date in YYYY-MM-DD format',
         'end_date.date_format'          =>  'The :attribute must be a valid date in YYYY-MM-DD format',
-        'checkboxes'           => ':attribute contains invalid options.',
-        'radio_buttons'        => ':attribute is invalid.',
         'invalid_value_in_field' => 'Invalid value included in this field',
 
         'ldap_username_field' => [

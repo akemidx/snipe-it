@@ -172,6 +172,7 @@ return [
     'url' => ':attribute není platnou URL.',
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
+    'fmcs_location' => 'Full multiple company support and location scoping is enabled in the Admin Settings, and the selected location and selected company are not compatible.',
 
 
     /*
@@ -185,9 +186,13 @@ return [
     |
     */
 
+    'email_array'      => 'Jedna nebo více e-mailových adres je neplatná.',
+    'checkboxes'           => ':attribute obsahuje neplatné možnosti.',
+    'radio_buttons'        => ':attribute je neplatný.',
+    
     'custom' => [
         'alpha_space' => 'Pole atributu: atribut obsahuje znak, který není povolen.',
-        'email_array'      => 'Jedna nebo více e-mailových adres je neplatná.',
+
         'hashed_pass'      => 'Vaše současné heslo je nesprávné',
         'dumbpwd'          => 'Toto heslo je příliš běžné.',
         'statuslabel_type' => 'Musíte vybrat platný typ štítku stavu',
@@ -204,8 +209,6 @@ return [
         'expected_checkin.date_format'  =>  ':attribute musí být platné datum ve formátu RRRR-MM-DD',
         'start_date.date_format'        =>  ':attribute musí být platné datum ve formátu RRRR-MM-DD',
         'end_date.date_format'          =>  ':attribute musí být platné datum ve formátu RRRR-MM-DD',
-        'checkboxes'           => ':attribute obsahuje neplatné možnosti.',
-        'radio_buttons'        => ':attribute je neplatný.',
         'invalid_value_in_field' => 'Neplatná hodnota zahrnutá v tomto poli',
 
         'ldap_username_field' => [

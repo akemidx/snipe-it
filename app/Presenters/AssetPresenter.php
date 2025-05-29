@@ -298,6 +298,7 @@ class AssetPresenter extends Presenter
                 'sortable' => true,
                 'visible' => false,
                 'title' => trans('general.byod'),
+                'class' => 'byod',
                 'formatter' => 'trueFalseFormatter',
 
             ],
@@ -555,7 +556,7 @@ class AssetPresenter extends Presenter
      */
     public function statusMeta()
     {
-        if ($this->model->assigned) {
+        if ($this->model->assigned_to) {
             return 'deployed';
         }
 
