@@ -455,7 +455,7 @@ dir="{{ Helper::determineLanguageDirection() }}">
                                     <x-icon type="angle-left" class="pull-right fa-fw"/>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li>
+                                    <li id="list-all-option" {!! ((Request::is('hardware')) ? ' class="active"' : '') !!}>
                                         <a href="{{ url('hardware') }}">
                                             <x-icon type="circle" class="text-grey fa-fw"/>
                                             {{ trans('general.list_all') }}
@@ -689,7 +689,7 @@ dir="{{ Helper::determineLanguageDirection() }}">
 
                                     @can('view', \App\Models\Category::class)
                                         <li>
-                                            <a href="{{ route('categories.index') }}" {{ (Request::is('/categories') ? ' class="active"' : '') }}>
+                                            <a href="{{ route('categories.index') }}" {{ (Request::is('/categories*') ? ' class="active"' : '') }}>
                                                 {{ trans('general.categories') }}
                                             </a>
                                         </li>
