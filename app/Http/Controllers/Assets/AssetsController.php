@@ -92,6 +92,11 @@ class AssetsController extends Controller
         return $view;
     }
 
+    public function thingie(Request $request)
+    {
+        $this->authorize('index', Asset::class);
+    }
+
     /**
      * Validate and process new asset form data.
      *
