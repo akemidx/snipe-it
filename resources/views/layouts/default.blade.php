@@ -574,20 +574,23 @@ dir="{{ Helper::determineLanguageDirection() }}">
                                             </a>
                                         </li>
                                         <li>
+{{--                                            this navigates away from the hardware page hardware/* and goes to maintenances,--}}
+{{--                                            so it refreshes the side bar causing the whole menu to collapse back to default--}}
+{{--                                            and not stay focuses on the opened assets dropdown--}}
                                             <a href="{{ route('maintenances.index') }}">
                                                 {{ trans('general.asset_maintenances') }}
                                             </a>
                                         </li>
                                     @endcan
                                     @can('admin')
-                                        <li id="import-history-sidenav-option">
+                                        <li id="import-history-sidenav-option" class="active">
                                             <a href="{{ url('hardware/history') }}">
                                                 {{ trans('general.import-history') }}
                                             </a>
                                         </li>
                                     @endcan
                                     @can('audit', \App\Models\Asset::class)
-                                        <li id="bulk-audit-sidenav-option">
+                                        <li id="bulk-audit-sidenav-option" ? class="active" : ''>
                                             <a href="{{ route('assets.bulkaudit') }}">
                                                 {{ trans('general.bulkaudit') }}
                                             </a>
