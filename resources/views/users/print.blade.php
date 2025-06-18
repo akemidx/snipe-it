@@ -101,6 +101,7 @@
         <table
             class="snipe-table table table-striped inventory"
             id="AssetsAssigned"
+            data-columns="{{ \App\Presenters\AssetPresenter::dataTableLayout() }}"
             data-pagination="false"
             data-id-table="AssetsAssigned"
             data-search="false"
