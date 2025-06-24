@@ -124,6 +124,7 @@
                 <th data-field="asset_serial" data-sortable="true" data-visible="true">{{ trans('admin/hardware/form.serial') }}</th>
                 <th data-field="asset_checkout_date" data-sortable="true" data-visible="true">{{ trans('admin/hardware/table.checkout_date') }}</th>
                 <th data-field="signature" data-sortable="false" data-visible="true">{{ trans('general.signature') }}</th>
+                <th data-field="custom" data-sortable="true" data-visible="true">{{ trans('general.custom') }}</th>
             </thead>
             <tbody>
             @foreach ($show_user->assets as $asset)
@@ -150,6 +151,9 @@
                         @if ($asset->getLatestSignedAcceptance($show_user))
                             <img style="width:auto;height:100px;" src="{{ asset('/') }}display-sig/{{ $asset->getLatestSignedAcceptance($show_user)->accept_signature }}">
                         @endif
+                    </td>
+                    <td>
+                        {{ $asset->fetchCustomFields() }}
                     </td>
                 </tr>
                 @if ($settings->show_assigned_assets)
@@ -522,6 +526,71 @@
 
         });
     });
+</script>
+
+<script nonce="{{ csrf_token() }}">
+    @if(Request::has('model_id'))
+    //TODO: Refactor custom fields to use Livewire, populate from server on page load when requested with model_id
+    //TODO: This todo is coming off of the edit hardware blade. if we are moving to livewire, then this may have to wait on that.
+    $(document).ready(function() {
+        fetchCustomFields()
+    });
+    @endif
+
+    var transformed_oldvals={};
+
+    function fetchCustomFields() {
+
+        //save custom field choices
+        var oldvals = $('#custom_fields_content').find('input,select').serializeArray();
+        for(var i in oldvals) {
+            transformed_oldvals[oldvals[i].name]=oldvals[i].value;
+        }
+
+        var modelid = $('#model_select_id').val();
+        if (modelid == '') {
+            $('#custom_fields_content').html("");
+        } else {
+
+            $.ajax({
+                type: 'GET',
+                url: "{{ config('app.url') }}/models/" + modelid + "/custom_fields",
+                headers: {
+                    "X-Requested-With": 'XMLHttpRequest',
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+                },
+                _token: "{{ csrf_token() }}",
+                dataType: 'html',
+                success: function (data) {
+                    $('#custom_fields_content').html(data);
+                    $('#custom_fields_content select').select2(); //enable select2 on any custom fields that are select-boxes
+                    //now re-populate the custom fields based on the previously saved values
+                    $('#custom_fields_content').find('input,select').each(function (index,elem) {
+                        if(transformed_oldvals[elem.name]) {
+                            if (elem.type === 'checkbox' || elem.type === 'radio'){
+                                let shouldBeChecked = oldvals.find(oldValElement => {
+                                    return oldValElement.name === elem.name && oldValElement.value === $(elem).val();
+                                });
+
+                                if (shouldBeChecked){
+                                    $(elem).prop('checked', true);
+                                }
+
+                                return;
+                            }
+                            {{-- If there already *is* is a previously-input 'transformed_oldvals' handy,
+                                 overwrite with that previously-input value *IF* this is an edit of an existing item *OR*
+                                 if there is no new default custom field value coming from the model --}}
+                            if({{ $asset->id ? 'true' : 'false' }} || $(elem).val() == '') {
+                                $(elem).val(transformed_oldvals[elem.name]).trigger('change'); //the trigger is for select2-based objects, if we have any
+                            }
+                        }
+
+                    });
+                }
+            });
+        }
+    }
 </script>
 
 </body>
