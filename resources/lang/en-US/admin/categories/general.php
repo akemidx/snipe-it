@@ -17,6 +17,7 @@ return array(
     'require_acceptance'				=> 'Require users to confirm acceptance of assets in this category.',
     'required_acceptance'				=> 'This user will be emailed with a link to confirm acceptance of this item.',
     'required_eula'						=> 'This user will be emailed a copy of the EULA',
+    'send_signed_eula'                         => 'Send signed EULA to user',
     'no_default_eula'					=> 'No primary default EULA found. Add one in Settings.',
     'update'  							=> 'Update Category',
     'use_default_eula'					=> 'Use the <a href="#" data-toggle="modal" data-target="#eulaModal">primary default EULA</a> instead.',

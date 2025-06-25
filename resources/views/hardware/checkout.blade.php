@@ -159,8 +159,6 @@
                                 'show_custom_fields_type' => 'checkout'
                         ])
 
-
-
                         @if ($asset->requireAcceptance() || $asset->getEula() || ($snipeSettings->webhook_endpoint!=''))
                             <div class="form-group notification-callout">
                                 <div class="col-md-8 col-md-offset-3">
@@ -185,7 +183,34 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if($asset->requireAcceptance() || $asset->getEula())
+                                <label class="form-control">
+                                    {{ Form::checkbox('send_signed_eula', '1', '0') }}
+                                    {{ 'checkbox test' }}
+                                </label>
+                            @endif
+
+                            @if($asset->assignedTo())
+                                <div class="form-group">
+                                    <div class="col-md-9 col-md-offset-3">
+                                        @if ($asset->assignedTo() != '') <!-- this needs to jump to the email of the assignedto person, eloquent relationship nonsense -->
+                                        <label class="form-control">
+                                            {{ Form::checkbox('send_signed_eula', '1', null, ['wire:model' => 'useDefaultEula', 'aria-label'=>'use_default_eula']) }}
+                                            <span>{!! trans('admin/categories/general.use_default_eula') !!}</span>
+                                        </label>
+                                        @else
+                                            <label class="form-control form-control--disabled">
+                                                {{ Form::checkbox('send_signed_eula', '0', null, ['wire:model' => 'useDefaultEula', 'class'=>'disabled','disabled' => 'disabled', 'aria-label'=>'use_default_eula']) }}
+                                                <span>{!! trans('admin/categories/general.use_default_eula_disabled') !!}</span>
+                                            </label>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
+
                         @endif
+
 
                     </div> <!--/.box-body-->
 
