@@ -144,6 +144,20 @@
                            </div>
                            <!-- /.form-group -->
 
+                           <!-- Send signed EULA to user -->
+                           <!-- This will allow us to work off this setting in the future say if a user wants the signed EULA in other cases (ie kiosk mode)-->
+                           <div class="form-group {{ $errors->has('send_signed_eula') ? 'error' : '' }}">
+                               <div class="col-md-8 col-md-offset-3">
+                                   <label class="form-control">
+                                       <input type="checkbox" name="send_signed_eula" value="1" @checked(old('send_signed_eula', $setting->send_signed_eula)) />
+                                       {{ trans('admin/categories/general.send_signed_eula') }}
+                                   </label>
+                                   {!! $errors->first('send_signed_eula', '<span class="alert-msg" aria-hidden="true">:message</span>') !!}
+                                   <p class="help-block">{{ trans('admin/categories/general.send_signed_eula_help_text') }}</p>
+                               </div>
+                           </div>
+                           <!-- /.form-group -->
+
                            <!-- Default EULA -->
                            <div class="form-group {{ $errors->has('default_eula_text') ? 'error' : '' }}">
                                <div class="col-md-3">

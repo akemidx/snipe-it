@@ -13,9 +13,9 @@ class SendSignedEula extends Migration
      */
     public function up()
     {
-        Schema::table('checkout_acceptances', function (Blueprint $table) {
+        Schema::table('settings', function (Blueprint $table) {
             {
-                $table->boolean('send_signed_eula')->nullable()->default(null);
+                $table->boolean('send_signed_eula')->nullable()->default(0);
             }
         });
     }
@@ -27,8 +27,8 @@ class SendSignedEula extends Migration
      */
     public function down()
     {
-        Schema::table('checkout_acceptances', function (Blueprint $table) {
-            if (Schema::hasColumn('checkout_acceptances', 'send_signed_eula')) {
+        Schema::table('settings', function (Blueprint $table) {
+            if (Schema::hasColumn('settings', 'send_signed_eula')) {
                 $table->dropColumn('send_signed_eula');
             }
         });

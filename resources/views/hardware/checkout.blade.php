@@ -170,8 +170,13 @@
                                             <br>
                                         @endif
 
-                                        @if ($asset->getEula())
-                                            <x-icon type="email" />
+                                        @if ($asset->getEula() && $snipeSettings->send_signed_eula=1)
+                                                <x-icon type="email" />
+                                                {{ trans('admin/categories/general.send_signed_eula_notice') }}
+                                                <br>
+
+                                        @elseif ($asset->getEula())
+                                             <x-icon type="email" />
                                             {{ trans('admin/categories/general.required_eula') }}
                                             <br>
                                         @endif
@@ -180,38 +185,11 @@
                                             <i class="fab fa-slack" aria-hidden="true"></i>
                                             {{ trans('general.webhook_msg_note') }}
                                         @endif
+
                                     </div>
                                 </div>
                             </div>
-
-                            @if($asset->requireAcceptance() || $asset->getEula())
-                                <label class="form-control">
-                                    {{ Form::checkbox('send_signed_eula', '1', '0') }}
-                                    {{ 'checkbox test' }}
-                                </label>
-                            @endif
-
-                            @if($asset->assignedTo())
-                                <div class="form-group">
-                                    <div class="col-md-9 col-md-offset-3">
-                                        @if ($asset->assignedTo() != '') <!-- this needs to jump to the email of the assignedto person, eloquent relationship nonsense -->
-                                        <label class="form-control">
-                                            {{ Form::checkbox('send_signed_eula', '1', null, ['wire:model' => 'useDefaultEula', 'aria-label'=>'use_default_eula']) }}
-                                            <span>{!! trans('admin/categories/general.use_default_eula') !!}</span>
-                                        </label>
-                                        @else
-                                            <label class="form-control form-control--disabled">
-                                                {{ Form::checkbox('send_signed_eula', '0', null, ['wire:model' => 'useDefaultEula', 'class'=>'disabled','disabled' => 'disabled', 'aria-label'=>'use_default_eula']) }}
-                                                <span>{!! trans('admin/categories/general.use_default_eula_disabled') !!}</span>
-                                            </label>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
-
                         @endif
-
-
                     </div> <!--/.box-body-->
 
                     <x-redirect_submit_options
