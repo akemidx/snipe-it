@@ -170,7 +170,7 @@
                                             <br>
                                         @endif
 
-                                        @if ($asset->getEula() && $snipeSettings->send_signed_eula=1)
+                                        @if ($asset->getEula() && $snipeSettings->send_signed_eula=0)
                                                 <x-icon type="email" />
                                                 {{ trans('admin/categories/general.send_signed_eula_notice') }}
                                                 <br>
