@@ -344,7 +344,7 @@ class SettingsController extends Controller
         if (! config('app.lock_passwords')) {
             $setting->login_note = $request->input('login_note');
         }
-
+        $setting->send_signed_eula = $request->input('send_signed_eula', '0');
         $setting->default_eula_text = $request->input('default_eula_text');
         $setting->thumbnail_max_h = $request->input('thumbnail_max_h');
         $setting->privacy_policy_link = $request->input('privacy_policy_link');
