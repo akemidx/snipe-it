@@ -277,9 +277,12 @@
   @include ('partials.bootstrap-table')
   <script>
     $(function () {
+      console.log('function')
       $('th').each(function (index, raw_element) {
+        console.log('headers')
         var element = $(raw_element);
         if (element.data('tooltip')) {
+          console.log('if statement')
           element.tooltip({container: 'body', title: element.data('tooltip')})
         }
       });
