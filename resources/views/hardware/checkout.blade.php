@@ -163,11 +163,42 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-control">
-                                    <input type="checkbox" value="1" name="log_audit" {{ (old('log_audit')) == '1' ? ' checked="checked"' : '' }} aria-label="log_audit">
+                                    <input type="checkbox" id="auditcheckbox" value="1" name="log_audit" {{ (old('log_audit')) == '1' ? ' checked="checked"' : '' }} aria-label="log_audit">
                                     {{ trans('general.yes') }}
                                 </label>
                                 <p class="help-block">{{ trans('admin/settings/general.log_audit_help_text')  . " " .  trans('general.checkout') . "." }}</p>
                             </div>
+                        </div>
+
+                        <div id="audittext" style="display: none">
+                            <!-- Next Audit -->
+                            <div class="form-group{{ $errors->has('next_audit_date') ? ' has-error' : '' }}">
+                                <label for="next_audit_date" class="col-sm-3 control-label">
+                                    {{ trans('general.next_audit_date') }}
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="input-group date col-md-5" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-clear-btn="true">
+                                        <input type="text" class="form-control" placeholder="{{ trans('general.next_audit_date') }}" name="next_audit_date" id="next_audit_date" value="{{ old('next_audit_date', $asset->next_audit_date) }}">
+                                        <span class="input-group-addon"><x-icon type="calendar" /></span>
+                                    </div>
+                                    {!! $errors->first('next_audit_date', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                                    <p class="help-block">{!! trans('general.next_audit_date_help') !!}</p>
+                                </div>
+                            </div>
+
+                            <!-- Audit Note -->
+                            <div class="form-group{{ $errors->has('note') ? ' has-error' : '' }}">
+                                <label for="note" class="col-sm-3 control-label">
+                                    {{ trans('general.notes') }}
+                                </label>
+                                <div class="col-md-8">
+                                    <textarea class="col-md-6 form-control" id="note" name="note">{{ old('note', $asset->note) }}</textarea>
+                                    {!! $errors->first('note', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                                </div>
+                            </div>
+
+                            <!-- Audit Image -->
+                            @include ('partials.forms.edit.image-upload', ['help_text' => trans('general.audit_images_help')])
                         </div>
                         @endcan
 
@@ -244,9 +275,9 @@
     <script> //testing script
         function auditCheckbox() {
             // Get the checkbox
-            var checkBox = document.getElementById("auditcheckbox");
+            const checkBox = document.getElementById("auditcheckbox");
             // Get the output text
-            var text = document.getElementById("audittext");
+            const text = document.getElementById("audittext");
             // If the checkbox is checked, display the fields
             if (checkBox.checked == true) {
                 text.style.display = "block";
