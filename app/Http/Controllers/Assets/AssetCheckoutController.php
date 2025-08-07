@@ -129,6 +129,8 @@ class AssetCheckoutController extends Controller
                 if(Gate::allows('audit',Asset::class)) {
                     if ($request->filled('log_audit') == "1") {
                         $asset->logAudit($request->input('note'), $request->input('location_id'));
+                        //so we are only passing note and location id.
+                        //i think we should also now differentiate between different types of notes
                     }
                 }
 
