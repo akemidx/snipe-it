@@ -111,7 +111,7 @@ class AssetModelPresenter extends Presenter
                 'field' => 'current_value_total',
                 'searchable' => false,
                 'sortable' => true,
-                'title' => trans('general.current_value_total'),
+                'title' => trans('admin/hardware/table.current_value_total'),
                 'visible' => false,
                 'footerFormatter' => 'sumFormatter',
             ],

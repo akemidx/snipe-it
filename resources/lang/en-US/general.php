@@ -133,7 +133,6 @@ return [
     'exclude_archived'      => 'Exclude Archived Assets',
     'exclude_deleted'       => 'Exclude Deleted Assets',
     'example'				=> 'Example: ',
-
     'files'                 => 'Files',
     'file_name'				=> 'File Name',
     'file_type'             => 'File Type',
@@ -237,7 +236,8 @@ return [
     'previous_page'			=> 'Previous Page',
     'processing'			=> 'Processing',
     'profile'				=> 'Your profile',
-    'purchase_cost'                              => 'Purchase Cost',
+    'purchase_cost'         => 'Purchase Cost',
+    'purchase_cost_total'   => 'Total Purchase Cost',
     'purchase_date'         => 'Purchase Date',
     'qty'		            => 'QTY',
     'quantity'		        => 'Quantity',

@@ -11,6 +11,7 @@ return [
     'checkoutto' 	=> 'Checked Out',
     'components_cost' => 'Total Components Cost',
     'current_value' => 'Current Value',
+    'current_value_total' => 'Current Value Total',
     'diff' 			=> 'Diff',
     'dl_csv' 		=> 'Download CSV',
     'eol' 			=> 'EOL',
