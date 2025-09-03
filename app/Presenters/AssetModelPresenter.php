@@ -101,6 +101,21 @@ class AssetModelPresenter extends Presenter
                 'footerFormatter' => 'qtySumFormatter',
             ],
             [
+                'field' => 'purchase_cost_total',
+                'searchable' => false,
+                'sortable' => true,
+                'title' => trans('general.purchase_cost_total'),
+                'footerFormatter' => 'sumFormatter',
+            ],
+            [
+                'field' => 'current_value_total',
+                'searchable' => false,
+                'sortable' => true,
+                'title' => trans('general.current_value_total'),
+                'visible' => false,
+                'footerFormatter' => 'sumFormatter',
+            ],
+            [
                 'field' => 'depreciation',
                 'searchable' => false,
                 'sortable' => true,
