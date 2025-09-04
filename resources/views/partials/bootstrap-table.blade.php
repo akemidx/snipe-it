@@ -281,6 +281,9 @@
         purchase_cost: {
             classes: 'text-padding-number-footer-cell'
         },
+        current_value: {
+            classes: 'text-padding-number-footer-cell'
+        },
         checkouts_count: {
             classes: 'text-padding-number-footer-cell'
         },

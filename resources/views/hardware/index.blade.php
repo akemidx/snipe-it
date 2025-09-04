@@ -82,7 +82,7 @@
                 "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
                 }'>
               </table>
-
+              <!--where the hell do we do the math for the sum of the purchase costs on the page???? -->
             </div><!-- /.col -->
           </div><!-- /.row -->
         
