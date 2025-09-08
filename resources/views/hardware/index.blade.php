@@ -83,9 +83,10 @@
                 }'>
               </table>
               <!--where the hell do we do the math for the sum of the purchase costs on the page???? -->
+              <!--okay, to be more accurate, where does it get placed on the page????
+              we show footer, so that show's the footer. but I can't tell how this pieces together.-->
             </div><!-- /.col -->
           </div><!-- /.row -->
-        
       </div><!-- ./box-body -->
     </div><!-- /.box -->
   </div>
