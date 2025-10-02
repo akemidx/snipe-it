@@ -22,7 +22,7 @@ return [
     'Expected_Checkin_Notification' => 'Reminder: :name checkin deadline approaching',
     'Expected_Checkin_Report' => 'Expected asset checkin report',
     'Expiring_Assets_Report' => 'Expiring Assets Report',
-    'Expiring_Licenses_Report' => 'Expiring Licenses Report',
+    'Expiring_Licenses_Report' => 'Expiring/Terminating Licenses Report',
     'Item_Request_Canceled' => 'Item Request Canceled',
     'Item_Requested' => 'Item Requested',
     'License_Checkin_Notification' => 'License checked in',
