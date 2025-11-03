@@ -17,6 +17,7 @@ use App\Observers\UserObserver;
 use App\Observers\ComponentObserver;
 use App\Observers\ConsumableObserver;
 use App\Observers\LicenseObserver;
+use App\Observers\LocationObserver;
 use App\Observers\SettingObserver;
 use App\Observers\MaintenanceObserver;
 use Illuminate\Routing\UrlGenerator;
@@ -75,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
         Component::observe(ComponentObserver::class);
         Consumable::observe(ConsumableObserver::class);
         License::observe(LicenseObserver::class);
+//        Location::observe(LocationObserver::class);
         Setting::observe(SettingObserver::class);
     }
 
