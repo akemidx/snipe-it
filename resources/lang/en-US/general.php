@@ -96,6 +96,9 @@ return [
     'record_created' 		=> 'Record Created',
     'updated_at' 			=> 'Updated at',
     'updated_before'        => 'Updated Before',
+    'updated'               => 'Updated',
+    'before'                => 'before',
+    'after'                 => 'after',
     'currency'  			=> '$', // this is deprecated
     'currency_text'  		=> 'Currency', //
     'current'  				=> 'Current',
@@ -153,6 +156,7 @@ return [
     'image'                 => 'Image',
     'image_delete'         	=> 'Delete Image',
     'include_deleted'       => 'Include Deleted Assets',
+    'include_limit'         => 'Include Limit',
     'image_upload'         	=> 'Upload Image',
     'filetypes_accepted_help'    => 'Accepted filetype is :types. The maximum size allowed is :size.|Accepted filetypes are :types. The maximum upload size allowed is :size.',
     'filetypes_size_help'   => 'The maximum upload size allowed is :size.',
