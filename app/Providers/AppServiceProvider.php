@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\Component;
 use App\Models\Consumable;
 use App\Models\License;
+use App\Models\Location;
 use App\Models\Maintenance;
 use App\Models\User;
 use App\Models\Setting;
@@ -76,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
         Component::observe(ComponentObserver::class);
         Consumable::observe(ConsumableObserver::class);
         License::observe(LicenseObserver::class);
-//        Location::observe(LocationObserver::class);
+        Location::observe(LocationObserver::class);
         Setting::observe(SettingObserver::class);
     }
 
