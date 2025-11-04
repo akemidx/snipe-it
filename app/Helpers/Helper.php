@@ -1578,11 +1578,11 @@ class Helper
         $checkout_to_type = Session::get('checkout_to_type') ?? null;
         $checkedInFrom = Session::get('checkedInFrom');
         $other_redirect = Session::get('other_redirect');
-        $backUrl = Session::pull('back_url', route('home'));
+//        $backUrl = Session::pull('back_url', route('home'));
 
        // return to previous page
         if ($redirect_option === 'back') {
-            return redirect()->to($backUrl);
+//            return redirect()->to($backUrl);
         }
 
         // return to index
