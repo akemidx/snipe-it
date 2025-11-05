@@ -566,9 +566,15 @@
 
               <!-- Last Updated before -->
               <div class="form-group">
-                  <label for="last_updated_before" class="col-md-3 control-label">{{ trans('general.updated') }}</label>
+                  <label for="updated_operator" class="col-md-3 control-label">{{ trans('general.updated') }}</label>
                         <div class="input-group col-md-2" style="float:left;">
                           <select class="form-control" name="before_or_after">
+                              <option></option>
+                              <option value="10" @selected(old('updated_operator', $template->selectValue('updated_operator')) == '10')>{{ trans('general.before') }}</option>
+                              <option value="20" @selected(old('updated_operator', $template->selectValue('updated_operator')) == '20')>{{ trans('general.on_or_before') }}</option>
+                              <option value="30" @selected(old('updated_operator', $template->selectValue('updated_operator')) == '30')>{{ trans('general.after') }}</option>
+                              <option value="40" @selected(old('updated_operator', $template->selectValue('updated_operator')) == '40')>{{ trans('general.on_or_after') }}</option>
+
                               <option>{{ trans('general.before') }}</option>
                               <option>{{ trans('general.on_or_before') }}</option>
                               <option>{{ trans('general.after') }}</option>
@@ -846,6 +852,6 @@
           .on('select2:select', function (event) {
               window.location.href = event.params.data.element.dataset.route;
           });
-      
+
   </script>
 @stop

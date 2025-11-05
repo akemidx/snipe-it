@@ -741,9 +741,21 @@ class ReportsController extends Controller
                 $assets->whereBetween('assets.updated_at', [$request->input('last_updated_start'), $request->input('last_updated_end')]);
             }
 
-            if(($request->filled('last_updated_before'))){
+            if(($request->filled('last_updated_before')) && ($request->filled('updated_operator'))){
                 $last_updated_window = Carbon::parse(today()->subDays($request->input('last_updated_before')));
-                $assets->where('assets.updated_at', '<' , $last_updated_window);
+
+                if($request->input('updated_operator') == '10') {
+                    $assets->where('assets.updated_at', '<', $last_updated_window);
+                }
+                elseif($request->input('updated_operator') == '20') {
+                    $assets->where('assets.updated_at', '=<', $last_updated_window);
+                }
+                elseif($request->input('updated_operator') == '30') {
+                    $assets->where('assets.updated_at', '>', $last_updated_window);
+                }
+                elseif($request->input('updated_operator') == '40') {
+                    $assets->where('assets.updated_at', '>=', $last_updated_window);
+                }
             }
 
             if ($request->filled('exclude_archived')) {
