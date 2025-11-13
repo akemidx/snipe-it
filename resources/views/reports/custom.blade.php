@@ -583,8 +583,12 @@
                         </div>
                         <div class="input-group col-md-2">
                           <input class="form-control input-group" style="float:left;" type="number" min="0" name="last_updated_before" value="{{ $template->textValue('last_updated_before', old('last_updated_before')) }}" aria-label="last_updated_before">
-                            {{ trans('general.days_ago') }}
                         </div>
+                  {{ trans('general.days_ago') }}
+              </div>
+
+
+
 
 
                   @if ($errors->has('last_updated_before'))
